@@ -1,0 +1,16 @@
+.game {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &__header {
+    margin-top: 3rem;
+  }
+
+  &__grid {
+    margin: auto;
+    padding-bottom: 3rem;
+  }
+}
