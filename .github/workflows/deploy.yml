@@ -1,0 +1,25 @@
+name: "Deploy app"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+jobs:
+  build-and-deploy:
+    name: "Build app and runs ng deploy"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: NPM Install
+        run: npm install
+
+      - name: NG Deploy
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run deploy:ghpages
