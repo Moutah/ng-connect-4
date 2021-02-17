@@ -20,4 +20,6 @@ jobs:
         run: npm install
 
       - name: NG Deploy
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npm run deploy:ghpages
