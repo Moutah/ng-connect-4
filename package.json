@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy:ghpages": "ng deploy --base-href=\"https://moutah.github.io/ng-connect-four/\""
+    "deploy:ghpages": "ng deploy --repo=https://github.com/Moutah/ng-connect-four.git --base-href=https://moutah.github.io/ng-connect-four/ --name=Moutah --email=mathieu.tappolet@ik.me"
   },
   "private": true,
   "dependencies": {
