@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Reset, PlayCoin } from './actions';
 
 export interface GridStateModel {
-  cols: number[][];
+  cols: string[][];
 }
 
 @State<GridStateModel>({
@@ -35,7 +35,7 @@ export class GridState {
     const cols = [...state.cols];
 
     // add the coin to targeted column
-    cols[action.col].push(action.playerCode === 'P1' ? 1 : 2);
+    cols[action.col].push(action.player.id);
 
     // update state
     ctx.patchState({ cols });

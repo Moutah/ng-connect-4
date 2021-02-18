@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import * as Grid from '../grid/state/actions';
 import * as Game from './state/actions';
 import { GameState } from './state';
+import { Player } from '../shared/models/player';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +13,19 @@ export class GameService {
   constructor(private store: Store) {}
 
   /**
+   * Initilaize the game's players.
+   */
+  setup(player1: Player, player2: Player): void {
+    this.store.dispatch(new Game.SetPlayers(player1, player2));
+  }
+
+  /**
    * Starts the game :)
    */
-  start(): void {
+  start(firstPlayer: Player): void {
     // reset the grid and starts the game
     this.store.dispatch(new Grid.Reset());
-    this.store.dispatch(new Game.Start());
+    this.store.dispatch(new Game.Start(firstPlayer));
   }
 
   /**
@@ -45,10 +53,8 @@ export class GameService {
     }
 
     // play coin for active player
-    const activePlayerCode = this.store.selectSnapshot(
-      GameState.activePlayerCode
-    );
-    this.store.dispatch(new Grid.PlayCoin(activePlayerCode, col));
+    const activePlayer = this.store.selectSnapshot(GameState.activePlayer);
+    this.store.dispatch(new Grid.PlayCoin(activePlayer, col));
 
     // check if game over
     if (this.isWon(col)) {

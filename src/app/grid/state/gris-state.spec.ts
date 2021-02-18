@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { NextPlayer } from 'src/app/game/state/actions/NextPlayer.action';
+import { Player } from 'src/app/shared/models/player';
 import { environment } from 'src/environments/environment';
 import { GridState } from '.';
-import { PlayCoin } from './actions/PlayCoin.action';
-import { Reset } from './actions/Reset.action';
+import * as Grid from './actions';
+import * as Game from '../../game/state/actions';
 
 describe('GridState', () => {
   let store: Store;
+  let players: Player[];
 
   /**
    * Get the grid columms from the grid state.
@@ -20,20 +21,22 @@ describe('GridState', () => {
     });
 
     store = TestBed.inject(Store);
+    players = [new Player('p1', 'Batman'), new Player('p2', 'Superman')];
+    store.dispatch(new Game.SetPlayers(players[0], players[1]));
   });
 
   it('can reset the grid', () => {
     let cols: number[][];
 
     // fill the grid
-    store.dispatch(new PlayCoin('P1', 1));
-    store.dispatch(new PlayCoin('P2', 2));
-    store.dispatch(new PlayCoin('P1', 3));
+    store.dispatch(new Grid.PlayCoin(players[0], 1));
+    store.dispatch(new Grid.PlayCoin(players[1], 2));
+    store.dispatch(new Grid.PlayCoin(players[0], 3));
     cols = getGridCols();
     expect(cols.every((col) => col.length === 0)).toBe(true);
 
     // reset the grid
-    store.dispatch(new Reset());
+    store.dispatch(new Grid.Reset());
 
     // all cols are empty
     cols = getGridCols();
@@ -43,20 +46,19 @@ describe('GridState', () => {
 
   it('can play coin', () => {
     // init the grid
-    store.dispatch(new Reset());
+    store.dispatch(new Grid.Reset());
 
     // play first coin
-    store.dispatch(new PlayCoin('P1', 2));
+    store.dispatch(new Grid.PlayCoin(players[0], 2));
 
     // col 2 has exactly 1 coin of player 1
     const cols = getGridCols();
-    expect(cols[2]).toEqual([1]);
+    expect(cols[2]).toEqual([players[0].id]);
 
-    // play coin for next player
-    store.dispatch(new NextPlayer());
-    store.dispatch(new PlayCoin('P2', 2));
+    // play coin for other player
+    store.dispatch(new Grid.PlayCoin(players[1], 2));
 
     // col 2 now has 1 coin of each player
-    expect(cols[2]).toEqual([1, 2]);
+    expect(cols[2]).toEqual([players[0].id, players[1].id]);
   });
 });
