@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-grid',
@@ -12,7 +13,7 @@ export class GridComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.rows = [...Array(6).keys()];
-    this.cols = [...Array(7).keys()];
+    this.rows = [...Array(environment.gridRows).keys()].reverse();
+    this.cols = [...Array(environment.gridCols).keys()];
   }
 }

@@ -101,9 +101,9 @@ describe('GameService', () => {
       service.play(2);
     }
 
-    // column 2 is full
-    expect(() => service.play(2)).toThrowError(
-      '[Game Service] Targeted column is full!'
-    );
+    // column 2 is full, no coin is played
+    const storeDispatchSpy = spyOn(store, 'dispatch');
+    service.play(2);
+    expect(storeDispatchSpy).not.toHaveBeenCalled();
   });
 });

@@ -50,16 +50,16 @@ export class GameService {
     }
 
     // make sure targeted colum is not full
-    const gridCols = this.store.selectSnapshot((store) => store.grid.cols);
+    const gridCols = this.store.selectSnapshot((state) => state.grid.cols);
     if (gridCols[col].length >= environment.gridRows) {
-      throw new Error('[Game Service] Targeted column is full!');
+      return;
     }
 
     // play coin for active player
     const activePlayer = this.store.selectSnapshot(GameState.activePlayer);
     this.store.dispatch(new Grid.PlayCoin(activePlayer, col));
 
-    // check if game over
+    // check if game is now over
     if (this.isWon(col)) {
       this.store.dispatch(new Game.End());
       return;
