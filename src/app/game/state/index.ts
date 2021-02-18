@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Action, Select, Selector, State, StateContext } from '@ngxs/store';
-import { End } from './actions/End.action';
-import { NextPlayer } from './actions/NextPlayer.action';
-import { Start } from './actions/Start.action';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { End, NextPlayer, Start } from './actions';
 
 export interface GameStateModel {
   activePlayer: 1 | 2;
@@ -18,6 +16,22 @@ export interface GameStateModel {
 })
 @Injectable()
 export class GameState {
+  /**
+   * Get the currently active player.
+   */
+  @Selector()
+  static activePlayerCode(state: GameStateModel): 'P1' | 'P2' {
+    return state.activePlayer === 1 ? 'P1' : 'P2';
+  }
+
+  /**
+   * Get the currently active player.
+   */
+  @Selector()
+  static isStarted(state: GameStateModel): boolean {
+    return !state.isOver;
+  }
+
   /**
    * Marks the game as _not_ over.
    */

@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { GameState } from 'src/app/game/state';
 import { NextPlayer } from 'src/app/game/state/actions/NextPlayer.action';
 import { environment } from 'src/environments/environment';
 import { GridState } from '.';
@@ -9,12 +8,6 @@ import { Reset } from './actions/Reset.action';
 
 describe('GridState', () => {
   let store: Store;
-
-  // /**
-  //  * Get the active player from the game state.
-  //  */
-  // const getActivePlayer = () =>
-  //   store.selectSnapshot((state) => state.game.activePlayer);
 
   /**
    * Get the grid columms from the grid state.

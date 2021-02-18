@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext, Store } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
-import { PlayCoin } from './actions/PlayCoin.action';
-import { Reset } from './actions/Reset.action';
+import { Reset, PlayCoin } from './actions';
 
 export interface GridStateModel {
   cols: number[][];
@@ -36,7 +35,7 @@ export class GridState {
     const cols = [...state.cols];
 
     // add the coin to targeted column
-    cols[action.col].push(action.player === 'P1' ? 1 : 2);
+    cols[action.col].push(action.playerCode === 'P1' ? 1 : 2);
 
     // update state
     ctx.patchState({ cols });
