@@ -8,6 +8,12 @@ import { Start } from './actions/Start.action';
 describe('GameState', () => {
   let store: Store;
 
+  /**
+   * Get the active player from the game state.
+   */
+  const getActivePlayer = () =>
+    store.selectSnapshot((state) => state.game.activePlayer);
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([GameState])],
@@ -31,12 +37,6 @@ describe('GameState', () => {
   });
 
   it('can switch palyers turn', () => {
-    /**
-     * Get the active player from the game state.
-     */
-    const getActivePlayer = () =>
-      store.selectSnapshot((state) => state.game.activePlayer);
-
     // initial state
     expect(getActivePlayer()).toBe(1);
 

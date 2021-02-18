@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext } from '@ngxs/store';
+import { Action, Select, Selector, State, StateContext } from '@ngxs/store';
 import { End } from './actions/End.action';
 import { NextPlayer } from './actions/NextPlayer.action';
 import { Start } from './actions/Start.action';
