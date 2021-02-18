@@ -12,14 +12,14 @@ import { GameState } from './state';
 })
 export class GameComponent implements OnInit {
   isGameStarted$: Observable<boolean>;
-  activePlayerName$: Observable<Player>;
+  activePlayer$: Observable<Player>;
   startingPlayer: Player;
   player1Name = 'Red';
   player2Name = 'Yellow';
 
   constructor(private store: Store, private game: GameService) {
     this.isGameStarted$ = this.store.select(GameState.isStarted);
-    this.activePlayerName$ = this.store.select(GameState.activePlayer);
+    this.activePlayer$ = this.store.select(GameState.activePlayer);
   }
 
   ngOnInit(): void {}

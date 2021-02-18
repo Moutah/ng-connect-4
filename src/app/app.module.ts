@@ -12,7 +12,6 @@ import { CellComponent } from './grid/cell/cell.component';
 import { TimerComponent } from './game/timer/timer.component';
 import { GameState } from './game/state';
 import { FormsModule } from '@angular/forms';
-import { PlayeNamePipe } from './shared/playe-name.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { PlayeNamePipe } from './shared/playe-name.pipe';
     GridComponent,
     CellComponent,
     TimerComponent,
-    PlayeNamePipe,
   ],
   imports: [
     BrowserModule,

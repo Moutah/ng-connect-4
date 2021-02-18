@@ -12,16 +12,12 @@ import { GameService } from './game.service';
 import { GameState } from './state';
 import { NgxsModule } from '@ngxs/store';
 import { FormsModule } from '@angular/forms';
-import { PlayeNamePipe } from '../shared/playe-name.pipe';
 
 const gameServiceStub = {
   setup: (p1: Player, p2: Player) => {},
   firstPlayer: new Player('p0', 'ghost'),
   start: () => {},
 };
-
-// let mockGameIsStartedSelector;
-// let mockGameActivePlayerSelector;
 
 describe('GameComponent', () => {
   let component: GameComponent;
@@ -30,7 +26,7 @@ describe('GameComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GameComponent, PlayeNamePipe],
+      declarations: [GameComponent],
       imports: [FormsModule, NgxsModule.forRoot([GameState])],
       providers: [
         provideMockStore(),
@@ -39,7 +35,6 @@ describe('GameComponent', () => {
     }).compileComponents();
 
     store = TestBed.inject(MockStore);
-    // mockGameIsStartedSelector = store.overrideSelector(GameState.isStarted, false);
   });
 
   beforeEach(() => {
