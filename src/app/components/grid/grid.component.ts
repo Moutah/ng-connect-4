@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit {
-  rows = [...Array(6).keys()];
-  cols = [...Array(7).keys()];
+  rows = [];
+  cols = [];
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.rows = [...Array(6).keys()];
+    this.cols = [...Array(7).keys()];
+  }
 }
