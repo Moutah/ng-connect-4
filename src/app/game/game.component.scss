@@ -1,17 +1,54 @@
+@import "../../variables";
+
 .game {
   display: flex;
   height: 100%;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
 
-  &__header {
-    margin-top: 3rem;
+  &__settings {
+    padding: 2rem;
+
+    .mat-form-field {
+      width: 100%;
+    }
+
+    &__player-name-input {
+      &__color1 {
+        color: $colorPlayer1;
+      }
+
+      &__color2 {
+        color: $colorPlayer2;
+      }
+    }
+
+    &__start {
+      margin-top: 3rem;
+      width: 100%;
+      font-size: 1.6rem;
+      padding: 0.6rem;
+    }
+  }
+
+  &__announcement {
     text-align: center;
   }
 
-  &__grid {
-    margin: auto;
-    padding-bottom: 3rem;
+  &__playing {
+    &__header {
+      position: absolute;
+      top: 3rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    &__grid {
+      margin: auto;
+      padding-bottom: 3rem;
+    }
   }
 }

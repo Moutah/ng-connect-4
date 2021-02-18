@@ -10,6 +10,8 @@ import { Player } from '../shared/models/player';
   providedIn: 'root',
 })
 export class GameService {
+  private firstPlayer?: Player;
+
   constructor(private store: Store) {}
 
   /**
@@ -17,15 +19,23 @@ export class GameService {
    */
   setup(player1: Player, player2: Player): void {
     this.store.dispatch(new Game.SetPlayers(player1, player2));
+    this.firstPlayer = Math.random() > 0.5 ? player1 : player2;
+  }
+
+  /**
+   * Get the player that has been selected to start.
+   */
+  getFirstPlayer(): Player | undefined {
+    return this.firstPlayer;
   }
 
   /**
    * Starts the game :)
    */
-  start(firstPlayer: Player): void {
+  start(): void {
     // reset the grid and starts the game
     this.store.dispatch(new Grid.Reset());
-    this.store.dispatch(new Game.Start(firstPlayer));
+    this.store.dispatch(new Game.Start(this.firstPlayer));
   }
 
   /**

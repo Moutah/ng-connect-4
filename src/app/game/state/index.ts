@@ -20,19 +20,18 @@ export interface GameStateModel {
 @Injectable()
 export class GameState {
   /**
+   * Returns `true` if the game is running.
+   */
+  @Selector()
+  static isStarted(state: GameStateModel): boolean {
+    return !state.isOver;
+  }
+  /**
    * Get the currently active player.
    */
   @Selector()
   static activePlayer(state: GameStateModel): Player {
     return state.activePlayer;
-  }
-
-  /**
-   * Get the currently active player.
-   */
-  @Selector()
-  static isStarted(state: GameStateModel): boolean {
-    return !state.isOver;
   }
 
   /**

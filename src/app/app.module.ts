@@ -11,6 +11,7 @@ import { GridComponent } from './grid/grid.component';
 import { CellComponent } from './grid/cell/cell.component';
 import { TimerComponent } from './game/timer/timer.component';
 import { GameState } from './game/state';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { GameState } from './game/state';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     MaterialModule,
     NgxsModule.forRoot([GameState]),
   ],

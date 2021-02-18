@@ -1,11 +1,69 @@
 <div class="game">
-    <header class="game__header">
-        <app-timer></app-timer>
+    <div *ngIf="!(isGameStarted$ | async)">
 
-        <div class="game__status">
-            Player 1's turn
+        <!-- Player setup -->
+        <div *ngIf="!startingPlayer"
+             class="game__settings">
+
+
+            <!-- Player 1 -->
+            <mat-form-field appearance="standard">
+                <mat-label>Player 1</mat-label>
+                <input matInput
+                       class="game__settings__player-name-input"
+                       name="player1Name"
+                       [(ngModel)]="player1Name">
+                <mat-icon matSuffix
+                          class="game__settings__player-name-input__color1">stop_circle</mat-icon>
+
+            </mat-form-field>
+
+            <!-- Player 2 -->
+            <mat-form-field appearance="standard">
+                <mat-label>Player 2</mat-label>
+                <input matInput
+                       class="game__settings__player-name-input"
+                       name="player2Name"
+                       [(ngModel)]="player2Name">
+                <mat-icon matSuffix
+                          class="game__settings__player-name-input__color2">stop_circle</mat-icon>
+            </mat-form-field>
+
+            <!-- Start button -->
+            <div>
+                <button mat-flat-button
+                        class="game__settings__start"
+                        color="primary"
+                        (click)="onStratGame()">
+                    Start
+                </button>
+            </div>
         </div>
-    </header>
 
-    <app-grid class="game__grid"></app-grid>
+        <div *ngIf="startingPlayer"
+             class="game__announcement">
+
+            <div class="game__announcement__first-player mat-display-3">
+                {{startingPlayer.name}}
+            </div>
+            <div class="game__announcement__message mat-display-1">
+                will start!
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="isGameStarted$ | async"
+         class="game__playing">
+        <header class="game__playing__header">
+            <app-timer></app-timer>
+
+            <div class="game__playing__status">
+                Player 1's turn
+            </div>
+        </header>
+
+
+        <app-grid class="game__playing__grid"></app-grid>
+    </div>
 </div>
