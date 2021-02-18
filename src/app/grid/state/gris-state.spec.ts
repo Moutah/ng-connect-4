@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { Player } from 'src/app/shared/models/player';
+import { Player } from 'src/app/shared/player';
 import { environment } from 'src/environments/environment';
 import { GridState } from '.';
 import * as Grid from './actions';

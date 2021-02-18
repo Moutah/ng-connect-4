@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Player } from '../shared/models/player';
+import { Player } from '../shared/player';
 import { GameService } from './game.service';
 import { GameState } from './state';
 
@@ -12,12 +12,14 @@ import { GameState } from './state';
 })
 export class GameComponent implements OnInit {
   isGameStarted$: Observable<boolean>;
+  activePlayerName$: Observable<Player>;
   startingPlayer: Player;
   player1Name = 'Red';
   player2Name = 'Yellow';
 
   constructor(private store: Store, private game: GameService) {
     this.isGameStarted$ = this.store.select(GameState.isStarted);
+    this.activePlayerName$ = this.store.select(GameState.activePlayer);
   }
 
   ngOnInit(): void {}
@@ -30,7 +32,7 @@ export class GameComponent implements OnInit {
     );
 
     // get first player
-    this.startingPlayer = this.game.getFirstPlayer();
+    this.startingPlayer = this.game.firstPlayer;
 
     // starts the game after quick wait to display starting player
     setTimeout(() => this.game.start(), 2200);

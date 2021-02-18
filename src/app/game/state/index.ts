@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Player } from 'src/app/shared/models/player';
+import { Player } from 'src/app/shared/player';
 import { End, NextPlayer, Start, SetPlayers } from './actions';
 
 export interface GameStateModel {

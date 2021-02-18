@@ -4,13 +4,13 @@ import { environment } from 'src/environments/environment';
 import * as Grid from '../grid/state/actions';
 import * as Game from './state/actions';
 import { GameState } from './state';
-import { Player } from '../shared/models/player';
+import { Player } from '../shared/player';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  private firstPlayer?: Player;
+  firstPlayer?: Player;
 
   constructor(private store: Store) {}
 
@@ -20,13 +20,6 @@ export class GameService {
   setup(player1: Player, player2: Player): void {
     this.store.dispatch(new Game.SetPlayers(player1, player2));
     this.firstPlayer = Math.random() > 0.5 ? player1 : player2;
-  }
-
-  /**
-   * Get the player that has been selected to start.
-   */
-  getFirstPlayer(): Player | undefined {
-    return this.firstPlayer;
   }
 
   /**

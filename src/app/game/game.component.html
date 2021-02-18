@@ -44,7 +44,7 @@
              class="game__announcement">
 
             <div class="game__announcement__first-player mat-display-3">
-                {{startingPlayer.name}}
+                {{startingPlayer | playeName}}
             </div>
             <div class="game__announcement__message mat-display-1">
                 will start!
@@ -59,7 +59,7 @@
             <app-timer></app-timer>
 
             <div class="game__playing__status">
-                Player 1's turn
+                {{activePlayer$ | async | playeName}}'s turn
             </div>
         </header>
 

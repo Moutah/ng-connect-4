@@ -11,7 +11,7 @@ import { End } from './state/actions/End.action';
 import { PlayCoin } from '../grid/state/actions/PlayCoin.action';
 import { NextPlayer } from './state/actions/NextPlayer.action';
 import { environment } from 'src/environments/environment';
-import { Player } from '../shared/models/player';
+import { Player } from '../shared/player';
 
 describe('GameService', () => {
   let service: GameService;
@@ -56,7 +56,7 @@ describe('GameService', () => {
       done();
     });
 
-    service.start(players[0]);
+    service.start();
   });
 
   it('can stop the game', (done) => {
@@ -84,7 +84,7 @@ describe('GameService', () => {
       done();
     });
 
-    service.start(players[0]);
+    service.start();
     service.play(2);
   });
 
@@ -96,7 +96,7 @@ describe('GameService', () => {
 
   it('cannnot play a coin if column is full', () => {
     // start the game and fill column 2
-    service.start(players[0]);
+    service.start();
     for (let i = 0; i < environment.gridRows; i++) {
       service.play(2);
     }
