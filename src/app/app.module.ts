@@ -10,6 +10,7 @@ import { MaterialModule } from './material.module';
 import { GridComponent } from './grid/grid.component';
 import { CellComponent } from './grid/cell/cell.component';
 import { TimerComponent } from './game/timer/timer.component';
+import { GameState } from './game/state';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { TimerComponent } from './game/timer/timer.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    NgxsModule.forRoot([]),
+    NgxsModule.forRoot([GameState]),
   ],
   providers: [],
   bootstrap: [AppComponent],
