@@ -8,11 +8,14 @@ describe('GameState', () => {
   let store: Store;
   let players: Player[];
 
-  /**
-   * Get the active player from the game state.
-   */
-  const getActivePlayer = () =>
-    store.selectSnapshot((state) => state.game.activePlayer);
+  // snapshot select helpers
+  const getActivePlayer = () => store.selectSnapshot(GameState.activePlayer);
+  const getPlayers = () => store.selectSnapshot((state) => state.game.players);
+  const getFirstPlayer = () => store.selectSnapshot(GameState.firstPlayer);
+  const getWinner = () => store.selectSnapshot(GameState.winner);
+  const getStartTimestamp = () =>
+    store.selectSnapshot((state) => state.game.startTimestamp);
+  const getIsGameOver = () => store.selectSnapshot(GameState.isOver);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,23 +29,21 @@ describe('GameState', () => {
   it('can set players', () => {
     store.dispatch(new Game.SetPlayers(players[0], players[1]));
 
-    const gamePlayers = store.selectSnapshot((state) => state.game.players);
-    expect(gamePlayers).toEqual([players[0], players[1]]);
+    expect(getPlayers()).toEqual([players[0], players[1]]);
   });
 
-  it('can set starting player', () => {});
+  it('can set starting player', () => {
+    store.dispatch(new Game.SetFirstPlayer(players[1]));
 
-  it('can start the game with either players', () => {
-    const getStartTimestamp = () =>
-      store.selectSnapshot((state) => state.game.startTimestamp);
-    const getIsGameOver = () =>
-      store.selectSnapshot((state) => state.game.isOver);
+    expect(getFirstPlayer()).toEqual(players[1]);
+  });
 
+  it('can start the game', () => {
     // init
     store.dispatch(new Game.SetPlayers(players[0], players[1]));
     store.dispatch(new Game.SetFirstPlayer(players[0]));
 
-    // validateinitial state
+    // validate initial state
     expect(getStartTimestamp()).toBeFalsy();
     expect(getIsGameOver()).toBe(true);
 
@@ -52,30 +53,53 @@ describe('GameState', () => {
     // game is started
     expect(getStartTimestamp()).toBeTruthy();
     expect(getIsGameOver()).toBe(false);
-
-    // game is started with correct player
     expect(getActivePlayer()).toEqual(players[0]);
-
-    // start with another player
-    store.dispatch(new Game.SetFirstPlayer(players[1]));
-    store.dispatch(new Game.Start());
-
-    // game is started with correct player
-    expect(getActivePlayer()).toEqual(players[1]);
   });
 
-  it('can set game winner', () => {});
+  it('can set game as won', () => {
+    store.dispatch(new Game.Won(players[0]));
 
-  it('stops the game when setting a winner', () => {});
+    expect(getWinner()).toEqual(players[0]);
+  });
+
+  it('stops the game when setting a winner', () => {
+    // start the game
+    store.dispatch(new Game.Start());
+
+    // set winner
+    store.dispatch(new Game.Won(players[0]));
+
+    // game is over
+    const isGameOver = getIsGameOver();
+    expect(isGameOver).toBe(true);
+  });
 
   it('can stop the game', () => {
     store.dispatch(new Game.End());
 
-    const isGameOver = store.selectSnapshot((state) => state.game.isOver);
+    const isGameOver = getIsGameOver();
     expect(isGameOver).toBe(true);
   });
 
-  it('can clear the game state', () => {});
+  it('can clear the game state', () => {
+    // simulate full game
+    store.dispatch(new Game.SetPlayers(players[0], players[1]));
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    store.dispatch(new Game.Start());
+    store.dispatch(new Game.Won(players[1]));
+
+    // validate initial state
+    expect(getPlayers()).toEqual([players[0], players[1]]);
+    expect(getStartTimestamp()).toBeTruthy();
+    expect(getWinner()).toEqual(players[1]);
+
+    // clear
+    store.dispatch(new Game.Clear());
+    expect(getPlayers()).toEqual([]);
+    expect(getStartTimestamp()).toBeFalsy();
+    expect(getIsGameOver()).toBe(true);
+    expect(getWinner()).toBeFalsy();
+  });
 
   it('can switch palyers turn', () => {
     // init
