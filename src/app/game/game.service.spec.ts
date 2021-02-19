@@ -7,8 +7,8 @@ import { Actions, ofActionDispatched } from '@ngxs/store';
 import { Observable, zip } from 'rxjs';
 import * as Grid from '../grid/state/actions';
 import * as Game from './state/actions';
-import { environment } from 'src/environments/environment';
 import { Player } from '../shared/player';
+import { GRID_ROWS } from '../grid/config';
 
 describe('GameService', () => {
   let service: GameService;
@@ -94,7 +94,7 @@ describe('GameService', () => {
   it('cannnot play a coin if column is full', () => {
     // start the game and fill column 2
     service.start();
-    for (let i = 0; i < environment.gridRows; i++) {
+    for (let i = 0; i < GRID_ROWS; i++) {
       service.play(2);
     }
 
@@ -103,4 +103,16 @@ describe('GameService', () => {
     service.play(2);
     expect(storeDispatchSpy).not.toHaveBeenCalled();
   });
+
+  it('checks for connected cells after playing', () => {});
+
+  it('checks if grid is full after playing', () => {});
+
+  it('sets the game as won if 4 cells connected horizontally', () => {});
+
+  it('sets the game as won if 4 cells connected vertically', () => {});
+
+  it('sets the game as won if 4 cells connected in backward diagonal', () => {});
+
+  it('sets the game as won if 4 cells connected in forward diagonal', () => {});
 });

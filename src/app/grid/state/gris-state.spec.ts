@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Player } from 'src/app/shared/player';
-import { environment } from 'src/environments/environment';
 import { GridState } from '.';
 import * as Grid from './actions';
 import * as Game from '../../game/state/actions';
+import { GRID_COLS } from '../config';
 
 describe('GridState', () => {
   let store: Store;
@@ -41,7 +41,7 @@ describe('GridState', () => {
     // all cols are empty
     cols = getGridCols();
     expect(cols.every((col) => col.length === 0)).toBe(true);
-    expect(cols.length).toBe(environment.gridCols);
+    expect(cols.length).toBe(GRID_COLS);
   });
 
   it('can play coin', () => {
@@ -61,4 +61,6 @@ describe('GridState', () => {
     // col 2 now has 1 coin of each player
     expect(cols[2]).toEqual([players[0].id, players[1].id]);
   });
+
+  it('can set some cells as highlighted', () => {});
 });

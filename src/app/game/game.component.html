@@ -5,6 +5,8 @@
     <!-- Game view -->
     <div *ngIf="isGameStarted$ | async"
          class="game__playing">
+
+        <!-- Game status -->
         <header class="game__playing__header">
             <app-timer [isRunning]="!(isGameOver$ | async)"></app-timer>
 
@@ -23,8 +25,10 @@
             </div>
         </header>
 
+        <!-- Game grid -->
         <app-grid class="game__playing__grid"></app-grid>
 
+        <!-- Home button -->
         <a *ngIf="isGameOver$ | async"
            mat-flat-button
            color="primary"

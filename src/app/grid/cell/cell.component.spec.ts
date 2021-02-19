@@ -37,6 +37,10 @@ describe('CellComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('can display as highlighted', () => {});
+
+  it('calculates fall height depending on given row prop', () => {});
+
   it('can display coin for a player', () => {
     // prepare state
     store.setState({

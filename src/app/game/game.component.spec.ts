@@ -47,91 +47,103 @@ describe('GameComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should allow to input players names', async () => {
-    await fixture.whenStable();
+  it('displays player setup if game not started', () => {});
 
-    // get initial values
-    const initialPlayer1Name = component.player1Name;
-    const initialPlayer2Name = component.player2Name;
+  it('displays game if game started', () => {});
 
-    // get inputs
-    const player1NameInput = fixture.nativeElement.querySelector(
-      'input[name="player1Name"]'
-    );
-    const player2NameInput = fixture.nativeElement.querySelector(
-      'input[name="player2Name"]'
-    );
+  it('displays active player if game started and not over', () => {});
 
-    // validate inital values
-    expect(player1NameInput.value).toBe(initialPlayer1Name);
-    expect(player2NameInput.value).toBe(initialPlayer2Name);
+  it('displays winner if game was won', () => {});
 
-    // change values
-    player1NameInput.value = 'Batman';
-    player1NameInput.dispatchEvent(new Event('input'));
-    player2NameInput.value = 'Superman';
-    player2NameInput.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+  it('displays draw if game over but was not won', () => {});
 
-    expect(player1NameInput.value).toBe('Batman');
-    expect(player2NameInput.value).toBe('Superman');
-  });
+  it('displays home button if game was won', () => {});
 
-  it('should allow to setup the game with players names', async () => {
-    await fixture.whenStable();
-    const gameSetupSpy = spyOn(gameServiceStub, 'setup');
+  // it('should allow to input players names', async () => {
+  //   await fixture.whenStable();
 
-    // get inputs
-    const player1NameInput = fixture.nativeElement.querySelector(
-      'input[name="player1Name"]'
-    );
-    const player2NameInput = fixture.nativeElement.querySelector(
-      'input[name="player2Name"]'
-    );
+  //   // get initial values
+  //   const initialPlayer1Name = component.player1Name;
+  //   const initialPlayer2Name = component.player2Name;
 
-    // change values
-    player1NameInput.value = 'Batman';
-    player1NameInput.dispatchEvent(new Event('input'));
-    player2NameInput.value = 'Superman';
-    player2NameInput.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+  //   // get inputs
+  //   const player1NameInput = fixture.nativeElement.querySelector(
+  //     'input[name="player1Name"]'
+  //   );
+  //   const player2NameInput = fixture.nativeElement.querySelector(
+  //     'input[name="player2Name"]'
+  //   );
 
-    // clic start
-    fixture.nativeElement.querySelector('.game__settings__start').click();
+  //   // validate inital values
+  //   expect(player1NameInput.value).toBe(initialPlayer1Name);
+  //   expect(player2NameInput.value).toBe(initialPlayer2Name);
 
-    // game service has been called
-    expect(gameSetupSpy).toHaveBeenCalledWith(
-      jasmine.objectContaining({ name: 'Batman' }),
-      jasmine.objectContaining({ name: 'Superman' })
-    );
-  });
+  //   // change values
+  //   player1NameInput.value = 'Batman';
+  //   player1NameInput.dispatchEvent(new Event('input'));
+  //   player2NameInput.value = 'Superman';
+  //   player2NameInput.dispatchEvent(new Event('input'));
+  //   fixture.detectChanges();
 
-  it('should display first player upon starting the game', async () => {
-    await fixture.whenStable();
+  //   expect(player1NameInput.value).toBe('Batman');
+  //   expect(player2NameInput.value).toBe('Superman');
+  // });
 
-    // clic start
-    fixture.nativeElement.querySelector('.game__settings__start').click();
-    await fixture.whenStable();
-    fixture.detectChanges();
+  // it('should allow to setup the game with players names', async () => {
+  //   await fixture.whenStable();
+  //   const gameSetupSpy = spyOn(gameServiceStub, 'setup');
 
-    // we see first player announcement
-    const announcementElement = fixture.nativeElement.querySelector(
-      '.game__announcement__first-player'
-    );
-    expect(announcementElement).toBeTruthy();
-  });
+  //   // get inputs
+  //   const player1NameInput = fixture.nativeElement.querySelector(
+  //     'input[name="player1Name"]'
+  //   );
+  //   const player2NameInput = fixture.nativeElement.querySelector(
+  //     'input[name="player2Name"]'
+  //   );
 
-  it('should starts the game', fakeAsync(() => {
-    fixture.whenStable();
-    const gameStartSpy = spyOn(gameServiceStub, 'start');
+  //   // change values
+  //   player1NameInput.value = 'Batman';
+  //   player1NameInput.dispatchEvent(new Event('input'));
+  //   player2NameInput.value = 'Superman';
+  //   player2NameInput.dispatchEvent(new Event('input'));
+  //   fixture.detectChanges();
 
-    // clic start
-    fixture.nativeElement.querySelector('.game__settings__start').click();
+  //   // clic start
+  //   fixture.nativeElement.querySelector('.game__settings__start').click();
 
-    // wait for announcement to be removed
-    tick(3000);
+  //   // game service has been called
+  //   expect(gameSetupSpy).toHaveBeenCalledWith(
+  //     jasmine.objectContaining({ name: 'Batman' }),
+  //     jasmine.objectContaining({ name: 'Superman' })
+  //   );
+  // });
 
-    // game service has been called
-    expect(gameStartSpy).toHaveBeenCalled();
-  }));
+  // it('should display first player upon starting the game', async () => {
+  //   await fixture.whenStable();
+
+  //   // clic start
+  //   fixture.nativeElement.querySelector('.game__settings__start').click();
+  //   await fixture.whenStable();
+  //   fixture.detectChanges();
+
+  //   // we see first player announcement
+  //   const announcementElement = fixture.nativeElement.querySelector(
+  //     '.game__announcement__first-player'
+  //   );
+  //   expect(announcementElement).toBeTruthy();
+  // });
+
+  // it('should starts the game', fakeAsync(() => {
+  //   fixture.whenStable();
+  //   const gameStartSpy = spyOn(gameServiceStub, 'start');
+
+  //   // clic start
+  //   fixture.nativeElement.querySelector('.game__settings__start').click();
+
+  //   // wait for announcement to be removed
+  //   tick(3000);
+
+  //   // game service has been called
+  //   expect(gameStartSpy).toHaveBeenCalled();
+  // }));
 });

@@ -22,7 +22,9 @@ describe('TimerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should provide the seconds as a 2 digit number', () => {
+  it('counts time only when given truthy isRunning prop', () => {});
+
+  it('provides the seconds as a 2 digit number', () => {
     // test single digit seconds
     component.elapsedSeconds = 2;
     expect(component.getFormattedElapsedSeconds()).toBe('02');
@@ -32,7 +34,7 @@ describe('TimerComponent', () => {
     expect(component.getFormattedElapsedSeconds()).toBe('22');
   });
 
-  it('should provide the minutes as intger number', () => {
+  it('provides the minutes as integer number', () => {
     // test less than a minute
     component.elapsedSeconds = 2;
     expect(component.getFormattedElapsedMinutes()).toBe('0');
@@ -42,7 +44,7 @@ describe('TimerComponent', () => {
     expect(component.getFormattedElapsedMinutes()).toBe('1');
   });
 
-  it('should split elapsed time in minutes and seconds parts', () => {
+  it('splits elapsed time in minutes and seconds parts', () => {
     // test less than a minute
     component.elapsedSeconds = 2;
     expect(component.getFormattedElapsedSeconds()).toBe('02');
