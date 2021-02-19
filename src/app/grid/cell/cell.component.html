@@ -1,7 +1,7 @@
-<div class="cell"
+<div [class]="'cell ' + ((isHighlighted$ | async) ? ' cell--highlighted' : '')"
      (click)="playCoin()">
 
     <mat-icon matSuffix
               *ngIf="cellContent$ | async"
-              [class]="'cell__coin cell__coin-' + (cellContent$ | async) ">stop_circle</mat-icon>
+              [class]="'cell__coin cell__coin--' + (cellContent$ | async) ">stop_circle</mat-icon>
 </div>

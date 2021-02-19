@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { GridCoord } from 'src/app/shared/grid-coords';
 import { environment } from 'src/environments/environment';
-import { Reset, PlayCoin } from './actions';
+import { Reset, PlayCoin, HighlightCells } from './actions';
 
 export interface GridStateModel {
   cols: string[][];
+  highlights: GridCoord[];
 }
 
 @State<GridStateModel>({
   name: 'grid',
   defaults: {
     cols: [],
+    highlights: [],
   },
 })
 @Injectable()
@@ -30,7 +33,7 @@ export class GridState {
   resetGrid(ctx: StateContext<GridStateModel>): void {
     // generate empty cols
     const cols = [...Array(environment.gridCols).keys()].map(() => []);
-    ctx.patchState({ cols });
+    ctx.patchState({ cols, highlights: [] });
   }
 
   /**
@@ -47,5 +50,16 @@ export class GridState {
 
     // update state
     ctx.patchState({ cols });
+  }
+
+  /**
+   * Marks the game as _not_ over.
+   */
+  @Action(HighlightCells)
+  highlightCells(
+    ctx: StateContext<GridStateModel>,
+    action: HighlightCells
+  ): void {
+    ctx.patchState({ highlights: action.cells });
   }
 }

@@ -8,12 +8,16 @@
   justify-content: center;
   align-items: center;
 
+  &--highlighted {
+    background-color: #00f;
+  }
+
   &__coin {
-    &-p1 {
+    &--p1 {
       color: $colorPlayer1;
     }
 
-    &-p2 {
+    &--p2 {
       color: $colorPlayer2;
     }
   }
