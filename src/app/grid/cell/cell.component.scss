@@ -1,18 +1,29 @@
 @import "../../../variables";
 
 .cell {
-  height: 2rem;
+  height: 0;
+  padding-bottom: 100%;
   border: 1px solid #000;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   &--highlighted {
     background-color: #00f;
   }
 
   &__coin {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: margin-top 0.1s ease-in;
+
+    &::selection {
+      background-color: transparent;
+    }
+
     &--p1 {
       color: $colorPlayer1;
     }

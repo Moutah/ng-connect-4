@@ -122,8 +122,6 @@ export class GameService {
     let row: number;
     let cellValue: string;
     for (const base of bases) {
-      console.log({ base });
-
       // try to extract 4 consecutive cells
       winningCells = [];
       for (const coef of coefs) {

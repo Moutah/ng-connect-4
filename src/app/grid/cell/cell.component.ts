@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameService } from 'src/app/game/game.service';
 import { GridCoord } from 'src/app/shared/grid-coords';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-cell',
@@ -15,6 +16,11 @@ export class CellComponent implements OnInit {
 
   cellContent$: Observable<string>;
   isHighlighted$: Observable<boolean>;
+
+  /**
+   * The height from which the coin will fall expressed in numbers of rows.
+   */
+  fallHeight: number;
 
   constructor(private store: Store, private game: GameService) {
     // select this cell in grid store
@@ -30,7 +36,9 @@ export class CellComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fallHeight = 1 + environment.gridRows - this.row;
+  }
 
   /**
    * Play a coin in this cell's column
