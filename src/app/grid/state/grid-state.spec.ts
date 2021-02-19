@@ -62,5 +62,17 @@ describe('GridState', () => {
     expect(cols[2]).toEqual([players[0].id, players[1].id]);
   });
 
-  it('can set some cells as highlighted', () => {});
+  it('can set some cells as highlighted', () => {
+    // mark some cells as highlighted
+    const cellCoordA = { col: 0, row: 1 };
+    const cellCoordB = { col: 1, row: 1 };
+    store.dispatch(new Grid.HighlightCells([cellCoordA, cellCoordB]));
+
+    const gridHighlights = store.selectSnapshot(
+      (state) => state.grid.highlights
+    );
+    expect(gridHighlights.length).toBe(2);
+    expect(gridHighlights[0]).toEqual(cellCoordA);
+    expect(gridHighlights[1]).toEqual(cellCoordB);
+  });
 });

@@ -97,7 +97,6 @@ describe('CellComponent', () => {
     fixture.detectChanges();
 
     // coin of player B is displayed at these grid coords
-    console.log(getCoinEl());
     expect(getCoinEl().style.opacity).toBe('1');
     expect(getCoinEl().classList.contains('cell__coin--B')).toBe(true);
   });
