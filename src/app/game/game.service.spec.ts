@@ -1,4 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import {
+  fakeAsync,
+  flush,
+  flushMicrotasks,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { GameService } from './game.service';
 import { NgxsModule, Store } from '@ngxs/store';
 import { GameState } from './state';
@@ -8,24 +14,13 @@ import { Observable, zip } from 'rxjs';
 import * as Grid from '../grid/state/actions';
 import * as Game from './state/actions';
 import { Player } from '../shared/player';
-import { GRID_ROWS } from '../grid/config';
+import { GRID_COLS, GRID_ROWS } from '../grid/config';
 
 describe('GameService', () => {
-  let service: GameService;
+  let game: GameService;
   let store: Store;
   let players: Player[];
   let actions$: Observable<any>;
-
-  // /**
-  //  * Get the active player from the game state.
-  //  */
-  // const getActivePlayer = () =>
-  //   store.selectSnapshot((state) => state.game.activePlayer);
-
-  // /**
-  //  * Get the grid columms from the grid state.
-  //  */
-  // const getGridCols = () => store.selectSnapshot((state) => state.grid.cols);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,14 +28,14 @@ describe('GameService', () => {
     });
 
     store = TestBed.inject(Store);
-    service = TestBed.inject(GameService);
+    game = TestBed.inject(GameService);
     actions$ = TestBed.inject(Actions);
     players = [new Player('p1', 'Batman'), new Player('p2', 'Superman')];
-    service.setup(players[0], players[1]);
+    game.setup(players[0], players[1]);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(game).toBeTruthy();
   });
 
   it('can start the game', (done) => {
@@ -53,7 +48,7 @@ describe('GameService', () => {
       done();
     });
 
-    service.start();
+    game.start();
   });
 
   it('can clear the game', (done) => {
@@ -65,7 +60,7 @@ describe('GameService', () => {
       }
     );
 
-    service.clear();
+    game.clear();
   });
 
   it('can play a coin', (done) => {
@@ -81,38 +76,173 @@ describe('GameService', () => {
       done();
     });
 
-    service.start();
-    service.play(2);
+    // play a coin
+    game.start();
+    game.play(2);
   });
 
   it('cannnot play a coin if game has not started', () => {
-    expect(() => service.play(2)).toThrowError(
+    expect(() => game.play(2)).toThrowError(
       '[Game Service] The game has not started, play() is not allowed.'
     );
   });
 
   it('cannnot play a coin if column is full', () => {
     // start the game and fill column 2
-    service.start();
+    game.start();
     for (let i = 0; i < GRID_ROWS; i++) {
-      service.play(2);
+      game.play(2);
     }
 
     // column 2 is full, no coin is played
     const storeDispatchSpy = spyOn(store, 'dispatch');
-    service.play(2);
+    game.play(2);
     expect(storeDispatchSpy).not.toHaveBeenCalled();
   });
 
-  it('checks for connected cells after playing', () => {});
+  it('ends the game if grid is full', (done) => {
+    // define expected actions
+    zip(actions$.pipe(ofActionDispatched(Game.End))).subscribe(
+      (dispatchedActions) => {
+        expect(dispatchedActions.length).toBe(1);
+        done();
+      }
+    );
 
-  it('checks if grid is full after playing', () => {});
+    // start game
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    game.start();
 
-  it('sets the game as won if 4 cells connected horizontally', () => {});
+    // fill board except on col 0
+    for (let col = 0; col < GRID_COLS; col++) {
+      for (let row = 0; row < GRID_ROWS; row++) {
+        if (col === 0 && row === GRID_ROWS - 1) {
+          continue;
+        }
 
-  it('sets the game as won if 4 cells connected vertically', () => {});
+        store.dispatch(new Grid.PlayCoin(players[1], col));
+      }
+    }
 
-  it('sets the game as won if 4 cells connected in backward diagonal', () => {});
+    // play last spot
+    game.play(0);
+  });
 
-  it('sets the game as won if 4 cells connected in forward diagonal', () => {});
+  it('sets the game as won if 4 cells connected horizontally', (done) => {
+    // define expected actions
+    zip(
+      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
+      actions$.pipe(ofActionDispatched(Game.Won))
+    ).subscribe((dispatchedActions) => {
+      expect(dispatchedActions[0].cells.length).toBe(4);
+      expect(dispatchedActions[1].winner).toEqual(players[0]);
+      expect(dispatchedActions.length).toBe(2);
+      done();
+    });
+
+    // start game
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    game.start();
+
+    // set grid
+    store.dispatch(new Grid.PlayCoin(players[0], 2));
+    store.dispatch(new Grid.PlayCoin(players[0], 3));
+    store.dispatch(new Grid.PlayCoin(players[0], 4));
+
+    // play winning move
+    game.play(5);
+  });
+
+  it('sets the game as won if 4 cells connected vertically', (done) => {
+    // define expected actions
+    zip(
+      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
+      actions$.pipe(ofActionDispatched(Game.Won))
+    ).subscribe((dispatchedActions) => {
+      expect(dispatchedActions[0].cells.length).toBe(4);
+      expect(dispatchedActions[1].winner).toEqual(players[0]);
+      expect(dispatchedActions.length).toBe(2);
+      done();
+    });
+
+    // start game
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    game.start();
+
+    // set grid
+    store.dispatch(new Grid.PlayCoin(players[0], 2));
+    store.dispatch(new Grid.PlayCoin(players[0], 2));
+    store.dispatch(new Grid.PlayCoin(players[0], 2));
+
+    // play winning move
+    game.play(2);
+  });
+
+  it('sets the game as won if 4 cells connected in backward diagonal', (done) => {
+    // define expected actions
+    zip(
+      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
+      actions$.pipe(ofActionDispatched(Game.Won))
+    ).subscribe((dispatchedActions) => {
+      expect(dispatchedActions[0].cells.length).toBe(4);
+      expect(dispatchedActions[1].winner).toEqual(players[0]);
+      expect(dispatchedActions.length).toBe(2);
+      done();
+    });
+
+    // start game
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    game.start();
+
+    // set grid
+    store.dispatch(new Grid.PlayCoin(players[1], 2));
+    store.dispatch(new Grid.PlayCoin(players[1], 2));
+    store.dispatch(new Grid.PlayCoin(players[1], 2));
+
+    store.dispatch(new Grid.PlayCoin(players[1], 3));
+    store.dispatch(new Grid.PlayCoin(players[1], 3));
+    store.dispatch(new Grid.PlayCoin(players[0], 3));
+
+    store.dispatch(new Grid.PlayCoin(players[1], 4));
+    store.dispatch(new Grid.PlayCoin(players[0], 4));
+
+    store.dispatch(new Grid.PlayCoin(players[0], 5));
+
+    // play winning move
+    game.play(2);
+  });
+
+  it('sets the game as won if 4 cells connected in forward diagonal', (done) => {
+    // define expected actions
+    zip(
+      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
+      actions$.pipe(ofActionDispatched(Game.Won))
+    ).subscribe((dispatchedActions) => {
+      expect(dispatchedActions[0].cells.length).toBe(4);
+      expect(dispatchedActions[1].winner).toEqual(players[0]);
+      expect(dispatchedActions.length).toBe(2);
+      done();
+    });
+
+    // start game
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    game.start();
+
+    // set grid
+    store.dispatch(new Grid.PlayCoin(players[0], 2));
+
+    store.dispatch(new Grid.PlayCoin(players[1], 3));
+    store.dispatch(new Grid.PlayCoin(players[0], 3));
+
+    store.dispatch(new Grid.PlayCoin(players[1], 4));
+    store.dispatch(new Grid.PlayCoin(players[1], 4));
+    store.dispatch(new Grid.PlayCoin(players[0], 4));
+
+    store.dispatch(new Grid.PlayCoin(players[1], 5));
+    store.dispatch(new Grid.PlayCoin(players[1], 5));
+    store.dispatch(new Grid.PlayCoin(players[1], 5));
+
+    // play winning move
+    game.play(5);
+  });
 });
