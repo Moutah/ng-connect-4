@@ -39,7 +39,7 @@ export class CellComponent implements OnInit {
     );
 
     // calc fall height
-    this.fallHeight = 1 + GRID_ROWS - this.row;
+    this.fallHeight = GRID_ROWS - this.row;
   }
 
   /**

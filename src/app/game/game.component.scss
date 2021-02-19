@@ -5,8 +5,9 @@
   align-items: center;
   flex-direction: column;
   position: relative;
-  padding: 0 12vw;
-  width: 76vw;
+  margin: auto;
+  width: 75vw;
+  max-width: 75vh;
 
   &__playing {
     width: 100%;
@@ -28,7 +29,8 @@
       text-align: center;
       font-size: 1.6rem;
       padding: 0.6rem;
-      width: 76vw;
+      width: 75vw;
+      max-width: 75vh;
       position: absolute;
       bottom: 3rem;
     }

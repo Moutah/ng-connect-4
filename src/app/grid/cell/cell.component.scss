@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  background-color: transparent;
 
   &--highlighted {
     background-color: #00f;
@@ -18,7 +19,8 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    transition: margin-top 0.1s ease-in;
+    transition: margin-top 0.2s ease-in;
+    z-index: 1000;
 
     &::selection {
       background-color: transparent;
