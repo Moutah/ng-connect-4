@@ -22,21 +22,23 @@ export class CellComponent implements OnInit {
    */
   fallHeight: number;
 
-  constructor(private store: Store, private game: GameService) {
+  constructor(private store: Store, private game: GameService) {}
+
+  ngOnInit(): void {
     // select this cell in grid store
     this.cellContent$ = this.store.select(
       (state) => state.grid.cols[this.col][this.row] || ''
     );
 
-    this.isHighlighted$ = this.store.select((state) => {
-      return state.grid.highlights.some(
+    // detect if this cell is highlighted
+    this.isHighlighted$ = this.store.select((state) =>
+      state.grid.highlights.some(
         (highlight: GridCoord) =>
           highlight.col === this.col && highlight.row === this.row
-      );
-    });
-  }
+      )
+    );
 
-  ngOnInit(): void {
+    // calc fall height
     this.fallHeight = 1 + GRID_ROWS - this.row;
   }
 
