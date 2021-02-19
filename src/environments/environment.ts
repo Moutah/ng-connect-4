@@ -4,8 +4,6 @@
 
 export const environment = {
   production: false,
-  gridRows: 6,
-  gridCols: 7,
 };
 
 /*

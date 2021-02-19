@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { environment } from 'src/environments/environment';
 import * as Grid from '../grid/state/actions';
 import * as Game from './state/actions';
 import { GameState } from './state';
 import { Player } from '../shared/player';
 import { GridState } from '../grid/state';
 import { GridCoord } from '../shared/grid-coords';
+import { GRID_COLS, GRID_ROWS } from '../grid/config';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +54,7 @@ export class GameService {
     const gridCols: string[][] = this.store.selectSnapshot(
       (state) => state.grid.cols
     );
-    if (gridCols[col].length >= environment.gridRows) {
+    if (gridCols[col].length >= GRID_ROWS) {
       return;
     }
 
@@ -129,12 +129,7 @@ export class GameService {
         row = base.h * coef + pivot.row;
 
         // skip if out of bounds
-        if (
-          0 > col ||
-          col >= environment.gridCols ||
-          0 > row ||
-          row >= environment.gridRows
-        ) {
+        if (0 > col || col >= GRID_COLS || 0 > row || row >= GRID_ROWS) {
           continue;
         }
 

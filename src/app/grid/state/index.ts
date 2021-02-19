@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { GridCoord } from 'src/app/shared/grid-coords';
-import { environment } from 'src/environments/environment';
+import { GRID_COLS, GRID_ROWS } from '../config';
 import { Reset, PlayCoin, HighlightCells } from './actions';
 
 export interface GridStateModel {
@@ -23,7 +23,7 @@ export class GridState {
    */
   @Selector()
   static isFull(state: GridStateModel): boolean {
-    return state.cols.every((col) => col.length === environment.gridRows);
+    return state.cols.every((col) => col.length === GRID_ROWS);
   }
 
   /**
@@ -32,7 +32,7 @@ export class GridState {
   @Action(Reset)
   resetGrid(ctx: StateContext<GridStateModel>): void {
     // generate empty cols
-    const cols = [...Array(environment.gridCols).keys()].map(() => []);
+    const cols = [...Array(GRID_COLS).keys()].map(() => []);
     ctx.patchState({ cols, highlights: [] });
   }
 

@@ -3,7 +3,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameService } from 'src/app/game/game.service';
 import { GridCoord } from 'src/app/shared/grid-coords';
-import { environment } from 'src/environments/environment';
+import { GRID_ROWS } from '../config';
 
 @Component({
   selector: 'app-cell',
@@ -37,7 +37,7 @@ export class CellComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fallHeight = 1 + environment.gridRows - this.row;
+    this.fallHeight = 1 + GRID_ROWS - this.row;
   }
 
   /**
