@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Player } from 'src/app/shared/player';
-import { End, NextPlayer, Start, SetPlayers } from './actions';
+import {
+  End,
+  NextPlayer,
+  Start,
+  SetPlayers,
+  Clear,
+  Won,
+  SetFirstPlayer,
+} from './actions';
 
 export interface GameStateModel {
   players: Player[];
+  firstPlayer?: Player;
   activePlayer?: Player;
+  winner?: Player;
+  startTimestamp?: number;
   isOver: boolean;
 }
 
@@ -13,25 +24,53 @@ export interface GameStateModel {
   name: 'game',
   defaults: {
     players: [],
+    firstPlayer: undefined,
     activePlayer: undefined,
+    winner: undefined,
+    startTimestamp: undefined,
     isOver: true,
   },
 })
 @Injectable()
 export class GameState {
   /**
-   * Returns `true` if the game is running.
+   * Returns `true` if the game has a start time.
    */
   @Selector()
   static isStarted(state: GameStateModel): boolean {
-    return !state.isOver;
+    return !!state.startTimestamp;
   }
+
+  /**
+   * Returns `true` if the game is over.
+   */
+  @Selector()
+  static isOver(state: GameStateModel): boolean {
+    return state.isOver;
+  }
+
+  /**
+   * Get the currently active player.
+   */
+  @Selector()
+  static firstPlayer(state: GameStateModel): Player {
+    return state.firstPlayer;
+  }
+
   /**
    * Get the currently active player.
    */
   @Selector()
   static activePlayer(state: GameStateModel): Player {
     return state.activePlayer;
+  }
+
+  /**
+   * Get the winner player.
+   */
+  @Selector()
+  static winner(state: GameStateModel): Player {
+    return state.winner;
   }
 
   /**
@@ -45,22 +84,59 @@ export class GameState {
   }
 
   /**
-   * Marks the game as _not_ over.
+   * Set the players.
+   */
+  @Action(SetFirstPlayer)
+  setFirstPlayer(
+    ctx: StateContext<GameStateModel>,
+    action: SetFirstPlayer
+  ): void {
+    ctx.patchState({ firstPlayer: action.player });
+  }
+
+  /**
+   * Starts the game by setting the start timestamp and initializing
+   * activePlayer.
    */
   @Action(Start)
-  startGame(ctx: StateContext<GameStateModel>, action: Start): void {
+  startGame(ctx: StateContext<GameStateModel>): void {
+    const state = ctx.getState();
     ctx.patchState({
       isOver: false,
-      activePlayer: action.startingPlayer,
+      startTimestamp: new Date().getTime(),
+      activePlayer: state.firstPlayer,
     });
+  }
+
+  /**
+   * Sets the winner of the game.
+   */
+  @Action(Won)
+  setWinner(ctx: StateContext<GameStateModel>, action: Won): void {
+    ctx.patchState({ winner: action.winner });
   }
 
   /**
    * Marks the game as over.
    */
   @Action(End)
+  @Action(Won)
   endGame(ctx: StateContext<GameStateModel>): void {
     ctx.patchState({ isOver: true });
+  }
+
+  /**
+   * Resets state.
+   */
+  @Action(Clear)
+  clearGame(ctx: StateContext<GameStateModel>): void {
+    ctx.patchState({
+      players: [],
+      firstPlayer: undefined,
+      winner: undefined,
+      isOver: true,
+      startTimestamp: undefined,
+    });
   }
 
   /**

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext, Store } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { Reset, PlayCoin } from './actions';
 
@@ -15,6 +15,14 @@ export interface GridStateModel {
 })
 @Injectable()
 export class GridState {
+  /**
+   * Returns `true` if all cells are filled.
+   */
+  @Selector()
+  static isFull(state: GridStateModel): boolean {
+    return state.cols.every((col) => col.length === environment.gridRows);
+  }
+
   /**
    * Marks the game as _not_ over.
    */

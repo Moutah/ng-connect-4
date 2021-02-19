@@ -1,8 +1,9 @@
 <div class="game">
+    <!-- Game settings -->
     <div *ngIf="!(isGameStarted$ | async)">
 
         <!-- Player setup -->
-        <div *ngIf="!startingPlayer"
+        <div *ngIf="!(firstPlayer$ | async)"
              class="game__settings">
 
 
@@ -34,17 +35,18 @@
                 <button mat-flat-button
                         class="game__settings__start"
                         color="primary"
-                        (click)="onStratGame()">
+                        (click)="onStartGame()">
                     Start
                 </button>
             </div>
         </div>
 
-        <div *ngIf="startingPlayer"
+        <!-- Starting player announcement -->
+        <div *ngIf="firstPlayer$ | async"
              class="game__announcement">
 
             <div class="game__announcement__first-player mat-display-3">
-                {{startingPlayer.name}}
+                {{(firstPlayer$ | async).name}}
             </div>
             <div class="game__announcement__message mat-display-1">
                 will start!
@@ -52,18 +54,36 @@
         </div>
     </div>
 
-
+    <!-- Game view -->
     <div *ngIf="isGameStarted$ | async"
          class="game__playing">
         <header class="game__playing__header">
-            <app-timer></app-timer>
+            <app-timer [isRunning]="!(isGameOver$ | async)"></app-timer>
 
             <div class="game__playing__status">
-                {{(activePlayer$ | async)?.name}}'s turn
+                <span *ngIf="!(isGameOver$ | async)">
+                    {{(activePlayer$ | async)?.name}}'s turn
+                </span>
+                <span *ngIf="isGameOver$ | async">
+                    <span *ngIf="winner$ | async">
+                        {{winner$ | async}} won!
+                    </span>
+                    <span *ngIf="!(winner$ | async)">
+                        Draw!
+                    </span>
+                </span>
             </div>
         </header>
 
-
         <app-grid class="game__playing__grid"></app-grid>
+
+        <a *ngIf="isGameOver$ | async"
+           mat-flat-button
+           color="primary"
+           class="game__playing__exit"
+           routerLink="/"
+           (click)="onExitGame()">
+            Home
+        </a>
     </div>
 </div>

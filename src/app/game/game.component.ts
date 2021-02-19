@@ -12,29 +12,42 @@ import { GameState } from './state';
 })
 export class GameComponent implements OnInit {
   isGameStarted$: Observable<boolean>;
+  isGameOver$: Observable<boolean>;
+  firstPlayer$: Observable<Player>;
   activePlayer$: Observable<Player>;
-  startingPlayer: Player;
+  winner$: Observable<Player>;
+
   player1Name = 'Red';
   player2Name = 'Yellow';
 
   constructor(private store: Store, private game: GameService) {
     this.isGameStarted$ = this.store.select(GameState.isStarted);
+    this.isGameOver$ = this.store.select(GameState.isOver);
+    this.firstPlayer$ = this.store.select(GameState.firstPlayer);
     this.activePlayer$ = this.store.select(GameState.activePlayer);
+    this.winner$ = this.store.select(GameState.winner);
   }
 
   ngOnInit(): void {}
 
-  onStratGame(): void {
+  /**
+   * Starts the game with player names as entered by the user.
+   */
+  onStartGame(): void {
     // set players
     this.game.setup(
       new Player('p1', this.player1Name),
       new Player('p2', this.player2Name)
     );
 
-    // get first player
-    this.startingPlayer = this.game.firstPlayer;
-
     // starts the game after quick wait to display starting player
     setTimeout(() => this.game.start(), 2200);
+  }
+
+  /**
+   * Resets the game state
+   */
+  onExitGame(): void {
+    this.game.clear();
   }
 }

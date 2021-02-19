@@ -5,11 +5,8 @@ import { GameState } from './state';
 import { GridState } from '../grid/state';
 import { Actions, ofActionDispatched } from '@ngxs/store';
 import { Observable, zip } from 'rxjs';
-import { Reset } from '../grid/state/actions/Reset.action';
-import { Start } from './state/actions/Start.action';
-import { End } from './state/actions/End.action';
-import { PlayCoin } from '../grid/state/actions/PlayCoin.action';
-import { NextPlayer } from './state/actions/NextPlayer.action';
+import * as Grid from '../grid/state/actions';
+import * as Game from './state/actions';
 import { environment } from 'src/environments/environment';
 import { Player } from '../shared/player';
 
@@ -49,8 +46,8 @@ describe('GameService', () => {
   it('can start the game', (done) => {
     // define expected actions
     zip(
-      actions$.pipe(ofActionDispatched(Reset)),
-      actions$.pipe(ofActionDispatched(Start))
+      actions$.pipe(ofActionDispatched(Grid.Reset)),
+      actions$.pipe(ofActionDispatched(Game.Start))
     ).subscribe((dispatchedActions) => {
       expect(dispatchedActions.length).toBe(2);
       done();
@@ -59,26 +56,26 @@ describe('GameService', () => {
     service.start();
   });
 
-  it('can stop the game', (done) => {
+  it('can clear the game', (done) => {
     // define expected actions
-    zip(actions$.pipe(ofActionDispatched(End))).subscribe(
+    zip(actions$.pipe(ofActionDispatched(Game.Clear))).subscribe(
       (dispatchedActions) => {
         expect(dispatchedActions.length).toBe(1);
         done();
       }
     );
 
-    service.end();
+    service.clear();
   });
 
   it('can play a coin', (done) => {
     // define expected actions
-    actions$.pipe(ofActionDispatched(PlayCoin)).subscribe((payload) => {
+    actions$.pipe(ofActionDispatched(Grid.PlayCoin)).subscribe((payload) => {
       expect(payload.col).toBe(2);
     });
     zip(
-      actions$.pipe(ofActionDispatched(PlayCoin)),
-      actions$.pipe(ofActionDispatched(NextPlayer))
+      actions$.pipe(ofActionDispatched(Grid.PlayCoin)),
+      actions$.pipe(ofActionDispatched(Game.NextPlayer))
     ).subscribe((dispatchedActions) => {
       expect(dispatchedActions.length).toBe(2);
       done();

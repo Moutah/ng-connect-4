@@ -35,7 +35,7 @@ describe('GameState', () => {
     store.dispatch(new Game.SetPlayers(players[0], players[1]));
 
     // start the game
-    store.dispatch(new Game.Start(players[0]));
+    store.dispatch(new Game.Start());
 
     // game is started
     const isGameOver = store.selectSnapshot((state) => state.game.isOver);
@@ -45,7 +45,7 @@ describe('GameState', () => {
     expect(getActivePlayer()).toEqual(players[0]);
 
     // start with another player
-    store.dispatch(new Game.Start(players[1]));
+    store.dispatch(new Game.Start());
 
     // game is started with correct player
     expect(getActivePlayer()).toEqual(players[1]);
@@ -61,7 +61,7 @@ describe('GameState', () => {
   it('can switch palyers turn', () => {
     // init
     store.dispatch(new Game.SetPlayers(players[0], players[1]));
-    store.dispatch(new Game.Start(players[0]));
+    store.dispatch(new Game.Start());
 
     // player 2's turn
     store.dispatch(new Game.NextPlayer());

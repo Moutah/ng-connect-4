@@ -5,21 +5,21 @@ import * as Grid from '../grid/state/actions';
 import * as Game from './state/actions';
 import { GameState } from './state';
 import { Player } from '../shared/player';
+import { GridState } from '../grid/state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  firstPlayer?: Player;
-
   constructor(private store: Store) {}
 
   /**
    * Initilaize the game's players.
    */
   setup(player1: Player, player2: Player): void {
+    const firstPlayer = Math.random() > 0.5 ? player1 : player2;
     this.store.dispatch(new Game.SetPlayers(player1, player2));
-    this.firstPlayer = Math.random() > 0.5 ? player1 : player2;
+    this.store.dispatch(new Game.SetFirstPlayer(firstPlayer));
   }
 
   /**
@@ -28,14 +28,14 @@ export class GameService {
   start(): void {
     // reset the grid and starts the game
     this.store.dispatch(new Grid.Reset());
-    this.store.dispatch(new Game.Start(this.firstPlayer));
+    this.store.dispatch(new Game.Start());
   }
 
   /**
-   * Ends the game.
+   * Clears the game.
    */
-  end(): void {
-    this.store.dispatch(new Game.End());
+  clear(): void {
+    this.store.dispatch(new Game.Clear());
   }
 
   /**
@@ -59,12 +59,19 @@ export class GameService {
     const activePlayer = this.store.selectSnapshot(GameState.activePlayer);
     this.store.dispatch(new Grid.PlayCoin(activePlayer, col));
 
-    // check if game is now over
+    // check if game is won
     if (this.isWon(col)) {
+      this.store.dispatch(new Game.Won(activePlayer));
+      return;
+    }
+
+    // check if game is over
+    if (this.store.selectSnapshot(GridState.isFull)) {
       this.store.dispatch(new Game.End());
       return;
     }
 
+    // start next player's turn
     this.store.dispatch(new Game.NextPlayer());
   }
 
