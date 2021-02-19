@@ -16,11 +16,11 @@ export class PlayerSetupComponent implements OnInit {
   player1Name = 'Red';
   player2Name = 'Yellow';
 
-  constructor(private store: Store, private game: GameService) {
+  constructor(private store: Store, private game: GameService) {}
+
+  ngOnInit(): void {
     this.firstPlayer$ = this.store.select(GameState.firstPlayer);
   }
-
-  ngOnInit(): void {}
 
   /**
    * Starts the game with player names as entered by the user.
