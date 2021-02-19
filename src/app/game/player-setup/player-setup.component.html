@@ -1,0 +1,49 @@
+<div class="player-setup">
+    <div *ngIf="!(firstPlayer$ | async)">
+
+        <!-- Player 1 -->
+        <mat-form-field appearance="standard">
+            <mat-label>Player 1</mat-label>
+            <input matInput
+                   class="player-setup__player-name-input"
+                   name="player1Name"
+                   [(ngModel)]="player1Name">
+            <mat-icon matSuffix
+                      class="player-setup__player-name-input__color1">stop_circle</mat-icon>
+
+        </mat-form-field>
+
+        <!-- Player 2 -->
+        <mat-form-field appearance="standard">
+            <mat-label>Player 2</mat-label>
+            <input matInput
+                   class="player-setup__player-name-input"
+                   name="player2Name"
+                   [(ngModel)]="player2Name">
+            <mat-icon matSuffix
+                      class="player-setup__player-name-input__color2">stop_circle</mat-icon>
+        </mat-form-field>
+
+        <!-- Start button -->
+        <div>
+            <button mat-flat-button
+                    class="player-setup__finish-button"
+                    color="primary"
+                    (click)="onStartGame()">
+                Start
+            </button>
+        </div>
+    </div>
+
+    <!-- Starting player announcement -->
+    <div *ngIf="firstPlayer$ | async"
+         class="player-setup__announcement">
+
+        <div class="player-setup__announcement__first-player mat-display-3">
+            {{(firstPlayer$ | async).name}}
+        </div>
+        <div class="player-setup__announcement__message mat-display-1">
+            will start!
+        </div>
+    </div>
+</div>

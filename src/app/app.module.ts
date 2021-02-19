@@ -13,6 +13,7 @@ import { TimerComponent } from './game/timer/timer.component';
 import { GameState } from './game/state';
 import { FormsModule } from '@angular/forms';
 import { GridState } from './grid/state';
+import { PlayerSetupComponent } from './game/player-setup/player-setup.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { GridState } from './grid/state';
     GridComponent,
     CellComponent,
     TimerComponent,
+    PlayerSetupComponent,
   ],
   imports: [
     BrowserModule,
