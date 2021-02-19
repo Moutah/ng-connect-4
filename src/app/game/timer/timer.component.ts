@@ -8,7 +8,8 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 export class TimerComponent implements OnInit, OnDestroy {
   @Input() isRunning: boolean;
   elapsedSeconds: number;
-  private tickerInverval: number;
+  private tickerInverval: any;
+  // private tickerInverval: number;
 
   constructor() {}
 
@@ -17,7 +18,7 @@ export class TimerComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.elapsedSeconds = 0;
-    this.tickerInverval = window.setInterval(() => {
+    this.tickerInverval = setInterval(() => {
       if (this.isRunning) {
         this.elapsedSeconds++;
       }
