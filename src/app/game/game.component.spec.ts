@@ -1,40 +1,39 @@
-import {
-  ComponentFixture,
-  TestBed,
-  tick,
-  fakeAsync,
-} from '@angular/core/testing';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Player } from '../shared/player';
-
 import { GameComponent } from './game.component';
 import { GameService } from './game.service';
 import { GameState } from './state';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { FormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 
 const gameServiceStub = {
-  setup: (p1: Player, p2: Player) => {},
-  firstPlayer: new Player('p0', 'ghost'),
-  start: () => {},
+  clear: () => {},
 };
 
 describe('GameComponent', () => {
   let component: GameComponent;
   let fixture: ComponentFixture<GameComponent>;
-  let store: MockStore;
+  let store: Store;
+
+  /**
+   * Hijack given `observableName` observable in `component` and give it given
+   * `value`.
+   */
+  const simulateObservatorValue = (observableName: string, value: any) => {
+    Object.defineProperty(component, observableName, { writable: true });
+    component[observableName] = of(value);
+    fixture.detectChanges();
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GameComponent],
       imports: [FormsModule, NgxsModule.forRoot([GameState])],
-      providers: [
-        provideMockStore(),
-        { provide: GameService, useValue: gameServiceStub },
-      ],
+      providers: [{ provide: GameService, useValue: gameServiceStub }],
     }).compileComponents();
 
-    store = TestBed.inject(MockStore);
+    store = TestBed.inject(Store);
   });
 
   beforeEach(() => {
@@ -47,103 +46,80 @@ describe('GameComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('displays player setup if game not started', () => {});
+  it('displays player setup if game not started', () => {
+    const appPlayerSetupEl = fixture.nativeElement.querySelector(
+      'app-player-setup'
+    );
+    expect(appPlayerSetupEl).toBeTruthy();
+  });
 
-  it('displays game if game started', () => {});
+  it('displays game if game started', () => {
+    // set observables
+    simulateObservatorValue('isGameStarted$', true);
 
-  it('displays active player if game started and not over', () => {});
+    const gamePlayingEl = fixture.nativeElement.querySelector('.game__playing');
+    expect(gamePlayingEl).toBeTruthy();
+  });
 
-  it('displays winner if game was won', () => {});
+  it('displays active player if game started and not over', () => {
+    // set observables
+    simulateObservatorValue('isGameStarted$', true);
+    simulateObservatorValue('isGameOver$', false);
+    simulateObservatorValue('activePlayer$', new Player('p0', 'Ghost'));
 
-  it('displays draw if game over but was not won', () => {});
+    const gamePlayingStatusEl = fixture.nativeElement.querySelector(
+      '.game__playing__status'
+    );
+    expect(gamePlayingStatusEl).toBeTruthy();
+    expect(gamePlayingStatusEl.textContent.trim()).toBe(`Ghost's turn`);
+  });
 
-  it('displays home button if game was won', () => {});
+  it('displays winner if game was won', () => {
+    // set observables
+    simulateObservatorValue('isGameStarted$', true);
+    simulateObservatorValue('isGameOver$', true);
+    simulateObservatorValue('winner$', new Player('p0', 'Ghost'));
 
-  // it('should allow to input players names', async () => {
-  //   await fixture.whenStable();
+    const gamePlayingStatusEl = fixture.nativeElement.querySelector(
+      '.game__playing__status'
+    );
+    expect(gamePlayingStatusEl).toBeTruthy();
+    expect(gamePlayingStatusEl.textContent.trim()).toBe(`Ghost won!`);
+  });
 
-  //   // get initial values
-  //   const initialPlayer1Name = component.player1Name;
-  //   const initialPlayer2Name = component.player2Name;
+  it('displays draw if game over but was not won', () => {
+    // set observables
+    simulateObservatorValue('isGameStarted$', true);
+    simulateObservatorValue('isGameOver$', true);
+    simulateObservatorValue('winner$', undefined);
 
-  //   // get inputs
-  //   const player1NameInput = fixture.nativeElement.querySelector(
-  //     'input[name="player1Name"]'
-  //   );
-  //   const player2NameInput = fixture.nativeElement.querySelector(
-  //     'input[name="player2Name"]'
-  //   );
+    const gamePlayingStatusEl = fixture.nativeElement.querySelector(
+      '.game__playing__status'
+    );
+    expect(gamePlayingStatusEl).toBeTruthy();
+    expect(gamePlayingStatusEl.textContent.trim()).toBe(`Draw!`);
+  });
 
-  //   // validate inital values
-  //   expect(player1NameInput.value).toBe(initialPlayer1Name);
-  //   expect(player2NameInput.value).toBe(initialPlayer2Name);
+  it('displays home button if game was won', () => {
+    // set observables
+    simulateObservatorValue('isGameStarted$', true);
+    simulateObservatorValue('isGameOver$', true);
 
-  //   // change values
-  //   player1NameInput.value = 'Batman';
-  //   player1NameInput.dispatchEvent(new Event('input'));
-  //   player2NameInput.value = 'Superman';
-  //   player2NameInput.dispatchEvent(new Event('input'));
-  //   fixture.detectChanges();
+    const gamePlayingExitEl = fixture.nativeElement.querySelector(
+      '.game__playing__exit-button'
+    );
+    expect(gamePlayingExitEl).toBeTruthy();
+  });
 
-  //   expect(player1NameInput.value).toBe('Batman');
-  //   expect(player2NameInput.value).toBe('Superman');
-  // });
+  it('clears the game when clicking home button', () => {
+    const gameClearSpy = spyOn(gameServiceStub, 'clear');
 
-  // it('should allow to setup the game with players names', async () => {
-  //   await fixture.whenStable();
-  //   const gameSetupSpy = spyOn(gameServiceStub, 'setup');
+    // set observables
+    simulateObservatorValue('isGameStarted$', true);
+    simulateObservatorValue('isGameOver$', true);
 
-  //   // get inputs
-  //   const player1NameInput = fixture.nativeElement.querySelector(
-  //     'input[name="player1Name"]'
-  //   );
-  //   const player2NameInput = fixture.nativeElement.querySelector(
-  //     'input[name="player2Name"]'
-  //   );
-
-  //   // change values
-  //   player1NameInput.value = 'Batman';
-  //   player1NameInput.dispatchEvent(new Event('input'));
-  //   player2NameInput.value = 'Superman';
-  //   player2NameInput.dispatchEvent(new Event('input'));
-  //   fixture.detectChanges();
-
-  //   // clic start
-  //   fixture.nativeElement.querySelector('.game__settings__start').click();
-
-  //   // game service has been called
-  //   expect(gameSetupSpy).toHaveBeenCalledWith(
-  //     jasmine.objectContaining({ name: 'Batman' }),
-  //     jasmine.objectContaining({ name: 'Superman' })
-  //   );
-  // });
-
-  // it('should display first player upon starting the game', async () => {
-  //   await fixture.whenStable();
-
-  //   // clic start
-  //   fixture.nativeElement.querySelector('.game__settings__start').click();
-  //   await fixture.whenStable();
-  //   fixture.detectChanges();
-
-  //   // we see first player announcement
-  //   const announcementElement = fixture.nativeElement.querySelector(
-  //     '.game__announcement__first-player'
-  //   );
-  //   expect(announcementElement).toBeTruthy();
-  // });
-
-  // it('should starts the game', fakeAsync(() => {
-  //   fixture.whenStable();
-  //   const gameStartSpy = spyOn(gameServiceStub, 'start');
-
-  //   // clic start
-  //   fixture.nativeElement.querySelector('.game__settings__start').click();
-
-  //   // wait for announcement to be removed
-  //   tick(3000);
-
-  //   // game service has been called
-  //   expect(gameStartSpy).toHaveBeenCalled();
-  // }));
+    expect(gameClearSpy).not.toHaveBeenCalled();
+    fixture.nativeElement.querySelector('.game__playing__exit-button').click();
+    expect(gameClearSpy).toHaveBeenCalled();
+  });
 });
