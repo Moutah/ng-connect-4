@@ -1,0 +1,41 @@
+<div class="game">
+    <!-- Player setup -->
+    <app-player-setup *ngIf="!(isGameStarted$ | async)"></app-player-setup>
+
+    <!-- Game view -->
+    <div *ngIf="isGameStarted$ | async"
+         class="game__playing">
+
+        <!-- Game status -->
+        <header class="game__playing__header">
+            <app-timer [isRunning]="!(isGameOver$ | async)"></app-timer>
+
+            <div class="game__playing__status">
+                <span *ngIf="!(isGameOver$ | async)">
+                    {{(activePlayer$ | async)?.name}}'s turn
+                </span>
+                <span *ngIf="isGameOver$ | async">
+                    <span *ngIf="winner$ | async">
+                        {{(winner$ | async).name}} won!
+                    </span>
+                    <span *ngIf="!(winner$ | async)">
+                        Draw!
+                    </span>
+                </span>
+            </div>
+        </header>
+
+        <!-- Game grid -->
+        <app-grid class="game__playing__grid"></app-grid>
+
+        <!-- Home button -->
+        <a *ngIf="isGameOver$ | async"
+           mat-flat-button
+           color="primary"
+           class="game__playing__exit-button"
+           routerLink="/"
+           (click)="onExitGame()">
+            Home
+        </a>
+    </div>
+</div>

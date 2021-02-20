@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "test:ci": "ng test --sourceMap=false --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy:ghpages": "ng deploy --repo=https://github.com/Moutah/ng-connect-four.git --base-href=https://moutah.github.io/ng-connect-four/ --name=Moutah --email=mathieu.tappolet@ik.me"
@@ -22,6 +23,7 @@
     "@angular/platform-browser": "~10.2.4",
     "@angular/platform-browser-dynamic": "~10.2.4",
     "@angular/router": "~10.2.4",
+    "@ngxs/store": "^3.7.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
@@ -30,6 +32,7 @@
     "@angular-devkit/build-angular": "~0.1002.2",
     "@angular/cli": "~10.2.2",
     "@angular/compiler-cli": "~10.2.4",
+    "@ngrx/store": "^11.0.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",

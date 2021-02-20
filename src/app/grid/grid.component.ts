@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GRID_COLS, GRID_ROWS } from './config';
 
 @Component({
   selector: 'app-grid',
@@ -12,7 +13,7 @@ export class GridComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.rows = [...Array(6).keys()];
-    this.cols = [...Array(7).keys()];
+    this.rows = [...Array(GRID_ROWS).keys()].reverse();
+    this.cols = [...Array(GRID_COLS).keys()];
   }
 }

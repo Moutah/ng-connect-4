@@ -1,27 +1,23 @@
-# NgConnectFour
+# Ng Connect Four
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.2.
+Connect 4 game in the browser made with Angular.
 
-## Development server
+## Rules
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Two players play coins in turn in a 6 x 7 vertical grid and try to connect 4 of their coins in either direction (horizontal, vertical and diagonal) to win the game. The coins are "dropped" in a column of your choice and stack until the column is full. If the board is filled without any player managing to connect 4 coins, the game is a draw.
 
-## Code scaffolding
+Play now: [moutah.github.io/ng-connect-four](https://moutah.github.io/ng-connect-four/)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## Running the game yourself
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+To run the game from your machine, download/clone this repo and run `npm install` to install all dependencies.
 
-## Running unit tests
+Once done, you can run `npm run start` to start the Angular development server and access the game on [localhost:4200](http://localhost:4200).
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Going further
 
-## Running end-to-end tests
+To run unit tests, run `npm run test:ci` for a single execution or `npm run test` for watch mode.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To build the project, run `npm run build`. Use the `--prod` flag for a production build. The compiled files are then available in the `/dist` folder.

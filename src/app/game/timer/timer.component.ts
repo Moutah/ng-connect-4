@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-timer',
@@ -6,6 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   styleUrls: ['./timer.component.scss'],
 })
 export class TimerComponent implements OnInit, OnDestroy {
+  @Input() isRunning: boolean;
   elapsedSeconds: number;
   private tickerInverval: number;
 
@@ -17,7 +18,9 @@ export class TimerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.elapsedSeconds = 0;
     this.tickerInverval = window.setInterval(() => {
-      this.elapsedSeconds++;
+      if (this.isRunning) {
+        this.elapsedSeconds++;
+      }
     }, 1000);
   }
 
