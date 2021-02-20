@@ -16,14 +16,14 @@ export class GameComponent implements OnInit {
   activePlayer$: Observable<Player>;
   winner$: Observable<Player>;
 
-  constructor(private store: Store, private game: GameService) {
+  constructor(private store: Store, private game: GameService) {}
+
+  ngOnInit(): void {
     this.isGameStarted$ = this.store.select(GameState.isStarted);
     this.isGameOver$ = this.store.select(GameState.isOver);
     this.activePlayer$ = this.store.select(GameState.activePlayer);
     this.winner$ = this.store.select(GameState.winner);
   }
-
-  ngOnInit(): void {}
 
   /**
    * Resets the game state

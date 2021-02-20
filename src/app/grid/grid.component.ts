@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { GRID_COLS, GRID_ROWS } from './config';
 
 @Component({

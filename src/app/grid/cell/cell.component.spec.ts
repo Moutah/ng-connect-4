@@ -65,7 +65,7 @@ describe('CellComponent', () => {
     component.row = 1;
     component.ngOnInit();
 
-    expect(component.fallHeight).toBe(GRID_ROWS);
+    expect(component.fallHeight).toBe(GRID_ROWS - 1);
   });
 
   it('can display coin for a player', async () => {

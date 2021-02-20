@@ -50,7 +50,7 @@ export class GameState {
   }
 
   /**
-   * Get the currently active player.
+   * Get the player that plays first in the current game.
    */
   @Selector()
   static firstPlayer(state: GameStateModel): Player {
@@ -84,7 +84,7 @@ export class GameState {
   }
 
   /**
-   * Set the players.
+   * Set the player that will start the game.
    */
   @Action(SetFirstPlayer)
   setFirstPlayer(

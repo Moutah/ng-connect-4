@@ -37,7 +37,7 @@ export class GridState {
   }
 
   /**
-   * Marks the game as _not_ over.
+   * Plays a coin in a specified column for specified player.
    */
   @Action(PlayCoin)
   playCoin(ctx: StateContext<GridStateModel>, action: PlayCoin): void {
@@ -53,7 +53,7 @@ export class GridState {
   }
 
   /**
-   * Marks the game as _not_ over.
+   * Set cells to be highlighted.
    */
   @Action(HighlightCells)
   highlightCells(
