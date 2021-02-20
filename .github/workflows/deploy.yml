@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    name: "Build app and runs ng deploy"
+    name: "Build app and deploy with ng deploy"
     runs-on: ubuntu-latest
 
     steps:
