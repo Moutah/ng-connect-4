@@ -8,6 +8,7 @@ import { GameState } from './state';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { GridModule } from '../grid/grid.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [GameComponent, TimerComponent, PlayerSetupComponent],
@@ -16,6 +17,7 @@ import { GridModule } from '../grid/grid.module';
     GridModule,
     FormsModule,
     MaterialModule,
+    RouterModule,
     NgxsModule.forFeature([GameState]),
   ],
 })
