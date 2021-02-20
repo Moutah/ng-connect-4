@@ -28,8 +28,8 @@ export class PlayerSetupComponent implements OnInit {
   onStartGame(): void {
     // set players
     this.game.setup(
-      new Player('p1', this.player1Name),
-      new Player('p2', this.player2Name)
+      new Player('player-1', this.player1Name),
+      new Player('player-2', this.player2Name)
     );
 
     // starts the game after quick wait to display starting player

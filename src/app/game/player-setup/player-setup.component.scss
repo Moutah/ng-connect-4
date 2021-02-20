@@ -13,6 +13,11 @@
     &__color2 {
       color: $colorPlayer2;
     }
+
+    &__suffix {
+      height: 1.5rem;
+      display: flex;
+    }
   }
 
   &__finish-button {

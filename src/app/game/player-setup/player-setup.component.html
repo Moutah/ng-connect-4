@@ -8,8 +8,9 @@
                    class="player-setup__player-name-input"
                    name="player1Name"
                    [(ngModel)]="player1Name">
-            <mat-icon matSuffix
-                      class="player-setup__player-name-input__color1">stop_circle</mat-icon>
+            <app-coin matSuffix
+                      class="player-setup__player-name-input__suffix"
+                      color="player-1"></app-coin>
 
         </mat-form-field>
 
@@ -20,8 +21,9 @@
                    class="player-setup__player-name-input"
                    name="player2Name"
                    [(ngModel)]="player2Name">
-            <mat-icon matSuffix
-                      class="player-setup__player-name-input__color2">stop_circle</mat-icon>
+            <app-coin matSuffix
+                      class="player-setup__player-name-input__suffix"
+                      color="player-2"></app-coin>
         </mat-form-field>
 
         <!-- Start button -->

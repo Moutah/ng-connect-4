@@ -120,7 +120,7 @@ describe('GameService', () => {
           continue;
         }
 
-        store.dispatch(new Grid.PlayCoin(players[1].id, col));
+        store.dispatch(new Grid.PlayCoin(players[1].color, col));
       }
     }
 
@@ -145,9 +145,9 @@ describe('GameService', () => {
     game.start();
 
     // set grid
-    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 3));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 4));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 3));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 4));
 
     // play winning move
     game.play(5);
@@ -170,9 +170,9 @@ describe('GameService', () => {
     game.start();
 
     // set grid
-    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
 
     // play winning move
     game.play(2);
@@ -195,18 +195,18 @@ describe('GameService', () => {
     game.start();
 
     // set grid
-    store.dispatch(new Grid.PlayCoin(players[1].id, 2));
-    store.dispatch(new Grid.PlayCoin(players[1].id, 2));
-    store.dispatch(new Grid.PlayCoin(players[1].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
 
-    store.dispatch(new Grid.PlayCoin(players[1].id, 3));
-    store.dispatch(new Grid.PlayCoin(players[1].id, 3));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 3));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 3));
 
-    store.dispatch(new Grid.PlayCoin(players[1].id, 4));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 4));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 4));
 
-    store.dispatch(new Grid.PlayCoin(players[0].id, 5));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 5));
 
     // play winning move
     game.play(2);
@@ -229,18 +229,18 @@ describe('GameService', () => {
     game.start();
 
     // set grid
-    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
 
-    store.dispatch(new Grid.PlayCoin(players[1].id, 3));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 3));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 3));
 
-    store.dispatch(new Grid.PlayCoin(players[1].id, 4));
-    store.dispatch(new Grid.PlayCoin(players[1].id, 4));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 4));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 4));
 
-    store.dispatch(new Grid.PlayCoin(players[1].id, 5));
-    store.dispatch(new Grid.PlayCoin(players[1].id, 5));
-    store.dispatch(new Grid.PlayCoin(players[1].id, 5));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
 
     // play winning move
     game.play(5);

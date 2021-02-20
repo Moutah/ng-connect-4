@@ -5,33 +5,31 @@
   padding-bottom: 100%;
   border: 1px solid #000;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
-  background-color: transparent;
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 4px;
+    opacity: 1;
+
+    &__coin {
+      margin-top: 0;
+      transition: margin-top 0.2s ease-in;
+    }
+
+    &--hidden {
+      opacity: 0;
+    }
+  }
 
   &--highlighted {
     background-color: #00f;
-  }
-
-  &__coin {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: margin-top 0.2s ease-in;
-    z-index: 1000;
-
-    &::selection {
-      background-color: transparent;
-    }
-
-    &--p1 {
-      color: $colorPlayer1;
-    }
-
-    &--p2 {
-      color: $colorPlayer2;
-    }
   }
 }
