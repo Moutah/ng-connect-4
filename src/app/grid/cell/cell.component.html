@@ -1,0 +1,9 @@
+<div [class]="'cell ' + ((isHighlighted$ | async) ? ' cell--highlighted' : '')"
+     (click)="playCoin()">
+
+    <!-- Coin -->
+    <mat-icon matSuffix
+              [style.opacity]="(cellContent$ | async) ? '1' : '0'"
+              [style.marginTop]="(cellContent$ | async) ? '' : -100 * fallHeight + '%'"
+              [class]="'cell__coin cell__coin--' + (cellContent$ | async) ">stop_circle</mat-icon>
+</div>

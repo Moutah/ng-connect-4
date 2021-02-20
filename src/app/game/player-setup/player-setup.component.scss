@@ -1,0 +1,28 @@
+@import "../../../variables";
+
+.player-setup {
+  .mat-form-field {
+    width: 100%;
+  }
+
+  &__player-name-input {
+    &__color1 {
+      color: $colorPlayer1;
+    }
+
+    &__color2 {
+      color: $colorPlayer2;
+    }
+  }
+
+  &__finish-button {
+    margin-top: 3rem;
+    width: 100%;
+    font-size: 1.6rem;
+    padding: 0.6rem;
+  }
+
+  &__announcement {
+    text-align: center;
+  }
+}

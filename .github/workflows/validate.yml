@@ -1,0 +1,22 @@
+name: "Validate integrity of the app"
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  build-and-test:
+    name: "Build app and runs tests"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: NPM Install
+        run: npm install
+
+      - name: Unit tests
+        run: npm run test:ci
