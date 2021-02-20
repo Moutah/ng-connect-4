@@ -60,7 +60,7 @@ export class GameService {
 
     // play coin for active player
     const activePlayer = this.store.selectSnapshot(GameState.activePlayer);
-    this.store.dispatch(new Grid.PlayCoin(activePlayer.id, col));
+    this.store.dispatch(new Grid.PlayCoin(activePlayer.color, col));
 
     // get play values
     const row = gridCols[col].length - 1;

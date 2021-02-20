@@ -7,6 +7,7 @@ import { GRID_ROWS } from '../config';
 import { GridState } from '../state';
 import * as Grid from '../state/actions';
 import { CellComponent } from './cell.component';
+import { CoinComponent } from '../coin/coin.component';
 
 const gameServiceStub = {
   play: (col: number) => {},
@@ -19,7 +20,7 @@ describe('CellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CellComponent],
+      declarations: [CellComponent, CoinComponent],
       imports: [MaterialModule, NgxsModule.forRoot([GridState])],
       providers: [{ provide: GameService, useValue: gameServiceStub }],
     }).compileComponents();
@@ -68,18 +69,17 @@ describe('CellComponent', () => {
     expect(component.fallHeight).toBe(GRID_ROWS - 1);
   });
 
-  it('can display coin for a player', async () => {
-    const playerA = new Player('A', 'Player A');
-    const playerB = new Player('B', 'Player B');
-    const getCoinEl = () => fixture.nativeElement.querySelector('.cell__coin');
+  it('can display coin', async () => {
+    const playerA = new Player('player-1', 'Player A');
+    const getCoinEl = () => fixture.nativeElement.querySelector('app-coin');
 
+    console.log(fixture.nativeElement, getCoinEl());
     // no coin is displayed at these grid coords
     expect(getCoinEl().style.opacity).toBe('0');
 
     // dispatch some coin plays
     store.dispatch(new Grid.Reset());
-    store.dispatch(new Grid.PlayCoin(playerA.id, 2));
-    store.dispatch(new Grid.PlayCoin(playerB.id, 2));
+    store.dispatch(new Grid.PlayCoin(playerA.color, 2));
 
     // reboot component
     component.row = 0;
@@ -91,14 +91,13 @@ describe('CellComponent', () => {
     expect(getCoinEl().style.opacity).toBe('0');
 
     // reboot component
-    component.row = 1;
+    component.row = 0;
     component.col = 2;
     component.ngOnInit();
     fixture.detectChanges();
 
-    // coin of player B is displayed at these grid coords
+    // coin is displayed at these grid coords
     expect(getCoinEl().style.opacity).toBe('1');
-    expect(getCoinEl().classList.contains('cell__coin--B')).toBe(true);
   });
 
   it('triggers play when clicked', () => {
