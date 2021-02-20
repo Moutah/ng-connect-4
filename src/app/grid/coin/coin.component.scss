@@ -3,6 +3,7 @@
 .coin {
   z-index: 1000;
   display: flex;
+  height: 100%;
 
   &::selection {
     background-color: transparent;
