@@ -9,6 +9,11 @@
   width: 75vw;
   max-width: 75vh;
 
+  &__title {
+    text-align: center;
+    margin-top: -64px;
+  }
+
   &__play-button {
     position: absolute;
     bottom: 3rem;
