@@ -1,4 +1,10 @@
 .app {
+  &__toolbar {
+    &--transparent {
+      background-color: transparent;
+    }
+  }
+
   &__content {
     height: calc(100vh - 56px);
     position: relative;

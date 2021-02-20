@@ -1,17 +1,19 @@
 <!-- App toolbar -->
 <mat-toolbar color="primary"
-             class="app__toolbar">
+             [class]="'app__toolbar ' + ((isHome$ | async) ? 'app__toolbar--transparent' : '')">
 
     <!-- App title -->
-    <div class="app__toolbar__title">
+    <a class="app__toolbar__title"
+       *ngIf="!(isHome$ | async)"
+       routerLink="/">
         ng<sup>4</sup>
-    </div>
+    </a>
 
 </mat-toolbar>
 
 <!-- Page content -->
-<div class="app__content">
+<main class="app__content">
 
     <router-outlet></router-outlet>
 
-</div>
+</main>
