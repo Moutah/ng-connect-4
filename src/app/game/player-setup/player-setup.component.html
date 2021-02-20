@@ -1,6 +1,10 @@
 <div class="player-setup">
     <div *ngIf="!(firstPlayer$ | async)">
 
+        <h2 class="player-setup__title mat-display-1">
+            Enter players name
+        </h2>
+
         <!-- Player 1 -->
         <mat-form-field appearance="standard">
             <mat-label>Player 1</mat-label>
@@ -37,15 +41,30 @@
         </div>
     </div>
 
-    <!-- Starting player announcement -->
+    <!-- Game starting announcement -->
     <div *ngIf="firstPlayer$ | async"
          class="player-setup__announcement">
 
-        <div class="player-setup__announcement__first-player mat-display-3">
-            {{(firstPlayer$ | async).name}}
-        </div>
-        <div class="player-setup__announcement__message mat-display-1">
-            will start!
-        </div>
+        <!-- Spinning coin -->
+        <ng-container *ngIf="!isAnnouncementReady">
+
+            <app-coin
+                      class="player-setup__announcement__coin player-setup__announcement__coin--spinning">
+            </app-coin>
+
+        </ng-container>
+
+        <!-- Starting player announcement -->
+        <ng-container *ngIf="isAnnouncementReady">
+
+            <app-coin [color]="(firstPlayer$ | async).color"
+                      class="player-setup__announcement__coin">
+            </app-coin>
+
+            <div class="player-setup__announcement__message mat-display-1">
+                {{(firstPlayer$ | async).name}} starts!
+            </div>
+
+        </ng-container>
     </div>
 </div>
