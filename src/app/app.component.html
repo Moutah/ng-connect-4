@@ -1,9 +1,10 @@
 <!-- App toolbar -->
 <mat-toolbar color="primary"
-             class="app__toolbar">
+             [class]="'app__toolbar ' + ((isHome$ | async) ? 'app__toolbar--transparent' : '')">
 
     <!-- App title -->
     <a class="app__toolbar__title"
+       *ngIf="!(isHome$ | async)"
        routerLink="/">
         ng<sup>4</sup>
     </a>
