@@ -11,10 +11,17 @@
             <app-timer [isRunning]="!(isGameOver$ | async)"></app-timer>
 
             <div class="game__playing__status">
+
+                <!-- Next player -->
                 <span *ngIf="!(isGameOver$ | async)">
+                    <app-coin class="game__playing__status__coin"
+                              [color]="(activePlayer$ | async)?.color"></app-coin>
                     {{(activePlayer$ | async)?.name}}'s turn
                 </span>
-                <span *ngIf="isGameOver$ | async">
+
+                <!-- Game is over -->
+                <span *ngIf="isGameOver$ | async"
+                      class="mat-display-1">
                     <span *ngIf="winner$ | async">
                         {{(winner$ | async).name}} won!
                     </span>

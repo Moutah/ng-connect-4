@@ -14,7 +14,7 @@ export class PlayerSetupComponent implements OnInit {
   firstPlayer$: Observable<Player>;
   isAnnouncementReady = false;
 
-  private announcementDuration = 2200;
+  private announcementDuration = 220;
 
   // default input values
   player1Name = 'Red';
