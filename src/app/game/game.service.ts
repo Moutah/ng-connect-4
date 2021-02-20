@@ -3,9 +3,9 @@ import { Store } from '@ngxs/store';
 import * as Grid from '../grid/state/actions';
 import * as Game from './state/actions';
 import { GameState } from './state';
-import { Player } from '../shared/player';
+import { Player } from './player';
 import { GridState } from '../grid/state';
-import { GridCoord } from '../shared/grid-coords';
+import { GridCoord } from '../grid/grid-coords';
 import { GRID_COLS, GRID_ROWS } from '../grid/config';
 
 @Injectable({
@@ -60,7 +60,7 @@ export class GameService {
 
     // play coin for active player
     const activePlayer = this.store.selectSnapshot(GameState.activePlayer);
-    this.store.dispatch(new Grid.PlayCoin(activePlayer, col));
+    this.store.dispatch(new Grid.PlayCoin(activePlayer.id, col));
 
     // get play values
     const row = gridCols[col].length - 1;

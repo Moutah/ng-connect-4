@@ -13,7 +13,7 @@ import { Actions, ofActionDispatched } from '@ngxs/store';
 import { Observable, zip } from 'rxjs';
 import * as Grid from '../grid/state/actions';
 import * as Game from './state/actions';
-import { Player } from '../shared/player';
+import { Player } from './player';
 import { GRID_COLS, GRID_ROWS } from '../grid/config';
 
 describe('GameService', () => {
@@ -120,7 +120,7 @@ describe('GameService', () => {
           continue;
         }
 
-        store.dispatch(new Grid.PlayCoin(players[1], col));
+        store.dispatch(new Grid.PlayCoin(players[1].id, col));
       }
     }
 
@@ -145,9 +145,9 @@ describe('GameService', () => {
     game.start();
 
     // set grid
-    store.dispatch(new Grid.PlayCoin(players[0], 2));
-    store.dispatch(new Grid.PlayCoin(players[0], 3));
-    store.dispatch(new Grid.PlayCoin(players[0], 4));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 3));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 4));
 
     // play winning move
     game.play(5);
@@ -170,9 +170,9 @@ describe('GameService', () => {
     game.start();
 
     // set grid
-    store.dispatch(new Grid.PlayCoin(players[0], 2));
-    store.dispatch(new Grid.PlayCoin(players[0], 2));
-    store.dispatch(new Grid.PlayCoin(players[0], 2));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
 
     // play winning move
     game.play(2);
@@ -195,18 +195,18 @@ describe('GameService', () => {
     game.start();
 
     // set grid
-    store.dispatch(new Grid.PlayCoin(players[1], 2));
-    store.dispatch(new Grid.PlayCoin(players[1], 2));
-    store.dispatch(new Grid.PlayCoin(players[1], 2));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 2));
 
-    store.dispatch(new Grid.PlayCoin(players[1], 3));
-    store.dispatch(new Grid.PlayCoin(players[1], 3));
-    store.dispatch(new Grid.PlayCoin(players[0], 3));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 3));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 3));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 3));
 
-    store.dispatch(new Grid.PlayCoin(players[1], 4));
-    store.dispatch(new Grid.PlayCoin(players[0], 4));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 4));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 4));
 
-    store.dispatch(new Grid.PlayCoin(players[0], 5));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 5));
 
     // play winning move
     game.play(2);
@@ -229,18 +229,18 @@ describe('GameService', () => {
     game.start();
 
     // set grid
-    store.dispatch(new Grid.PlayCoin(players[0], 2));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
 
-    store.dispatch(new Grid.PlayCoin(players[1], 3));
-    store.dispatch(new Grid.PlayCoin(players[0], 3));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 3));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 3));
 
-    store.dispatch(new Grid.PlayCoin(players[1], 4));
-    store.dispatch(new Grid.PlayCoin(players[1], 4));
-    store.dispatch(new Grid.PlayCoin(players[0], 4));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 4));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 4));
+    store.dispatch(new Grid.PlayCoin(players[0].id, 4));
 
-    store.dispatch(new Grid.PlayCoin(players[1], 5));
-    store.dispatch(new Grid.PlayCoin(players[1], 5));
-    store.dispatch(new Grid.PlayCoin(players[1], 5));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 5));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 5));
+    store.dispatch(new Grid.PlayCoin(players[1].id, 5));
 
     // play winning move
     game.play(5);

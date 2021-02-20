@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { GridCoord } from 'src/app/shared/grid-coords';
+import { GridCoord } from '../grid-coords';
 import { GRID_COLS, GRID_ROWS } from '../config';
 import { Reset, PlayCoin, HighlightCells } from './actions';
 
@@ -46,7 +46,7 @@ export class GridState {
     const cols = [...state.cols];
 
     // add the coin to targeted column
-    cols[action.col].push(action.player.id);
+    cols[action.col].push(action.ownerId);
 
     // update state
     ctx.patchState({ cols });

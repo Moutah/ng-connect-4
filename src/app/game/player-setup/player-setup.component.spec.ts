@@ -4,7 +4,7 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { Player } from '../../shared/player';
+import { Player } from '../player';
 import { GameService } from '../game.service';
 import { GameState } from '../state';
 import { NgxsModule, Store } from '@ngxs/store';

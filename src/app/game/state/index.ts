@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Player } from 'src/app/shared/player';
+import { Player } from '../player';
 import {
   End,
   NextPlayer,

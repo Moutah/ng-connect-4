@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { Player } from 'src/app/shared/player';
+import { Player } from '../player';
 import { GameState } from '.';
 import * as Game from './actions';
 

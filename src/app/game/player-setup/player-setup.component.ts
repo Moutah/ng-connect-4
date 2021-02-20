@@ -1,7 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Player } from 'src/app/shared/player';
+import { Player } from '../player';
 import { GameService } from '../game.service';
 import { GameState } from '../state';
 

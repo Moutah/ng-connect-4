@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameService } from 'src/app/game/game.service';
-import { GridCoord } from 'src/app/shared/grid-coords';
+import { GridCoord } from '../grid-coords';
 import { GRID_ROWS } from '../config';
 
 @Component({

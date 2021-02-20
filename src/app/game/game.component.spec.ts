@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Player } from '../shared/player';
+import { Player } from './player';
 import { GameComponent } from './game.component';
 import { GameService } from './game.service';
 import { GameState } from './state';

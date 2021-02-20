@@ -1,4 +1,4 @@
-import { Player } from 'src/app/shared/player';
+import { Player } from '../../player';
 
 export class SetPlayers {
   static readonly type = '[Game] Set player';

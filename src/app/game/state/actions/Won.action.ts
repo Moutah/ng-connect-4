@@ -1,4 +1,4 @@
-import { Player } from 'src/app/shared/player';
+import { Player } from '../../player';
 
 export class Won {
   static readonly type = '[Game] Game won';

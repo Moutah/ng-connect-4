@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { GameService } from 'src/app/game/game.service';
 import { MaterialModule } from 'src/app/material.module';
-import { Player } from 'src/app/shared/player';
+import { Player } from 'src/app/game/player';
 import { GRID_ROWS } from '../config';
 import { GridState } from '../state';
 import * as Grid from '../state/actions';
@@ -78,8 +78,8 @@ describe('CellComponent', () => {
 
     // dispatch some coin plays
     store.dispatch(new Grid.Reset());
-    store.dispatch(new Grid.PlayCoin(playerA, 2));
-    store.dispatch(new Grid.PlayCoin(playerB, 2));
+    store.dispatch(new Grid.PlayCoin(playerA.id, 2));
+    store.dispatch(new Grid.PlayCoin(playerB.id, 2));
 
     // reboot component
     component.row = 0;
