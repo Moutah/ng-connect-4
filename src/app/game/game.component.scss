@@ -5,9 +5,6 @@
   align-items: center;
   flex-direction: column;
   position: relative;
-  margin: auto;
-  width: 75vw;
-  max-width: 75vh;
 
   &__playing {
     width: 100%;
@@ -37,10 +34,9 @@
     }
 
     &__exit-button {
-      width: 75vw;
-      max-width: 75vh;
       position: absolute;
       bottom: 3rem;
+      width: 100%;
     }
   }
 }
