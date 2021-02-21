@@ -3,6 +3,26 @@
     &--transparent {
       background-color: transparent;
     }
+
+    &__menu-toggle {
+      height: auto;
+      padding-right: 1rem;
+
+      &--inverted {
+        color: #000;
+      }
+    }
+
+    &__title {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+
+  &__sidenav {
+    height: 100vh;
+    max-width: 66vw;
+    width: 260px;
   }
 
   &__content {
@@ -16,4 +36,8 @@
       height: calc(100vh - 64px);
     }
   }
+}
+
+.mat-drawer-container {
+  background-color: transparent;
 }
