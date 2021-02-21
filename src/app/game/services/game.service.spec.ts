@@ -1,20 +1,13 @@
-import {
-  fakeAsync,
-  flush,
-  flushMicrotasks,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { GameService } from './game.service';
-import { NgxsModule, Store } from '@ngxs/store';
-import { GameState } from './state';
-import { GridState } from '../grid/state';
-import { Actions, ofActionDispatched } from '@ngxs/store';
+import { NgxsModule, Store, Actions, ofActionDispatched } from '@ngxs/store';
+import { GameState } from '../state';
+import { GridState } from '../../grid/state';
 import { Observable, zip } from 'rxjs';
-import * as Grid from '../grid/state/actions';
-import * as Game from './state/actions';
-import { Player } from './player';
-import { GRID_COLS, GRID_ROWS } from '../grid/config';
+import * as Grid from '../../grid/state/actions';
+import * as Game from '../state/actions';
+import { Player } from '../player';
+import { GRID_COLS, GRID_ROWS } from '../../grid/config';
 
 describe('GameService', () => {
   let game: GameService;
@@ -30,6 +23,8 @@ describe('GameService', () => {
     store = TestBed.inject(Store);
     game = TestBed.inject(GameService);
     actions$ = TestBed.inject(Actions);
+
+    // setup game
     players = [new Player('p1', 'Batman'), new Player('p2', 'Superman')];
     game.setup(players[0], players[1]);
   });

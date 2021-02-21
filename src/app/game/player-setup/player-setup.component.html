@@ -24,11 +24,14 @@
             <input matInput
                    class="player-setup__player-name-input"
                    name="player2Name"
+                   [color]="primary"
                    [(ngModel)]="player2Name">
             <app-coin matSuffix
                       class="player-setup__player-name-input__suffix"
                       color="player-2"></app-coin>
         </mat-form-field>
+        <mat-checkbox [(ngModel)]="isPlayingAgainstAi"
+                      name="player2Ai">Player 2 is computer</mat-checkbox>
 
         <!-- Start button -->
         <div>
