@@ -46,4 +46,8 @@
             Home
         </a>
     </div>
+
+    <!-- Box glow -->
+    <div *ngIf="isGridUnveiled"
+         [class]="'game__glow game__glow--' +  (activePlayer$ | async)?.color"></div>
 </div>

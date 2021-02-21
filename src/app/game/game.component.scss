@@ -1,3 +1,5 @@
+@import "../../variables";
+
 .game {
   display: flex;
   height: 100%;
@@ -37,6 +39,27 @@
       position: absolute;
       bottom: 3rem;
       width: 100%;
+    }
+  }
+
+  &__glow {
+    position: fixed;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+
+    @media screen and (min-width: 600px) {
+      top: 64px;
+    }
+
+    &--player-1 {
+      box-shadow: 0 0 2rem -0.6rem $colorPlayer1 inset;
+    }
+
+    &--player-2 {
+      box-shadow: 0 0 2rem -0.6rem $colorPlayer2 inset;
     }
   }
 }

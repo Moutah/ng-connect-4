@@ -30,7 +30,6 @@ export class GameComponent implements OnInit {
 
     // unveil grid upon game starting
     this.isGameStarted$.subscribe(async (value) => {
-      console.log('isGameStarted$', value);
       if (value) {
         await this.unveilGame();
         this.isGridUnveiled = true;
