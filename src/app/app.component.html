@@ -1,17 +1,17 @@
 <!-- App toolbar -->
 <mat-toolbar color="primary"
-             [class]="'app__toolbar ' + ((isHome$ | async) ? 'app__toolbar--transparent' : '')">
+             [class]="'app__toolbar ' + (isHomePage ? 'app__toolbar--transparent' : '')">
 
     <!-- Menu toggle -->
     <button mat-icon-button
-            [class]="'app__toolbar__menu-toggle ' + ((isHome$ | async) ? 'app__toolbar__menu-toggle--inverted' : '')"
+            [class]="'app__toolbar__menu-toggle ' + (isHomePage ? 'app__toolbar__menu-toggle--inverted' : '')"
             (click)="snav.open()">
         <mat-icon>menu</mat-icon>
     </button>
 
     <!-- App title -->
     <div class="app__toolbar__title"
-         *ngIf="!(isHome$ | async)"
+         *ngIf="!isHomePage"
          routerLink="/">
         ng<sup>4</sup>
     </div>
@@ -39,11 +39,18 @@
                routerLink="/how-to-play"
                i18n>How to play</a>
 
-            <a mat-list-item
-               *ngIf="(isGameStarted$ | async)"
-               (click)="abandonGame()"
-               routerLink="/"
-               i18n>Abandon game</a>
+            <div *ngIf="isGameStarted">
+                <a mat-list-item
+                   *ngIf="isGamePage"
+                   (click)="abandonGame()"
+                   routerLink="/"
+                   i18n>Abandon game</a>
+
+                <a mat-list-item
+                   *ngIf="!isGamePage"
+                   routerLink="/game"
+                   i18n>Back to game</a>
+            </div>
 
             <mat-divider></mat-divider>
 
