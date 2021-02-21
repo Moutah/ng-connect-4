@@ -45,6 +45,7 @@
     width: 82vw;
     max-width: 72vh;
     margin: auto;
+    padding: 0 1rem;
 
     @media screen and (min-width: 600px) {
       height: calc(100vh - 64px);
