@@ -3,7 +3,6 @@
 .cell {
   height: 0;
   padding-bottom: 100%;
-  border: 1px solid #000;
   cursor: pointer;
   position: relative;
 
@@ -26,6 +25,32 @@
 
     &--hidden {
       opacity: 0;
+    }
+  }
+
+  &__outline {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 3px;
+
+    circle {
+      color: #000;
+      stroke-width: 1px;
+      stroke-dasharray: 314;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.6s linear;
+    }
+
+    &--hidden {
+      circle {
+        stroke-dashoffset: 314;
+      }
     }
   }
 

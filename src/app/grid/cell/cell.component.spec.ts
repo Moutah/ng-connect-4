@@ -71,11 +71,13 @@ describe('CellComponent', () => {
 
   it('can display coin', async () => {
     const playerA = new Player('player-1', 'Player A');
-    const getCoinEl = () => fixture.nativeElement.querySelector('app-coin');
+    const getCellContentEl = () =>
+      fixture.nativeElement.querySelector('.cell__content');
 
-    console.log(fixture.nativeElement, getCoinEl());
     // no coin is displayed at these grid coords
-    expect(getCoinEl().style.opacity).toBe('0');
+    expect(getCellContentEl().classList.contains('cell__content--hidden')).toBe(
+      true
+    );
 
     // dispatch some coin plays
     store.dispatch(new Grid.Reset());
@@ -88,7 +90,9 @@ describe('CellComponent', () => {
     fixture.detectChanges();
 
     // no coin displayed at these grid coords
-    expect(getCoinEl().style.opacity).toBe('0');
+    expect(getCellContentEl().classList.contains('cell__content--hidden')).toBe(
+      true
+    );
 
     // reboot component
     component.row = 0;
@@ -97,7 +101,9 @@ describe('CellComponent', () => {
     fixture.detectChanges();
 
     // coin is displayed at these grid coords
-    expect(getCoinEl().style.opacity).toBe('1');
+    expect(getCellContentEl().classList.contains('cell__content--hidden')).toBe(
+      false
+    );
   });
 
   it('triggers play when clicked', () => {

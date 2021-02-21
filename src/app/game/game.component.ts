@@ -15,6 +15,8 @@ export class GameComponent implements OnInit {
   isGameOver$: Observable<boolean>;
   activePlayer$: Observable<Player>;
   winner$: Observable<Player>;
+  isGridVeiled: boolean;
+  isGridUnveiled: boolean;
 
   constructor(private store: Store, private game: GameService) {}
 
@@ -23,6 +25,29 @@ export class GameComponent implements OnInit {
     this.isGameOver$ = this.store.select(GameState.isOver);
     this.activePlayer$ = this.store.select(GameState.activePlayer);
     this.winner$ = this.store.select(GameState.winner);
+    this.isGridVeiled = true;
+    this.isGridUnveiled = false;
+
+    // unveil grid upon game starting
+    this.isGameStarted$.subscribe(async (value) => {
+      console.log('isGameStarted$', value);
+      if (value) {
+        await this.unveilGame();
+        this.isGridUnveiled = true;
+      }
+    });
+  }
+
+  private unveilGame(): Promise<void> {
+    return new Promise((resolve) => {
+      // defer game unveiling to trigger animation
+      window.setTimeout(() => {
+        this.isGridVeiled = false;
+      }, 10);
+
+      // wait for css animation
+      window.setTimeout(resolve, 800);
+    });
   }
 
   /**

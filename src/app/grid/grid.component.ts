@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GRID_COLS, GRID_ROWS } from './config';
 
 @Component({
@@ -7,6 +7,8 @@ import { GRID_COLS, GRID_ROWS } from './config';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit {
+  @Input() isVeiled: boolean;
+
   rows = [];
   cols = [];
 

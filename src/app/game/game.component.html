@@ -8,7 +8,7 @@
 
         <!-- Game status -->
         <header class="game__playing__header">
-            <app-timer [isRunning]="!(isGameOver$ | async)"></app-timer>
+            <app-timer [isRunning]="isGridUnveiled && !(isGameOver$ | async)"></app-timer>
 
             <div class="game__playing__status">
 
@@ -33,7 +33,8 @@
         </header>
 
         <!-- Game grid -->
-        <app-grid class="game__playing__grid"></app-grid>
+        <app-grid class="game__playing__grid"
+                  [isVeiled]="isGridVeiled"></app-grid>
 
         <!-- Home button -->
         <a *ngIf="isGameOver$ | async"

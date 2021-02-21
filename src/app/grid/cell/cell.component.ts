@@ -13,6 +13,7 @@ import { GRID_ROWS } from '../config';
 export class CellComponent implements OnInit {
   @Input() row: number;
   @Input() col: number;
+  @Input() isVeiled: boolean;
 
   cellContent$: Observable<string>;
   isHighlighted$: Observable<boolean>;
