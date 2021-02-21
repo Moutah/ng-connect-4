@@ -1,17 +1,17 @@
 <!-- App toolbar -->
 <mat-toolbar color="primary"
-             [class]="'app__toolbar ' + ((isHome$ | async) ? 'app__toolbar--transparent' : '')">
+             [class]="'app__toolbar ' + (isHomePage ? 'app__toolbar--transparent' : '')">
 
     <!-- Menu toggle -->
     <button mat-icon-button
-            [class]="'app__toolbar__menu-toggle ' + ((isHome$ | async) ? 'app__toolbar__menu-toggle--inverted' : '')"
+            [class]="'app__toolbar__menu-toggle ' + (isHomePage ? 'app__toolbar__menu-toggle--inverted' : '')"
             (click)="snav.open()">
         <mat-icon>menu</mat-icon>
     </button>
 
     <!-- App title -->
     <div class="app__toolbar__title"
-         *ngIf="!(isHome$ | async)"
+         *ngIf="!isHomePage"
          routerLink="/">
         ng<sup>4</sup>
     </div>
@@ -32,24 +32,49 @@
             </div>
 
             <a mat-list-item
-               routerLink="/">Home</a>
+               routerLink="/"
+               i18n>Home</a>
 
             <a mat-list-item
-               routerLink="/how-to-play">How to play</a>
+               routerLink="/how-to-play"
+               i18n>How to play</a>
 
-            <a mat-list-item
-               *ngIf="(isGameStarted$ | async)"
-               (click)="abandonGame()"
-               routerLink="/">Abandon game</a>
+            <div *ngIf="isGameStarted">
+                <a mat-list-item
+                   *ngIf="isGamePage"
+                   (click)="abandonGame()"
+                   routerLink="/"
+                   i18n>Abandon game</a>
+
+                <a mat-list-item
+                   *ngIf="!isGamePage"
+                   routerLink="/game"
+                   i18n>Back to game</a>
+            </div>
 
             <mat-divider></mat-divider>
 
             <a mat-list-item
-               (click)="setTheme(otherTheme)">{{otherTheme | titlecase}} mode</a>
+               (click)="setTheme(otherTheme)">
+                <span *ngIf="otherTheme === 'dark'"
+                      i18n>Dark mode</span>
+                <span *ngIf="otherTheme === 'light'"
+                      i18n>Light mode</span>
+            </a>
 
-            <a mat-list-item>Close menu</a>
+            <a mat-list-item
+               i18n>Close</a>
         </mat-nav-list>
+
+        <div class="app__sidenav__lang-menu">
+            <a [href]="appDomainUrl"
+               mat-button>En</a>
+            <a [href]="appDomainUrl + '/fr'"
+               mat-button>Fr</a>
+        </div>
+
     </mat-sidenav>
+
 
     <!-- Page content -->
     <mat-sidenav-content class="app__content">

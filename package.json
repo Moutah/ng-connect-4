@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --configuration=en",
     "build": "ng build",
+    "build:prod": "ng build --prod --localize",
     "test": "ng test",
     "test:ci": "ng test --sourceMap=false --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy:ghpages": "ng deploy --repo=https://github.com/Moutah/ng-connect-four.git --base-href=https://moutah.github.io/ng-connect-four/ --name=Moutah --email=mathieu.tappolet@ik.me"
+    "deploy:ghpages": "ng deploy"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +33,7 @@
     "@angular-devkit/build-angular": "~0.1002.2",
     "@angular/cli": "~10.2.2",
     "@angular/compiler-cli": "~10.2.4",
+    "@angular/localize": "^10.2.4",
     "@ngrx/store": "^11.0.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",

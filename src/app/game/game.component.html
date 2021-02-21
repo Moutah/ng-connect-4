@@ -17,16 +17,18 @@
                 <span *ngIf="!(isGameOver$ | async)">
                     <app-coin class="game__playing__status__coin"
                               [color]="(activePlayer$ | async)?.color"></app-coin>
-                    {{(activePlayer$ | async)?.name}}'s turn
+                    {{(activePlayer$ | async)?.name}}
+                    <span i18n>is playing</span>
                 </span>
 
                 <!-- Game is over -->
                 <span *ngIf="isGameOver$ | async"
                       class="mat-display-1">
                     <span *ngIf="winner$ | async">
-                        {{(winner$ | async).name}} won!
+                        {{(winner$ | async).name}} <span i18n>won!</span>
                     </span>
-                    <span *ngIf="!(winner$ | async)">
+                    <span *ngIf="!(winner$ | async)"
+                          i18n>
                         Draw!
                     </span>
                 </span>
@@ -37,15 +39,27 @@
         <app-grid class="game__playing__grid"
                   [isVeiled]="isGridVeiled"></app-grid>
 
-        <!-- Home button -->
-        <a *ngIf="isGameOver$ | async"
-           mat-flat-button
-           color="primary"
-           class="game__playing__exit-button"
-           routerLink="/"
-           (click)="onExitGame()">
-            Home
-        </a>
+        <!-- Buttons after game -->
+        <div *ngIf="isGameOver$ | async"
+             class="game__playing__end-buttons">
+
+            <a mat-flat-button
+               class="game__playing__end-buttons__button"
+               color="primary"
+               routerLink="/game"
+               (click)="onExitGame()"
+               i18n>
+                New Game
+            </a>
+            <a mat-flat-button
+               class="game__playing__end-buttons__button"
+               color="primary"
+               routerLink="/"
+               (click)="onExitGame()"
+               i18n>
+                Home
+            </a>
+        </div>
     </div>
 
     <!-- Box glow -->
