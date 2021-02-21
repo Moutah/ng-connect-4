@@ -4,6 +4,7 @@
     <body>
       <trans-unit id="92eee6be6de0b11c924e3ab27db30257159c0a7c" datatype="html">
         <source>Home</source>
+        <target>Accueil</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">36</context>
@@ -78,6 +79,7 @@
       </trans-unit>
       <trans-unit id="2005687286cbe104e63906f6e5d3c23b8f6586df" datatype="html">
         <source> Connect 4 game made with Angular </source>
+        <target> Puissance 4 fait avec Angular </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/home/home.component.html</context>
           <context context-type="linenumber">8,9</context>
