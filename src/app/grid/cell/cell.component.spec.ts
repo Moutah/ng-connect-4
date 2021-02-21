@@ -7,6 +7,7 @@ import { GRID_ROWS } from '../config';
 import { GridState } from '../state';
 import * as Grid from '../state/actions';
 import { CellComponent } from './cell.component';
+import { CoinComponent } from '../coin/coin.component';
 
 const gameServiceStub = {
   play: (col: number) => {},
@@ -19,7 +20,7 @@ describe('CellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CellComponent],
+      declarations: [CellComponent, CoinComponent],
       imports: [MaterialModule, NgxsModule.forRoot([GridState])],
       providers: [{ provide: GameService, useValue: gameServiceStub }],
     }).compileComponents();
@@ -37,18 +38,9 @@ describe('CellComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('can display as highlighted', () => {
+  it('can display as dimmed', () => {
     component.col = 1;
     component.row = 1;
-
-    // dispatch highlight of other cell
-    store.dispatch(new Grid.HighlightCells([{ col: 1, row: 0 }]));
-    fixture.detectChanges();
-    expect(
-      fixture.nativeElement
-        .querySelector('.cell')
-        .classList.contains('cell--highlighted')
-    ).toBe(false);
 
     // dispatch highlight of this cell
     store.dispatch(new Grid.HighlightCells([{ col: 1, row: 1 }]));
@@ -56,7 +48,16 @@ describe('CellComponent', () => {
     expect(
       fixture.nativeElement
         .querySelector('.cell')
-        .classList.contains('cell--highlighted')
+        .classList.contains('cell--dimmed')
+    ).toBe(false);
+
+    // dispatch highlight of other cell
+    store.dispatch(new Grid.HighlightCells([{ col: 1, row: 0 }]));
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement
+        .querySelector('.cell')
+        .classList.contains('cell--dimmed')
     ).toBe(true);
   });
 
@@ -68,18 +69,19 @@ describe('CellComponent', () => {
     expect(component.fallHeight).toBe(GRID_ROWS - 1);
   });
 
-  it('can display coin for a player', async () => {
-    const playerA = new Player('A', 'Player A');
-    const playerB = new Player('B', 'Player B');
-    const getCoinEl = () => fixture.nativeElement.querySelector('.cell__coin');
+  it('can display coin', async () => {
+    const playerA = new Player('player-1', 'Player A');
+    const getCellContentEl = () =>
+      fixture.nativeElement.querySelector('.cell__content');
 
     // no coin is displayed at these grid coords
-    expect(getCoinEl().style.opacity).toBe('0');
+    expect(getCellContentEl().classList.contains('cell__content--hidden')).toBe(
+      true
+    );
 
     // dispatch some coin plays
     store.dispatch(new Grid.Reset());
-    store.dispatch(new Grid.PlayCoin(playerA.id, 2));
-    store.dispatch(new Grid.PlayCoin(playerB.id, 2));
+    store.dispatch(new Grid.PlayCoin(playerA.color, 2));
 
     // reboot component
     component.row = 0;
@@ -88,17 +90,20 @@ describe('CellComponent', () => {
     fixture.detectChanges();
 
     // no coin displayed at these grid coords
-    expect(getCoinEl().style.opacity).toBe('0');
+    expect(getCellContentEl().classList.contains('cell__content--hidden')).toBe(
+      true
+    );
 
     // reboot component
-    component.row = 1;
+    component.row = 0;
     component.col = 2;
     component.ngOnInit();
     fixture.detectChanges();
 
-    // coin of player B is displayed at these grid coords
-    expect(getCoinEl().style.opacity).toBe('1');
-    expect(getCoinEl().classList.contains('cell__coin--B')).toBe(true);
+    // coin is displayed at these grid coords
+    expect(getCellContentEl().classList.contains('cell__content--hidden')).toBe(
+      false
+    );
   });
 
   it('triggers play when clicked', () => {

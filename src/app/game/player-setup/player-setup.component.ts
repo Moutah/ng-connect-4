@@ -12,7 +12,11 @@ import { GameState } from '../state';
 })
 export class PlayerSetupComponent implements OnInit {
   firstPlayer$: Observable<Player>;
+  isAnnouncementReady = false;
 
+  private announcementDuration = 1600;
+
+  // default input values
   player1Name = 'Red';
   player2Name = 'Yellow';
 
@@ -28,11 +32,16 @@ export class PlayerSetupComponent implements OnInit {
   onStartGame(): void {
     // set players
     this.game.setup(
-      new Player('p1', this.player1Name),
-      new Player('p2', this.player2Name)
+      new Player('player-1', this.player1Name),
+      new Player('player-2', this.player2Name)
     );
 
+    // hide announcement animation
+    setTimeout(() => {
+      this.isAnnouncementReady = true;
+    }, this.announcementDuration * 0.6);
+
     // starts the game after quick wait to display starting player
-    setTimeout(() => this.game.start(), 2200);
+    setTimeout(() => this.game.start(), 1.6 * this.announcementDuration);
   }
 }

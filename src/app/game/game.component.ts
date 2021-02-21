@@ -16,6 +16,10 @@ export class GameComponent implements OnInit {
   activePlayer$: Observable<Player>;
   winner$: Observable<Player>;
 
+  isGridVeiled: boolean;
+  isGridUnveiled: boolean;
+  timerOffset = 0;
+
   constructor(private store: Store, private game: GameService) {}
 
   ngOnInit(): void {
@@ -23,6 +27,41 @@ export class GameComponent implements OnInit {
     this.isGameOver$ = this.store.select(GameState.isOver);
     this.activePlayer$ = this.store.select(GameState.activePlayer);
     this.winner$ = this.store.select(GameState.winner);
+    this.isGridVeiled = true;
+    this.isGridUnveiled = false;
+
+    // sets timer offset
+    this.store.selectSnapshot((state) => {
+      // no start timestamp in store
+      if (!state.game.startTimestamp) {
+        this.timerOffset = 0;
+        return;
+      }
+
+      // calc offset in seconds
+      const now = new Date().getTime();
+      this.timerOffset = Math.round((now - state.game.startTimestamp) / 1000);
+    });
+
+    // unveil grid upon game starting
+    this.isGameStarted$.subscribe(async (value) => {
+      if (value) {
+        await this.unveilGame();
+        this.isGridUnveiled = true;
+      }
+    });
+  }
+
+  private unveilGame(): Promise<void> {
+    return new Promise((resolve) => {
+      // defer game unveiling to trigger animation
+      window.setTimeout(() => {
+        this.isGridVeiled = false;
+      }, 10);
+
+      // wait for css animation
+      window.setTimeout(resolve, 800);
+    });
   }
 
   /**

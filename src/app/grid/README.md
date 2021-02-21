@@ -10,4 +10,4 @@ The `GridState` holds the coins tha have been played already and the coins that 
 >
 > `GridState` holds the coins in a { **col**, **row** } coordinate system. While this is not the usual { row, col } model, it is more convenient to store coins that need to "fall" down their column.
 
-The `GridState` holds coins information as id of their owner. While all columns will exist in the `gridCols` state, they will only have items where ther is a coin. In other words, it does not hold and "empty cell" value. That information is inferred if the `gridCols[col][row]` value is undefined.
+The `GridState` holds coins information using the color of their owner. While all columns will exist in the `gridCols` state, they will only have items where ther is a coin. In other words, it does not hold and "empty cell" value. That information is inferred if the `gridCols[col][row]` value is undefined.

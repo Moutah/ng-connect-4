@@ -2,10 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Player } from './player';
 import { GameComponent } from './game.component';
 import { GameService } from './game.service';
+import * as Game from './state/actions';
 import { GameState } from './state';
 import { NgxsModule, Store } from '@ngxs/store';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const gameServiceStub = {
   clear: () => {},
@@ -59,6 +62,42 @@ describe('GameComponent', () => {
 
     const gamePlayingEl = fixture.nativeElement.querySelector('.game__playing');
     expect(gamePlayingEl).toBeTruthy();
+  });
+
+  // TODO: leverage fakeAsync to make test synchronous
+  it('calc offset based on game state', async () => {
+    // start the game
+    store.dispatch(new Game.Start());
+    expect(component.timerOffset).toBe(0);
+
+    await sleep(1000);
+
+    // reboot component
+    component.ngOnInit();
+    expect(component.timerOffset).toBe(1);
+  });
+
+  // TODO: leverage fakeAsync to make test synchronous
+  it('unveils game upon start', async () => {
+    // initial state
+    expect(component.isGridVeiled).toBe(true);
+    expect(component.isGridUnveiled).toBe(false);
+
+    // trigger observable
+    store.dispatch(Game.Start);
+    fixture.detectChanges();
+
+    // unveil started
+    await sleep(100);
+    fixture.detectChanges();
+    expect(component.isGridVeiled).toBe(false);
+    expect(component.isGridUnveiled).toBe(false);
+
+    // unveil finished after 1s
+    await sleep(1000);
+    fixture.detectChanges();
+    expect(component.isGridVeiled).toBe(false);
+    expect(component.isGridUnveiled).toBe(true);
   });
 
   it('displays active player if game started and not over', () => {

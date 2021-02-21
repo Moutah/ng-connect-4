@@ -29,9 +29,9 @@ describe('GridState', () => {
     let cols: number[][];
 
     // fill the grid
-    store.dispatch(new Grid.PlayCoin(players[0].id, 1));
-    store.dispatch(new Grid.PlayCoin(players[1].id, 2));
-    store.dispatch(new Grid.PlayCoin(players[0].id, 3));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 1));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 3));
     cols = getGridCols();
     expect(cols.every((col) => col.length === 0)).toBe(true);
 
@@ -49,17 +49,17 @@ describe('GridState', () => {
     store.dispatch(new Grid.Reset());
 
     // play first coin
-    store.dispatch(new Grid.PlayCoin(players[0].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
 
     // col 2 has exactly 1 coin of player 1
     const cols = getGridCols();
-    expect(cols[2]).toEqual([players[0].id]);
+    expect(cols[2]).toEqual([players[0].color]);
 
     // play coin for other player
-    store.dispatch(new Grid.PlayCoin(players[1].id, 2));
+    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
 
     // col 2 now has 1 coin of each player
-    expect(cols[2]).toEqual([players[0].id, players[1].id]);
+    expect(cols[2]).toEqual([players[0].color, players[1].color]);
   });
 
   it('can set some cells as highlighted', () => {

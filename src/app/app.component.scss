@@ -1,10 +1,54 @@
 .app {
-  &__content {
-    height: calc(100vh - 56px);
-    position: relative;
+  &__toolbar {
+    &--transparent {
+      background-color: transparent !important;
+    }
 
-    @media screen and (min-width: 600px) {
-      height: calc(100vh - 64px);
+    &__menu-toggle {
+      height: auto;
+      padding-right: 1rem;
+
+      &--inverted {
+        color: var(--color-text);
+      }
+    }
+
+    &__title {
+      text-decoration: none;
+      color: var(--color-text-white);
     }
   }
+
+  &__sidenav {
+    height: 100vh;
+    max-width: 66vw;
+    width: 260px;
+
+    .mat-list-base {
+      padding-top: 0;
+    }
+
+    &__logo {
+      background: var(--color-primary);
+      color: var(--color-text-white);
+      height: 140px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
+    }
+  }
+
+  &__content {
+    height: calc(100vh - var(--toolbar-height));
+    position: relative;
+    width: 82vw;
+    max-width: 72vh;
+    margin: auto;
+    padding: 0 1rem;
+  }
+}
+
+.mat-drawer-container {
+  background-color: transparent;
 }

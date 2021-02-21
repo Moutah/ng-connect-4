@@ -1,0 +1,17 @@
+.coin {
+  z-index: 1000;
+  display: flex;
+  height: 100%;
+
+  &::selection {
+    background-color: transparent;
+  }
+
+  &--player-1 {
+    color: var(--color-player-1);
+  }
+
+  &--player-2 {
+    color: var(--color-player-2);
+  }
+}

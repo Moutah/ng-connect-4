@@ -1,6 +1,10 @@
 <div class="player-setup">
     <div *ngIf="!(firstPlayer$ | async)">
 
+        <h2 class="player-setup__title mat-display-1">
+            Enter players name
+        </h2>
+
         <!-- Player 1 -->
         <mat-form-field appearance="standard">
             <mat-label>Player 1</mat-label>
@@ -8,8 +12,9 @@
                    class="player-setup__player-name-input"
                    name="player1Name"
                    [(ngModel)]="player1Name">
-            <mat-icon matSuffix
-                      class="player-setup__player-name-input__color1">stop_circle</mat-icon>
+            <app-coin matSuffix
+                      class="player-setup__player-name-input__suffix"
+                      color="player-1"></app-coin>
 
         </mat-form-field>
 
@@ -20,8 +25,9 @@
                    class="player-setup__player-name-input"
                    name="player2Name"
                    [(ngModel)]="player2Name">
-            <mat-icon matSuffix
-                      class="player-setup__player-name-input__color2">stop_circle</mat-icon>
+            <app-coin matSuffix
+                      class="player-setup__player-name-input__suffix"
+                      color="player-2"></app-coin>
         </mat-form-field>
 
         <!-- Start button -->
@@ -35,15 +41,30 @@
         </div>
     </div>
 
-    <!-- Starting player announcement -->
+    <!-- Game starting announcement -->
     <div *ngIf="firstPlayer$ | async"
          class="player-setup__announcement">
 
-        <div class="player-setup__announcement__first-player mat-display-3">
-            {{(firstPlayer$ | async).name}}
-        </div>
-        <div class="player-setup__announcement__message mat-display-1">
-            will start!
-        </div>
+        <!-- Spinning coin -->
+        <ng-container *ngIf="!isAnnouncementReady">
+
+            <app-coin
+                      class="player-setup__announcement__coin player-setup__announcement__coin--spinning">
+            </app-coin>
+
+        </ng-container>
+
+        <!-- Starting player announcement -->
+        <ng-container *ngIf="isAnnouncementReady">
+
+            <app-coin [color]="(firstPlayer$ | async).color"
+                      class="player-setup__announcement__coin">
+            </app-coin>
+
+            <div class="player-setup__announcement__message mat-display-1">
+                {{(firstPlayer$ | async).name}} starts!
+            </div>
+
+        </ng-container>
     </div>
 </div>

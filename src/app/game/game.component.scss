@@ -5,9 +5,6 @@
   align-items: center;
   flex-direction: column;
   position: relative;
-  margin: auto;
-  width: 75vw;
-  max-width: 75vh;
 
   &__playing {
     width: 100%;
@@ -20,19 +17,43 @@
       text-align: center;
     }
 
+    &__status {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+
+      &__coin {
+        height: 1rem;
+        display: inline-flex;
+        margin-right: 0.4rem;
+      }
+    }
+
     &__grid {
       margin: auto;
       padding-bottom: 3rem;
     }
 
     &__exit-button {
-      text-align: center;
-      font-size: 1.6rem;
-      padding: 0.6rem;
-      width: 75vw;
-      max-width: 75vh;
       position: absolute;
       bottom: 3rem;
+      width: 100%;
+    }
+  }
+
+  &__glow {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    top: var(--toolbar-height);
+
+    &--player-1 {
+      box-shadow: 0 0 2rem -0.6rem var(--color-player-1) inset;
+    }
+
+    &--player-2 {
+      box-shadow: 0 0 2rem -0.6rem var(--color-player-2) inset;
     }
   }
 }
