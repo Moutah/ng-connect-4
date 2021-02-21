@@ -13,6 +13,7 @@ import { GameState } from '../state';
 export class PlayerSetupComponent implements OnInit {
   firstPlayer$: Observable<Player>;
   isAnnouncementReady = false;
+  isPlayingAgainstAi = true;
 
   private announcementDuration = 1600;
 
@@ -33,7 +34,7 @@ export class PlayerSetupComponent implements OnInit {
     // set players
     this.game.setup(
       new Player('player-1', this.player1Name),
-      new Player('player-2', this.player2Name)
+      new Player('player-2', this.player2Name, this.isPlayingAgainstAi)
     );
 
     // hide announcement animation
