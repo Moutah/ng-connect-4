@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { GameService } from 'src/app/game/game.service';
+import { GameService } from 'src/app/game/services/game.service';
 import { MaterialModule } from 'src/app/material.module';
 import { Player } from 'src/app/game/player';
 import { GRID_ROWS } from '../config';

@@ -3,7 +3,7 @@ import { Router, RouterEvent } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { GameService } from './game/game.service';
+import { GameService } from './game/services/game.service';
 import { GameState } from './game/state';
 
 @Component({

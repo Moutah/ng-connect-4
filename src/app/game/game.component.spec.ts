@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Player } from './player';
 import { GameComponent } from './game.component';
-import { GameService } from './game.service';
+import { GameService } from './services/game.service';
 import * as Game from './state/actions';
 import { GameState } from './state';
 import { NgxsModule, Store } from '@ngxs/store';

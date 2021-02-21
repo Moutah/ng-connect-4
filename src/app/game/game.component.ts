@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Player } from './player';
-import { GameService } from './game.service';
+import { GameService } from './services/game.service';
 import { GameState } from './state';
 
 @Component({

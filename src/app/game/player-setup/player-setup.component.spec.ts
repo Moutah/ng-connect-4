@@ -5,7 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { Player } from '../player';
-import { GameService } from '../game.service';
+import { GameService } from '../services/game.service';
 import { GameState } from '../state';
 import { NgxsModule, Store } from '@ngxs/store';
 import { FormsModule } from '@angular/forms';
