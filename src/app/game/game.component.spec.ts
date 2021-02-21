@@ -1,17 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Player } from './player';
 import { GameComponent } from './game.component';
-import { GameService } from './game.service';
+import { GameService } from './services/game.service';
 import * as Game from './state/actions';
 import { GameState } from './state';
 import { NgxsModule, Store } from '@ngxs/store';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
+import { AiService } from './services/ai.service';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const gameServiceStub = {
   clear: () => {},
+};
+const aiServiceStub = {
+  awake: () => {},
 };
 
 describe('GameComponent', () => {
@@ -33,7 +37,10 @@ describe('GameComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [GameComponent],
       imports: [FormsModule, NgxsModule.forRoot([GameState])],
-      providers: [{ provide: GameService, useValue: gameServiceStub }],
+      providers: [
+        { provide: GameService, useValue: gameServiceStub },
+        { provide: AiService, useValue: aiServiceStub },
+      ],
     }).compileComponents();
 
     store = TestBed.inject(Store);
@@ -47,6 +54,14 @@ describe('GameComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('awakes ai', () => {
+    const aiAwakeSpy = spyOn(aiServiceStub, 'awake');
+
+    // reboot component
+    component.ngOnInit();
+    expect(aiAwakeSpy).toHaveBeenCalled();
   });
 
   it('displays player setup if game not started', () => {

@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import { AppComponent } from './app.component';
-import { GameService } from './game/game.service';
+import { GameService } from './game/services/game.service';
 import { GameState } from './game/state';
 
 const gameServiceStub = {

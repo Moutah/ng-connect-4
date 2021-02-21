@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import * as Grid from '../grid/state/actions';
-import * as Game from './state/actions';
-import { GameState } from './state';
-import { Player } from './player';
-import { GridState } from '../grid/state';
-import { GridCoord } from '../grid/grid-coords';
-import { GRID_COLS, GRID_ROWS } from '../grid/config';
+import * as Grid from '../../grid/state/actions';
+import * as Game from '../state/actions';
+import { GameState } from '../state';
+import { Player } from '../player';
+import { GridState } from '../../grid/state';
+import { GridCoord } from '../../grid/grid-coords';
+import { GRID_COLS, GRID_ROWS } from '../../grid/config';
 
 @Injectable({
   providedIn: 'root',

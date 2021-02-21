@@ -5,12 +5,14 @@ import {
   tick,
 } from '@angular/core/testing';
 import { Player } from '../player';
-import { GameService } from '../game.service';
+import { GameService } from '../services/game.service';
 import { GameState } from '../state';
 import { NgxsModule, Store } from '@ngxs/store';
 import { FormsModule } from '@angular/forms';
 import { PlayerSetupComponent } from './player-setup.component';
 import { of } from 'rxjs';
+import { MaterialModule } from 'src/app/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const gameServiceStub = {
   setup: (p1: Player, p2: Player) => {},
@@ -22,12 +24,15 @@ describe('PlayerSetupComponent', () => {
   let fixture: ComponentFixture<PlayerSetupComponent>;
   let store: Store;
 
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PlayerSetupComponent],
-      imports: [FormsModule, NgxsModule.forRoot([GameState])],
+      imports: [
+        FormsModule,
+        MaterialModule,
+        BrowserAnimationsModule,
+        NgxsModule.forRoot([GameState]),
+      ],
       providers: [{ provide: GameService, useValue: gameServiceStub }],
     }).compileComponents();
 
@@ -56,9 +61,9 @@ describe('PlayerSetupComponent', () => {
     );
 
     // change values
-    player1NameInput.value = 'Batman';
+    player1NameInput.value = 'Joker';
     player1NameInput.dispatchEvent(new Event('input'));
-    player2NameInput.value = 'Superman';
+    player2NameInput.value = 'Lex';
     player2NameInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -67,8 +72,29 @@ describe('PlayerSetupComponent', () => {
 
     // game service has been called
     expect(gameSetupSpy).toHaveBeenCalledWith(
-      jasmine.objectContaining({ name: 'Batman' }),
-      jasmine.objectContaining({ name: 'Superman' })
+      jasmine.objectContaining({ name: 'Joker' }),
+      jasmine.objectContaining({ name: 'Lex' })
+    );
+  });
+
+  it('can setup the game with player 2 as AI', () => {
+    const gameSetupSpy = spyOn(gameServiceStub, 'setup');
+
+    // tick AI checkbox
+    const player2AiCheckbox = fixture.nativeElement.querySelector(
+      'input[name="player2Ai"]'
+    );
+    player2AiCheckbox.click();
+    player2AiCheckbox.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    // clic start
+    fixture.nativeElement.querySelector('.player-setup__finish-button').click();
+
+    // game service has been called
+    expect(gameSetupSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining({ name: 'Batman', isAi: false }),
+      jasmine.objectContaining({ name: 'Superman', isAi: true })
     );
   });
 
