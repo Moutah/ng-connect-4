@@ -1,4 +1,5 @@
 <div class="grid">
+
     <!-- Cells -->
     <div class="grid__row"
          *ngFor="let iRow of rows">
@@ -6,7 +7,10 @@
         <app-cell *ngFor="let iCol of cols"
                   [row]="iRow"
                   [col]="iCol"
-                  [isVeiled]="isVeiled">
+                  [class]="'grid__row__cell ' + (hoveredCol === iCol ? 'grid__row__cell--hover' : '')"
+                  [isVeiled]="isVeiled"
+                  (mouseover)="setHoverCol(iCol)"
+                  (mouseout)="clearHoverCol()">
         </app-cell>
 
     </div>
