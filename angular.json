@@ -113,16 +113,24 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
-          "options": {}
+          "options": {
+            "repo": "https://github.com/Moutah/ng-connect-four.git",
+            "name": "Moutah",
+            "email": "mathieu.tappolet@ik.me",
+            "noBuild": true
+          }
         }
       },
       "i18n": {
         "locales": {
           "en": {
             "translation": "src/locales/messages.en.xlf",
-            "baseHref": "/"
+            "baseHref": "ng-connect-four/"
           },
-          "fr": { "translation": "src/locales/messages.fr.xlf" }
+          "fr": {
+            "translation": "src/locales/messages.fr.xlf",
+            "baseHref": "ng-connect-four/fr/"
+          }
         }
       }
     }
