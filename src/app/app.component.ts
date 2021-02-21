@@ -32,7 +32,10 @@ export class AppComponent implements OnInit {
     this.isGameStarted$ = this.store.select(GameState.isStarted);
 
     // set initial theme
-    this.setTheme('light');
+    const isDarkModePrefered =
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.setTheme(isDarkModePrefered ? 'dark' : 'light');
   }
 
   /**
