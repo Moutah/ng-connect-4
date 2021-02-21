@@ -55,8 +55,12 @@
             <mat-divider></mat-divider>
 
             <a mat-list-item
-               (click)="setTheme(otherTheme)"
-               i18n>{{otherTheme | titlecase}} mode</a>
+               (click)="setTheme(otherTheme)">
+                <span *ngIf="otherTheme === 'dark'"
+                      i18n>Dark mode</span>
+                <span *ngIf="otherTheme === 'light'"
+                      i18n>Light mode</span>
+            </a>
 
             <a mat-list-item
                i18n>Close</a>
