@@ -3,6 +3,7 @@ import { Router, RouterEvent } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { GameService } from './game/services/game.service';
 import { GameState } from './game/state';
 
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isGamePage: boolean;
   isGameStarted: boolean;
   otherTheme: string;
-  appDomainUrl: string;
+  appUrl: string;
   private subs$: Subscription[] = [];
 
   constructor(
@@ -26,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.appDomainUrl = window.location.origin;
+    this.appUrl = environment.appUrl;
 
     // update page from router events
     this.subs$.push(
