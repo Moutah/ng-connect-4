@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Player } from './player';
+import { AiService } from './services/ai.service';
 import { GameService } from './services/game.service';
 import { GameState } from './state';
 
@@ -20,7 +21,11 @@ export class GameComponent implements OnInit {
   isGridUnveiled: boolean;
   timerOffset = 0;
 
-  constructor(private store: Store, private game: GameService) {}
+  constructor(
+    private store: Store,
+    private game: GameService,
+    private ai: AiService
+  ) {}
 
   ngOnInit(): void {
     this.isGameStarted$ = this.store.select(GameState.isStarted);
@@ -29,6 +34,9 @@ export class GameComponent implements OnInit {
     this.winner$ = this.store.select(GameState.winner);
     this.isGridVeiled = true;
     this.isGridUnveiled = false;
+
+    // prep IA
+    this.ai.awake();
 
     // sets timer offset
     this.store.selectSnapshot((state) => {
