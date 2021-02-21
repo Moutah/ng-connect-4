@@ -8,6 +8,9 @@
   &__content {
     height: calc(100vh - 56px);
     position: relative;
+    width: 82vw;
+    max-width: 72vh;
+    margin: auto;
 
     @media screen and (min-width: 600px) {
       height: calc(100vh - 64px);

@@ -8,13 +8,20 @@
 
         <!-- Game status -->
         <header class="game__playing__header">
-            <app-timer [isRunning]="!(isGameOver$ | async)"></app-timer>
+            <app-timer [isRunning]="isGridUnveiled && !(isGameOver$ | async)"></app-timer>
 
             <div class="game__playing__status">
+
+                <!-- Next player -->
                 <span *ngIf="!(isGameOver$ | async)">
+                    <app-coin class="game__playing__status__coin"
+                              [color]="(activePlayer$ | async)?.color"></app-coin>
                     {{(activePlayer$ | async)?.name}}'s turn
                 </span>
-                <span *ngIf="isGameOver$ | async">
+
+                <!-- Game is over -->
+                <span *ngIf="isGameOver$ | async"
+                      class="mat-display-1">
                     <span *ngIf="winner$ | async">
                         {{(winner$ | async).name}} won!
                     </span>
@@ -26,7 +33,8 @@
         </header>
 
         <!-- Game grid -->
-        <app-grid class="game__playing__grid"></app-grid>
+        <app-grid class="game__playing__grid"
+                  [isVeiled]="isGridVeiled"></app-grid>
 
         <!-- Home button -->
         <a *ngIf="isGameOver$ | async"
@@ -38,4 +46,8 @@
             Home
         </a>
     </div>
+
+    <!-- Box glow -->
+    <div *ngIf="isGridUnveiled"
+         [class]="'game__glow game__glow--' +  (activePlayer$ | async)?.color"></div>
 </div>
