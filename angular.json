@@ -117,8 +117,11 @@
         }
       },
       "i18n": {
-        "sourceLocale": "en-US",
         "locales": {
+          "en": {
+            "translation": "src/locales/messages.en.xlf",
+            "baseHref": "/"
+          },
           "fr": { "translation": "src/locales/messages.fr.xlf" }
         }
       }
