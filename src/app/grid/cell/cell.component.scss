@@ -19,6 +19,7 @@
     &__coin {
       margin-top: 0;
       transition: margin-top 0.2s ease-in;
+      flex: 1;
     }
 
     &--hidden {
