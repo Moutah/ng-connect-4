@@ -41,7 +41,7 @@
 
     circle {
       color: #000;
-      stroke-width: 1px;
+      stroke-width: 1.5px;
       stroke-dasharray: 314;
       stroke-dashoffset: 0;
       transition: stroke-dashoffset 0.6s linear;
@@ -54,7 +54,16 @@
     }
   }
 
-  &--highlighted {
-    background-color: #00f;
+  &--dimmed {
+    opacity: 0.3;
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.5;
   }
 }

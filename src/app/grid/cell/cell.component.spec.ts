@@ -38,18 +38,9 @@ describe('CellComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('can display as highlighted', () => {
+  it('can display as dimmed', () => {
     component.col = 1;
     component.row = 1;
-
-    // dispatch highlight of other cell
-    store.dispatch(new Grid.HighlightCells([{ col: 1, row: 0 }]));
-    fixture.detectChanges();
-    expect(
-      fixture.nativeElement
-        .querySelector('.cell')
-        .classList.contains('cell--highlighted')
-    ).toBe(false);
 
     // dispatch highlight of this cell
     store.dispatch(new Grid.HighlightCells([{ col: 1, row: 1 }]));
@@ -57,7 +48,16 @@ describe('CellComponent', () => {
     expect(
       fixture.nativeElement
         .querySelector('.cell')
-        .classList.contains('cell--highlighted')
+        .classList.contains('cell--dimmed')
+    ).toBe(false);
+
+    // dispatch highlight of other cell
+    store.dispatch(new Grid.HighlightCells([{ col: 1, row: 0 }]));
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement
+        .querySelector('.cell')
+        .classList.contains('cell--dimmed')
     ).toBe(true);
   });
 

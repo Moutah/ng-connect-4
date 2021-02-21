@@ -1,4 +1,4 @@
-<div [class]="'cell ' + ((isHighlighted$ | async) ? ' cell--highlighted' : '')"
+<div [class]="'cell ' + ((isDimmed$ | async) ? 'cell--dimmed ' : ' ') + ((isHighlighted$ | async) ? 'cell--highlighted' : '')"
      (click)="playCoin()">
 
     <!-- Content -->
