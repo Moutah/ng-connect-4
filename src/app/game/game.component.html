@@ -8,7 +8,8 @@
 
         <!-- Game status -->
         <header class="game__playing__header">
-            <app-timer [isRunning]="isGridUnveiled && !(isGameOver$ | async)"></app-timer>
+            <app-timer [isRunning]="isGridUnveiled && !(isGameOver$ | async)"
+                       [offset]="timerOffset"></app-timer>
 
             <div class="game__playing__status">
 

@@ -65,6 +65,19 @@ describe('GameComponent', () => {
   });
 
   // TODO: leverage fakeAsync to make test synchronous
+  it('calc offset based on game state', async () => {
+    // start the game
+    store.dispatch(new Game.Start());
+    expect(component.timerOffset).toBe(0);
+
+    await sleep(1000);
+
+    // reboot component
+    component.ngOnInit();
+    expect(component.timerOffset).toBe(1);
+  });
+
+  // TODO: leverage fakeAsync to make test synchronous
   it('unveils game upon start', async () => {
     // initial state
     expect(component.isGridVeiled).toBe(true);
