@@ -12,6 +12,7 @@
       </trans-unit>
       <trans-unit id="c6c09881a4398d0962389ebf6cae28c229482a27" datatype="html">
         <source>How to play</source>
+        <target>Comment jouer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">40</context>
@@ -23,6 +24,7 @@
       </trans-unit>
       <trans-unit id="9ba9612bd3ec014d92f4fc31151c13515c43aafe" datatype="html">
         <source>Light mode</source>
+        <target>Th&egrave;me clair</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">52</context>
@@ -30,13 +32,15 @@
       </trans-unit>
       <trans-unit id="9ba9612bd3ec014d92f4fc31151c13515c43aaef" datatype="html">
         <source>Dark mode</source>
+        <target>Th&egrave;me sombre</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a55bfaabb5258f66c2f853ce2383cfead1abd258" datatype="html">
-        <source>Close menu</source>
+        <source>Close</source>
+        <target>Fermer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">55</context>
@@ -44,13 +48,15 @@
       </trans-unit>
       <trans-unit id="d9b44155131511173c80f2f5a0bd3fe0007342d0" datatype="html">
         <source>Abandon game</source>
+        <target>Abandonner la partie</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c0210dd42c288cb459d9a79a445cd131b0741de9" datatype="html">
-        <source>&apos;s turn</source>
+        <source>is playing</source>
+        <target>joue</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/game.component.html</context>
           <context context-type="linenumber">21</context>
@@ -58,6 +64,7 @@
       </trans-unit>
       <trans-unit id="af26b9864b2046d94590183b93f56a35b44709c9" datatype="html">
         <source>won!</source>
+        <target>a gagn&eacute; !</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/game.component.html</context>
           <context context-type="linenumber">28</context>
@@ -65,6 +72,7 @@
       </trans-unit>
       <trans-unit id="2fe4f725ef8758c92bf6304f76f1e9a9cc6821e0" datatype="html">
         <source> Draw! </source>
+        <target> Match nul ! </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/game.component.html</context>
           <context context-type="linenumber">32,33</context>
@@ -72,6 +80,7 @@
       </trans-unit>
       <trans-unit id="00a3ac7dd5bd5fd9cddf3833d807094872c7f2d4" datatype="html">
         <source> Home </source>
+        <target> Accueil </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/game.component.html</context>
           <context context-type="linenumber">50,51</context>
@@ -87,6 +96,7 @@
       </trans-unit>
       <trans-unit id="e4b6be68cf246cb21f3f02cbb3f849aa313c44e6" datatype="html">
         <source> Play </source>
+        <target> Jouer </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/home/home.component.html</context>
           <context context-type="linenumber">17,18</context>
@@ -94,6 +104,7 @@
       </trans-unit>
       <trans-unit id="31a47c86db28c749d79a37f4cfb2e612e904ce15" datatype="html">
         <source> Connect 4 is a two player game where they play coins in turn in a 6 by 7 grid until victory or filling the grid. </source>
+        <target> Puissance 4 est un jeu &agrave; deux joueurs qui jouent une pi&egrave;ce chacun leur tour dans une grille de 6 par 7 jusqu&apos;&agrave; la victoire ou que la grille soit remplie. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/rules/rules.component.html</context>
           <context context-type="linenumber">6,8</context>
@@ -101,6 +112,7 @@
       </trans-unit>
       <trans-unit id="6da69a256527b24bcb1c549421c26845b46ef63a" datatype="html">
         <source>Goal</source>
+        <target>But</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/rules/rules.component.html</context>
           <context context-type="linenumber">10</context>
@@ -108,6 +120,7 @@
       </trans-unit>
       <trans-unit id="4f93a0fad959b587b7885530ed4dfe68f86bd49c" datatype="html">
         <source> The goal of the game is to connect 4 coins of your color in any direction. If the grid is full, the game is a draw. </source>
+        <target> Le but du jeu est de connecter 4 pi&egrave;ces de votre couleur dans n&apos;importe quelle direction. Si la grill est pleine, la partie est un match nul. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/rules/rules.component.html</context>
           <context context-type="linenumber">12,14</context>
@@ -115,6 +128,7 @@
       </trans-unit>
       <trans-unit id="ff3774138bffaf62a4b812046dfbb9939c42657e" datatype="html">
         <source>Setup</source>
+        <target>Pr&eacute;paration</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/rules/rules.component.html</context>
           <context context-type="linenumber">16</context>
@@ -122,6 +136,7 @@
       </trans-unit>
       <trans-unit id="45ff62961390f3e9cc5db9162488321245c4aa09" datatype="html">
         <source> The two players choose a color. One of them is choosed to start the game. </source>
+        <target> Les deux joueurs choisissent une couleur. L&apos;un d&apos;entre eux est tir&eacute; au hasard pour commencer la partie. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/rules/rules.component.html</context>
           <context context-type="linenumber">18,19</context>
@@ -129,6 +144,7 @@
       </trans-unit>
       <trans-unit id="7096fbcea9ef94e1ae3e68c75250b6c9bd78b1bb" datatype="html">
         <source>Playing</source>
+        <target>Jouer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/rules/rules.component.html</context>
           <context context-type="linenumber">21</context>
@@ -136,6 +152,7 @@
       </trans-unit>
       <trans-unit id="18144707e4114c5e2cbc563ac2c87c1f7702133a" datatype="html">
         <source> Coins &quot;fall&quot; in the column they&apos;re played in. In other words, the grid is fill from the bottom row up. Players play 1 coin during their turn and then wait for the other player to play. Any player can play in any column. </source>
+        <target> Les pi&egrave;ces &quot;tombent&quot; dans la colonne ou ils sont jou&eacute;s. En d&apos;autres termes, la grille se remplis par le bas. Les joueurs joue 1 pi&egrave;ces durant leur tour et attendent ensuite que l&apos;autre jour aie jou&eacute;. Les joueurs peuvent jouer dans n&apos;importe quelle colonne. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/rules/rules.component.html</context>
           <context context-type="linenumber">23,26</context>
@@ -143,13 +160,31 @@
       </trans-unit>
       <trans-unit id="ad320e5c679cf6dfdd6f5fc0f96c9b21e6f06cc9" datatype="html">
         <source> Enter players name </source>
+        <target> D&eacute;finir les joueurs </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/player-setup/player-setup.component.html</context>
           <context context-type="linenumber">6,7</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="dac0467c89770ceccb8b06e2a83f1d891b7beabc" datatype="html">
+        <source>Player 1</source>
+        <target>Joueur 1</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/game/player-setup/player-setup.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dac0467c89770ceccb8b06e2a83f1d891b7bebef" datatype="html">
+        <source>Player 2</source>
+        <target>Joueur 2</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/game/player-setup/player-setup.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="a4c5332265aa1c27070e5447a20da16f6b0748e1" datatype="html">
         <source>Player 2 is computer</source>
+        <target>Le joueur 2 est control&eacute; par la machine</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/player-setup/player-setup.component.html</context>
           <context context-type="linenumber">36</context>
@@ -157,6 +192,7 @@
       </trans-unit>
       <trans-unit id="dbbe0a0aedcdbf199939c41ac8a1dfe92e4924e8" datatype="html">
         <source> Start Game </source>
+        <target> Commencer </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/player-setup/player-setup.component.html</context>
           <context context-type="linenumber">45,46</context>
@@ -164,6 +200,7 @@
       </trans-unit>
       <trans-unit id="dac0467c89770ceccb8b06e2a83f1d891b7bebb6" datatype="html">
         <source>starts!</source>
+        <target>commence !</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/player-setup/player-setup.component.html</context>
           <context context-type="linenumber">72</context>
