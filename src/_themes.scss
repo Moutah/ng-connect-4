@@ -1,0 +1,63 @@
+@import "~@angular/material/theming";
+@include mat-core();
+
+$color-primary: mat-palette($mat-blue, A200);
+
+$ng-connect-four-light-theme: mat-light-theme(
+  (
+    color: (
+      primary: $color-primary,
+      accent: mat-palette($mat-pink, A200, A100, A400),
+      warn: mat-palette($mat-red),
+    ),
+  )
+);
+
+$ng-connect-four-dark-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $color-primary,
+      accent: mat-palette($mat-pink, A200, A100, A400),
+      warn: mat-palette($mat-red),
+    ),
+  )
+);
+
+// light theme
+@include angular-material-theme($ng-connect-four-light-theme);
+
+// dark theme generates only colors
+.dark {
+  @include angular-material-color($ng-connect-four-dark-theme);
+  .mat-flat-button,
+  .mat-raised-button,
+  .mat-fab,
+  .mat-mini-fab {
+    .mat-primary {
+      background-color: mat-color($color-primary, A200);
+    }
+  }
+}
+
+// CSS variables
+body {
+  --toolbar-height: 56px;
+  @media screen and (min-width: 600px) {
+    --toolbar-height: 64px;
+  }
+  --color-text-white: #{map-get($mat-grey, 100)};
+
+  --color-background: #{map-get($mat-grey, 100)};
+  --color-player-1: #{map-get($mat-red, 600)};
+  --color-player-2: #{map-get($mat-yellow, 600)};
+  --color-primary: #{mat-color($mat-blue, A200)};
+  --color-text: #{map-get($mat-grey, 900)};
+
+  &.dark {
+    --color-background: #{map-get($mat-grey, 900)};
+    --color-player-1: #{map-get($mat-red, 600)};
+    --color-player-2: #{map-get($mat-yellow, 600)};
+    --color-primary: #{mat-color($mat-blue, A200)};
+    --color-text: #{map-get($mat-grey, 100)};
+  }
+}

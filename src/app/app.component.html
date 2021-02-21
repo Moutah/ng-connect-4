@@ -46,6 +46,9 @@
             <mat-divider></mat-divider>
 
             <a mat-list-item
+               (click)="setTheme(otherTheme); snav.toggle()">{{otherTheme | titlecase}} mode</a>
+
+            <a mat-list-item
                (click)="snav.toggle()">Close menu</a>
         </mat-nav-list>
     </mat-sidenav>
