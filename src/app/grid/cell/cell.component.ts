@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable, zip } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GameService } from 'src/app/game/services/game.service';
 import { GridCoord } from '../grid-coords';
 import { GRID_ROWS } from '../config';

@@ -39,16 +39,27 @@
         <app-grid class="game__playing__grid"
                   [isVeiled]="isGridVeiled"></app-grid>
 
-        <!-- Home button -->
-        <a *ngIf="isGameOver$ | async"
-           mat-flat-button
-           color="primary"
-           class="game__playing__exit-button"
-           routerLink="/"
-           (click)="onExitGame()"
-           i18n>
-            Home
-        </a>
+        <!-- Buttons after game -->
+        <div *ngIf="isGameOver$ | async"
+             class="game__playing__end-buttons">
+
+            <a mat-flat-button
+               class="game__playing__end-buttons__button"
+               color="primary"
+               routerLink="/game"
+               (click)="onExitGame()"
+               i18n>
+                New Game
+            </a>
+            <a mat-flat-button
+               class="game__playing__end-buttons__button"
+               color="primary"
+               routerLink="/"
+               (click)="onExitGame()"
+               i18n>
+                Home
+            </a>
+        </div>
     </div>
 
     <!-- Box glow -->

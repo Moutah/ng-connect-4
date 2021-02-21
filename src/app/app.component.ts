@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { GameService } from './game/services/game.service';
 import { GameState } from './game/state';
 
@@ -11,11 +11,13 @@ import { GameState } from './game/state';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  isHome$: Observable<boolean>;
-  isGameStarted$: Observable<boolean>;
+export class AppComponent implements OnInit, OnDestroy {
+  isHomePage: boolean;
+  isGamePage: boolean;
+  isGameStarted: boolean;
   otherTheme: string;
   appDomainUrl: string;
+  private subs$: Subscription[] = [];
 
   constructor(
     private router: Router,
@@ -26,19 +28,32 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.appDomainUrl = window.location.origin;
 
-    // register observables
-    this.isHome$ = this.router.events
-      .pipe(
-        filter((e: RouterEvent): e is RouterEvent => e instanceof RouterEvent)
-      )
-      .pipe(map((e: any) => e.urlAfterRedirects === '/'));
-    this.isGameStarted$ = this.store.select(GameState.isStarted);
+    // update page from router events
+    this.subs$.push(
+      this.router.events
+        .pipe(
+          filter((e: RouterEvent): e is RouterEvent => e instanceof RouterEvent)
+        )
+        .subscribe((e: any) => {
+          this.isHomePage = e.urlAfterRedirects === '/';
+          this.isGamePage = e.urlAfterRedirects === '/game';
+        })
+    );
+    this.subs$.push(
+      this.store
+        .select(GameState.isStarted)
+        .subscribe((isStarted) => (this.isGameStarted = isStarted))
+    );
 
     // set initial theme
     const isDarkModePrefered =
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches;
     this.setTheme(isDarkModePrefered ? 'dark' : 'light');
+  }
+
+  ngOnDestroy(): void {
+    this.subs$.forEach((sub$) => sub$.unsubscribe());
   }
 
   /**

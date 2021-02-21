@@ -1,36 +1,40 @@
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { of } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { AppComponent } from './app.component';
 import { GameService } from './game/services/game.service';
 import { GameState } from './game/state';
+import * as Game from './game/state/actions';
 
 const gameServiceStub = {
   clear: () => {},
+};
+const eventSubject = new ReplaySubject<RouterEvent>(1);
+const routerStub = {
+  events: eventSubject.asObservable(),
 };
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-
-  /**
-   * Hijack given `observableName` observable in `component` and give it given
-   * `value`.
-   */
-  const simulateObservatorValue = (observableName: string, value: any) => {
-    Object.defineProperty(component, observableName, { writable: true });
-    component[observableName] = of(value);
-    fixture.detectChanges();
-  };
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgxsModule.forRoot([GameState])],
-      providers: [{ provide: GameService, useValue: gameServiceStub }],
+      imports: [
+        // RouterTestingModule,
+        NgxsModule.forRoot([GameState]),
+      ],
+      providers: [
+        { provide: Router, useValue: routerStub },
+        { provide: GameService, useValue: gameServiceStub },
+      ],
       declarations: [AppComponent],
     }).compileComponents();
+
+    store = TestBed.inject(Store);
   });
 
   beforeEach(() => {
@@ -43,7 +47,7 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('displays abandon menu only when game started', () => {
+  it('displays abandon menu only on game page when game started', () => {
     const hasAbandonMenu = () =>
       Array.from(
         fixture.nativeElement.querySelectorAll('mat-nav-list a')
@@ -53,17 +57,46 @@ describe('AppComponent', () => {
     // initial state
     expect(hasAbandonMenu()).toBe(false);
 
-    // set observables
-    simulateObservatorValue('isGameStarted$', true);
+    // game page alone is not enough
+    eventSubject.next(new NavigationEnd(1, '/game', '/game'));
+    fixture.detectChanges();
+    expect(hasAbandonMenu()).toBe(false);
 
+    // displayed when game started
+    store.dispatch(new Game.Start());
+    fixture.detectChanges();
     expect(hasAbandonMenu()).toBe(true);
+  });
+
+  it('displays return to game menu only when game started and not on game page', () => {
+    const hasReturnToGameMenu = () =>
+      Array.from(
+        fixture.nativeElement.querySelectorAll('mat-nav-list a')
+      ).filter((el: HTMLElement) => el.textContent === 'Back to game').length >
+      0;
+
+    // initial state
+    expect(hasReturnToGameMenu()).toBe(false);
+
+    // game started alone is not enough
+    store.dispatch(new Game.Start());
+    eventSubject.next(new NavigationEnd(1, '/game', '/game'));
+    fixture.detectChanges();
+    expect(hasReturnToGameMenu()).toBe(false);
+
+    // displayed when game started
+    eventSubject.next(new NavigationEnd(1, '/', '/'));
+    fixture.detectChanges();
+    expect(hasReturnToGameMenu()).toBe(true);
   });
 
   it('clears the game upon abandonning', () => {
     const gameClearSpy = spyOn(gameServiceStub, 'clear');
 
     // simulate started game
-    simulateObservatorValue('isGameStarted$', true);
+    store.dispatch(new Game.Start());
+    eventSubject.next(new NavigationEnd(1, '/game', '/game'));
+    fixture.detectChanges();
 
     // click on abandon
     const abandonMenu = Array.from(
