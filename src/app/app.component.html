@@ -56,11 +56,14 @@
         </mat-nav-list>
 
         <div class="app__sidenav__lang-menu">
-            <button mat-button>En</button>
-            <button mat-button>Fr</button>
+            <a [href]="appDomainUrl"
+               mat-button>En</a>
+            <a [href]="appDomainUrl + '/fr'"
+               mat-button>Fr</a>
         </div>
 
     </mat-sidenav>
+
 
     <!-- Page content -->
     <mat-sidenav-content class="app__content">
