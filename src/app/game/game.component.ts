@@ -15,8 +15,10 @@ export class GameComponent implements OnInit {
   isGameOver$: Observable<boolean>;
   activePlayer$: Observable<Player>;
   winner$: Observable<Player>;
+
   isGridVeiled: boolean;
   isGridUnveiled: boolean;
+  timerOffset = 0;
 
   constructor(private store: Store, private game: GameService) {}
 
@@ -27,6 +29,19 @@ export class GameComponent implements OnInit {
     this.winner$ = this.store.select(GameState.winner);
     this.isGridVeiled = true;
     this.isGridUnveiled = false;
+
+    // sets timer offset
+    this.store.selectSnapshot((state) => {
+      // no start timestamp in store
+      if (!state.game.startTimestamp) {
+        this.timerOffset = 0;
+        return;
+      }
+
+      // calc offset in seconds
+      const now = new Date().getTime();
+      this.timerOffset = Math.round((now - state.game.startTimestamp) / 1000);
+    });
 
     // unveil grid upon game starting
     this.isGameStarted$.subscribe(async (value) => {

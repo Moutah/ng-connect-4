@@ -28,6 +28,14 @@ describe('TimerComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('initialize elapsed seconds based on give offset', () => {
+    // reboot component
+    component.offset = 22;
+    component.ngOnInit();
+
+    expect(component.elapsedSeconds).toBe(22);
+  });
+
   // TODO : Make this test synchronous by leveraging fakeAsync
   it('counts time only when given truthy isRunning prop', async () => {
     component.isRunning = true;
