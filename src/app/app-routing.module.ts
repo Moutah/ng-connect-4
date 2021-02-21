@@ -5,9 +5,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { RulesComponent } from './pages/rules/rules.component';
 
 const routes: Routes = [
-  { path: 'rules', component: RulesComponent },
+  { path: 'how-to-play', component: RulesComponent },
   { path: 'game', component: GameComponent },
-  { path: '**', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

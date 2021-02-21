@@ -26,8 +26,27 @@
                  mode="over"
                  fixedInViewport>
         <mat-nav-list>
+            <div class="app__sidenav__logo">
+                ng<sup>4</sup>
+            </div>
+
             <a mat-list-item
-               routerLink=".">Home</a>
+               (click)="snav.toggle()"
+               routerLink="/">Home</a>
+
+            <a mat-list-item
+               (click)="snav.toggle()"
+               routerLink="/how-to-play">How to play</a>
+
+            <a mat-list-item
+               *ngIf="(isGameStarted$ | async)"
+               (click)="abandonGame(); snav.toggle()"
+               routerLink="/">Abandon game</a>
+
+            <mat-divider></mat-divider>
+
+            <a mat-list-item
+               (click)="snav.toggle()">Close menu</a>
         </mat-nav-list>
     </mat-sidenav>
 
