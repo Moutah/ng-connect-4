@@ -154,18 +154,18 @@ describe('GameComponent', () => {
     expect(gamePlayingStatusEl.textContent.trim()).toBe(`Draw!`);
   });
 
-  it('displays home button if game was won', () => {
+  it('displays end game buttons if game was won', () => {
     // set observables
     simulateObservatorValue('isGameStarted$', true);
     simulateObservatorValue('isGameOver$', true);
 
     const gamePlayingExitEl = fixture.nativeElement.querySelector(
-      '.game__playing__exit-button'
+      '.game__playing__end-buttons'
     );
     expect(gamePlayingExitEl).toBeTruthy();
   });
 
-  it('clears the game when clicking home button', () => {
+  it('clears the game when clicking on new game button', () => {
     const gameClearSpy = spyOn(gameServiceStub, 'clear');
 
     // set observables
@@ -173,7 +173,23 @@ describe('GameComponent', () => {
     simulateObservatorValue('isGameOver$', true);
 
     expect(gameClearSpy).not.toHaveBeenCalled();
-    fixture.nativeElement.querySelector('.game__playing__exit-button').click();
+    fixture.nativeElement
+      .querySelectorAll('.game__playing__end-buttons__button')[0]
+      .click();
+    expect(gameClearSpy).toHaveBeenCalled();
+  });
+
+  it('clears the game when clicking on home button', () => {
+    const gameClearSpy = spyOn(gameServiceStub, 'clear');
+
+    // set observables
+    simulateObservatorValue('isGameStarted$', true);
+    simulateObservatorValue('isGameOver$', true);
+
+    expect(gameClearSpy).not.toHaveBeenCalled();
+    fixture.nativeElement
+      .querySelectorAll('.game__playing__end-buttons__button')[1]
+      .click();
     expect(gameClearSpy).toHaveBeenCalled();
   });
 });
