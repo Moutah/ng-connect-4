@@ -1,7 +1,8 @@
 <div class="player-setup">
     <div *ngIf="!(firstPlayer$ | async)">
 
-        <h2 class="player-setup__title mat-display-1">
+        <h2 class="player-setup__title mat-display-1"
+            i18n>
             Enter players name
         </h2>
 
@@ -31,14 +32,16 @@
                       color="player-2"></app-coin>
         </mat-form-field>
         <mat-checkbox [(ngModel)]="isPlayingAgainstAi"
-                      name="player2Ai">Player 2 is computer</mat-checkbox>
+                      name="player2Ai"
+                      i18n>Player 2 is computer</mat-checkbox>
 
         <!-- Start button -->
         <div>
             <button mat-flat-button
                     class="player-setup__finish-button"
                     color="primary"
-                    (click)="onStartGame()">
+                    (click)="onStartGame()"
+                    i18n>
                 Start Game
             </button>
         </div>
@@ -65,7 +68,8 @@
             </app-coin>
 
             <div class="player-setup__announcement__message mat-display-1">
-                {{(firstPlayer$ | async).name}} starts!
+                {{(firstPlayer$ | async).name}}
+                <span i18n>starts!</span>
             </div>
 
         </ng-container>

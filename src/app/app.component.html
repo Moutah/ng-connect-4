@@ -32,22 +32,27 @@
             </div>
 
             <a mat-list-item
-               routerLink="/">Home</a>
+               routerLink="/"
+               i18n>Home</a>
 
             <a mat-list-item
-               routerLink="/how-to-play">How to play</a>
+               routerLink="/how-to-play"
+               i18n>How to play</a>
 
             <a mat-list-item
                *ngIf="(isGameStarted$ | async)"
                (click)="abandonGame()"
-               routerLink="/">Abandon game</a>
+               routerLink="/"
+               i18n>Abandon game</a>
 
             <mat-divider></mat-divider>
 
             <a mat-list-item
-               (click)="setTheme(otherTheme)">{{otherTheme | titlecase}} mode</a>
+               (click)="setTheme(otherTheme)"
+               i18n>{{otherTheme | titlecase}} mode</a>
 
-            <a mat-list-item>Close menu</a>
+            <a mat-list-item
+               i18n>Close menu</a>
         </mat-nav-list>
 
         <div class="app__sidenav__lang-menu">
