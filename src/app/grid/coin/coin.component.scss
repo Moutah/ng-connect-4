@@ -1,5 +1,3 @@
-@import "../../../variables";
-
 .coin {
   z-index: 1000;
   display: flex;
@@ -10,10 +8,10 @@
   }
 
   &--player-1 {
-    color: $colorPlayer1;
+    color: var(--color-player-1);
   }
 
   &--player-2 {
-    color: $colorPlayer2;
+    color: var(--color-player-2);
   }
 }

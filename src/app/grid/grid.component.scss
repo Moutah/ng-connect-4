@@ -30,7 +30,7 @@
     z-index: -1;
 
     rect {
-      color: #000;
+      color: var(--color-text);
       stroke-width: 1.2px;
       stroke-dasharray: 1040;
       stroke-dashoffset: 0;

@@ -1,5 +1,3 @@
-@import "../../../variables";
-
 .cell {
   height: 0;
   padding-bottom: 100%;
@@ -40,7 +38,7 @@
     padding: 3px;
 
     circle {
-      color: #000;
+      color: var(--color-text);
       stroke-width: 1.5px;
       stroke-dasharray: 314;
       stroke-dashoffset: 0;
