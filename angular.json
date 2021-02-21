@@ -56,6 +56,10 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "en": {
+              "localize": ["en"],
+              "baseHref": "/"
             }
           }
         },
@@ -67,6 +71,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ng-connect-four:build:production"
+            },
+            "en": {
+              "browserTarget": "ng-connect-four:build:en"
             }
           }
         },
