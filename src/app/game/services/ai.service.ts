@@ -14,7 +14,7 @@ export class AiService {
   private gameOver$: Observable<boolean>;
   private subscriptions: Subscription[] = [];
   private thinkTime = 600;
-  isAwake = false;
+  private isAwaken = false;
 
   constructor(private store: Store, private game: GameService) {
     this.newTurn$ = this.store.select(GameState.activePlayer);
@@ -22,21 +22,28 @@ export class AiService {
   }
 
   /**
+   * Returns `true` if service was awaken already
+   */
+  isAwake(): boolean {
+    return this.isAwaken;
+  }
+
+  /**
    * Make the AI aware of game starting / stopping.
    */
   awake(): void {
     // do not awake twice
-    if (this.isAwake) {
+    if (this.isAwaken) {
       return;
     }
 
     // start / stop with game
-    this.gameOver$.subscribe((isGameOver) =>
-      isGameOver ? this.stop() : this.start()
-    );
+    this.gameOver$.subscribe((isGameOver) => {
+      isGameOver ? this.stop() : this.start();
+    });
 
     // mark as awake
-    this.isAwake = true;
+    this.isAwaken = true;
   }
 
   /**

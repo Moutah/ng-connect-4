@@ -23,6 +23,8 @@ describe('GameService', () => {
     store = TestBed.inject(Store);
     game = TestBed.inject(GameService);
     actions$ = TestBed.inject(Actions);
+
+    // setup game
     players = [new Player('p1', 'Batman'), new Player('p2', 'Superman')];
     game.setup(players[0], players[1]);
   });
