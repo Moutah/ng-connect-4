@@ -10,7 +10,8 @@
                   [class]="'grid__row__cell ' + (hoveredCol === iCol ? 'grid__row__cell--hover' : '')"
                   [isVeiled]="isVeiled"
                   (mouseover)="setHoverCol(iCol)"
-                  (mouseout)="clearHoverCol()">
+                  (mouseout)="clearHoverCol()"
+                  (click)="clearHoverCol()">
         </app-cell>
 
     </div>

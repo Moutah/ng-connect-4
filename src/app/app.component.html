@@ -5,10 +5,10 @@
     <!-- Menu toggle -->
     <button mat-icon-button
             [class]="'app__toolbar__menu-toggle ' + ((isHome$ | async) ? 'app__toolbar__menu-toggle--inverted' : '')"
-            (click)="snav.toggle()">
+            (click)="snav.open()">
         <mat-icon>menu</mat-icon>
-
     </button>
+
     <!-- App title -->
     <div class="app__toolbar__title"
          *ngIf="!(isHome$ | async)"
@@ -24,6 +24,7 @@
     <mat-sidenav #snav
                  class="app__sidenav"
                  mode="over"
+                 (click)="snav.close()"
                  fixedInViewport>
         <mat-nav-list>
             <div class="app__sidenav__logo">
@@ -31,25 +32,22 @@
             </div>
 
             <a mat-list-item
-               (click)="snav.toggle()"
                routerLink="/">Home</a>
 
             <a mat-list-item
-               (click)="snav.toggle()"
                routerLink="/how-to-play">How to play</a>
 
             <a mat-list-item
                *ngIf="(isGameStarted$ | async)"
-               (click)="abandonGame(); snav.toggle()"
+               (click)="abandonGame()"
                routerLink="/">Abandon game</a>
 
             <mat-divider></mat-divider>
 
             <a mat-list-item
-               (click)="setTheme(otherTheme); snav.toggle()">{{otherTheme | titlecase}} mode</a>
+               (click)="setTheme(otherTheme)">{{otherTheme | titlecase}} mode</a>
 
-            <a mat-list-item
-               (click)="snav.toggle()">Close menu</a>
+            <a mat-list-item>Close menu</a>
         </mat-nav-list>
     </mat-sidenav>
 
