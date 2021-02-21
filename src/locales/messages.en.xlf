@@ -22,28 +22,12 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9ba9612bd3ec014d92f4fc31151c13515c43aafe" datatype="html">
-        <source>Light mode</source>
-        <target>Light mode</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">52</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="9ba9612bd3ec014d92f4fc31151c13515c43aaef" datatype="html">
-        <source>Dark mode</source>
-        <target>Dark mode</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">52</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="a55bfaabb5258f66c2f853ce2383cfead1abd258" datatype="html">
+      <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
         <source>Close</source>
         <target>Close</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d9b44155131511173c80f2f5a0bd3fe0007342d0" datatype="html">
@@ -51,10 +35,34 @@
         <target>Abandon game</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c0210dd42c288cb459d9a79a445cd131b0741de9" datatype="html">
+      <trans-unit id="5ce1d24c268e64df23fbaa472209495e12e499a1" datatype="html">
+        <source>Back to game</source>
+        <target>Back to game</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9ee5d1cbfd6ee168dae37aaba2b59b50bcabb2ff" datatype="html">
+        <source>Dark mode</source>
+        <target>Dark mode</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="33ad25e3a2a765e8d22abe48066958928692ac5e" datatype="html">
+        <source>Light mode</source>
+        <target>Light mode</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="08d995cfa4ee583c6b04103962b9d7d424a20f61" datatype="html">
         <source>is playing</source>
         <target>is playing</target>
         <context-group purpose="location">
@@ -78,12 +86,20 @@
           <context context-type="linenumber">32,33</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="00a3ac7dd5bd5fd9cddf3833d807094872c7f2d4" datatype="html">
+      <trans-unit id="c2aa554e611636a3ba49597b67f9b86da0af4b8f" datatype="html">
+        <source> New Game </source>
+        <target> New Game </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/game/game.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7e06fb1a748c094e2f25b20541888df487f39d9a" datatype="html">
         <source> Home </source>
         <target> Home </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/game/game.component.html</context>
-          <context context-type="linenumber">50,51</context>
+          <context context-type="linenumber">60,61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2005687286cbe104e63906f6e5d3c23b8f6586df" datatype="html">
@@ -166,7 +182,7 @@
           <context context-type="linenumber">6,7</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="dac0467c89770ceccb8b06e2a83f1d891b7beabc" datatype="html">
+      <trans-unit id="722c62ca7de5695ca162ce1499caa644ba99c968" datatype="html">
         <source>Player 1</source>
         <target>Player 1</target>
         <context-group purpose="location">
@@ -174,7 +190,7 @@
           <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="dac0467c89770ceccb8b06e2a83f1d891b7bebef" datatype="html">
+      <trans-unit id="8c54dc45cc8f94e5c781f5e147d3b3e8f9880152" datatype="html">
         <source>Player 2</source>
         <target>Player 2</target>
         <context-group purpose="location">
