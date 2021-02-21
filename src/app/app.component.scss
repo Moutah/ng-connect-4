@@ -37,6 +37,16 @@
       align-items: center;
       font-size: 3rem;
     }
+
+    &__lang-menu {
+      position: absolute;
+      bottom: 0;
+
+      .mat-button-base {
+        font-size: 1rem !important;
+        min-width: 0;
+      }
+    }
   }
 
   &__content {

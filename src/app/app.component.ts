@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   isHome$: Observable<boolean>;
   isGameStarted$: Observable<boolean>;
   otherTheme: string;
+  appDomainUrl: string;
 
   constructor(
     private router: Router,
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.appDomainUrl = window.location.origin;
+
     // register observables
     this.isHome$ = this.router.events
       .pipe(

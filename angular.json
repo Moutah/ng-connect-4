@@ -23,14 +23,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
+            "scripts": [],
+            "localize": true
           },
           "configurations": {
             "production": {
@@ -60,6 +56,10 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "en": {
+              "localize": ["en"],
+              "baseHref": "/"
             }
           }
         },
@@ -71,6 +71,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ng-connect-four:build:production"
+            },
+            "en": {
+              "browserTarget": "ng-connect-four:build:en"
             }
           }
         },
@@ -87,13 +90,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
@@ -105,9 +103,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -124,7 +120,24 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
-          "options": {}
+          "options": {
+            "repo": "https://github.com/Moutah/ng-connect-four.git",
+            "name": "Moutah",
+            "email": "mathieu.tappolet@ik.me",
+            "noBuild": true
+          }
+        }
+      },
+      "i18n": {
+        "locales": {
+          "en": {
+            "translation": "src/locales/messages.en.xlf",
+            "baseHref": "ng-connect-four/"
+          },
+          "fr": {
+            "translation": "src/locales/messages.fr.xlf",
+            "baseHref": "ng-connect-four/fr/"
+          }
         }
       }
     }

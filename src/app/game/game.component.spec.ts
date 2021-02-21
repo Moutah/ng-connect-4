@@ -125,7 +125,7 @@ describe('GameComponent', () => {
       '.game__playing__status'
     );
     expect(gamePlayingStatusEl).toBeTruthy();
-    expect(gamePlayingStatusEl.textContent.trim()).toBe(`Ghost's turn`);
+    expect(gamePlayingStatusEl.textContent.trim()).toBe(`Ghost is playing`);
   });
 
   it('displays winner if game was won', () => {

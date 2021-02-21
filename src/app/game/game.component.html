@@ -17,16 +17,18 @@
                 <span *ngIf="!(isGameOver$ | async)">
                     <app-coin class="game__playing__status__coin"
                               [color]="(activePlayer$ | async)?.color"></app-coin>
-                    {{(activePlayer$ | async)?.name}}'s turn
+                    {{(activePlayer$ | async)?.name}}
+                    <span i18n>is playing</span>
                 </span>
 
                 <!-- Game is over -->
                 <span *ngIf="isGameOver$ | async"
                       class="mat-display-1">
                     <span *ngIf="winner$ | async">
-                        {{(winner$ | async).name}} won!
+                        {{(winner$ | async).name}} <span i18n>won!</span>
                     </span>
-                    <span *ngIf="!(winner$ | async)">
+                    <span *ngIf="!(winner$ | async)"
+                          i18n>
                         Draw!
                     </span>
                 </span>
@@ -43,7 +45,8 @@
            color="primary"
            class="game__playing__exit-button"
            routerLink="/"
-           (click)="onExitGame()">
+           (click)="onExitGame()"
+           i18n>
             Home
         </a>
     </div>

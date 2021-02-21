@@ -19,6 +19,19 @@ jobs:
       - name: NPM Install
         run: npm install
 
+      - name: NG Build
+        run: npm run build:prod
+
+      - name: Make /en as root
+        run: |
+          cd dist/ng-connect-four
+          cp -R en/. .
+
+      - name: Cleanup unused files
+        run: |
+          rm -r dist/ng-connect-four/en-US
+          rm -r dist/ng-connect-four/en
+
       - name: NG Deploy
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
