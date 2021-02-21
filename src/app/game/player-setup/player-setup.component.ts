@@ -18,8 +18,8 @@ export class PlayerSetupComponent implements OnInit {
   private announcementDuration = 1600;
 
   // default input values
-  player1Name = 'Red';
-  player2Name = 'Yellow';
+  player1Name = 'Batman';
+  player2Name = 'Superman';
 
   constructor(private store: Store, private game: GameService) {}
 

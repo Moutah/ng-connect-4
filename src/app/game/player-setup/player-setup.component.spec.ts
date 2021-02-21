@@ -24,8 +24,6 @@ describe('PlayerSetupComponent', () => {
   let fixture: ComponentFixture<PlayerSetupComponent>;
   let store: Store;
 
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PlayerSetupComponent],
@@ -63,9 +61,9 @@ describe('PlayerSetupComponent', () => {
     );
 
     // change values
-    player1NameInput.value = 'Batman';
+    player1NameInput.value = 'Joker';
     player1NameInput.dispatchEvent(new Event('input'));
-    player2NameInput.value = 'Superman';
+    player2NameInput.value = 'Lex';
     player2NameInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
@@ -74,8 +72,8 @@ describe('PlayerSetupComponent', () => {
 
     // game service has been called
     expect(gameSetupSpy).toHaveBeenCalledWith(
-      jasmine.objectContaining({ name: 'Batman' }),
-      jasmine.objectContaining({ name: 'Superman' })
+      jasmine.objectContaining({ name: 'Joker' }),
+      jasmine.objectContaining({ name: 'Lex' })
     );
   });
 
@@ -95,8 +93,8 @@ describe('PlayerSetupComponent', () => {
 
     // game service has been called
     expect(gameSetupSpy).toHaveBeenCalledWith(
-      jasmine.objectContaining({ name: 'Red', isAi: false }),
-      jasmine.objectContaining({ name: 'Yellow', isAi: true })
+      jasmine.objectContaining({ name: 'Batman', isAi: false }),
+      jasmine.objectContaining({ name: 'Superman', isAi: true })
     );
   });
 
