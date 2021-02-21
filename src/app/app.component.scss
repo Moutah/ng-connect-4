@@ -1,7 +1,7 @@
 .app {
   &__toolbar {
     &--transparent {
-      background-color: transparent;
+      background-color: transparent !important;
     }
 
     &__menu-toggle {

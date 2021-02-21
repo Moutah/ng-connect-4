@@ -14,6 +14,7 @@ import { GameState } from './game/state';
 export class AppComponent implements OnInit {
   isHome$: Observable<boolean>;
   isGameStarted$: Observable<boolean>;
+  otherTheme: string;
 
   constructor(
     private router: Router,
@@ -22,13 +23,16 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // register observables
     this.isHome$ = this.router.events
       .pipe(
         filter((e: RouterEvent): e is RouterEvent => e instanceof RouterEvent)
       )
       .pipe(map((e: any) => e.urlAfterRedirects === '/'));
-
     this.isGameStarted$ = this.store.select(GameState.isStarted);
+
+    // set initial theme
+    this.setTheme('light');
   }
 
   /**
@@ -36,5 +40,15 @@ export class AppComponent implements OnInit {
    */
   abandonGame(): void {
     this.game.clear();
+  }
+
+  /**
+   * Set given `newTheme` as current theme.
+   */
+  setTheme(newTheme: string): void {
+    document.body.classList.remove('dark');
+    document.body.classList.remove('light');
+    document.body.classList.add(newTheme);
+    this.otherTheme = newTheme === 'light' ? 'dark' : 'light';
   }
 }
