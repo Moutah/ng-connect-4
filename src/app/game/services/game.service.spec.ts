@@ -15,6 +15,40 @@ describe('GameService', () => {
   let players: Player[];
   let actions$: Observable<any>;
 
+  /**
+   * Test factory that will set the grid according to given `moves` and test
+   * that there are no winning cells detected with given `pivotCol` before
+   * playing last move but cells are detected _after_ playing the last move.
+   */
+  const testConnectedCells = (
+    pivotCol: number,
+    moves: { playerIdx: number; col: number }[]
+  ) => () => {
+    let gridCols: string[][];
+
+    // start game
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    game.start();
+
+    // save last move for later
+    const lastMove = moves.pop();
+
+    // set grid
+    moves.forEach((play) =>
+      store.dispatch(new Grid.PlayCoin(players[play.playerIdx].color, play.col))
+    );
+
+    // no winning cells found
+    gridCols = store.selectSnapshot((state) => state.grid.cols);
+    expect(game.getWinningCells(pivotCol, gridCols)).toBe(null);
+
+    // play last move
+    store.dispatch(
+      new Grid.PlayCoin(players[lastMove.playerIdx].color, lastMove.col)
+    );
+    expect(game.getWinningCells(pivotCol, gridCols)).toBeTruthy();
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([GameState, GridState])],
@@ -123,7 +157,7 @@ describe('GameService', () => {
     game.play(0);
   });
 
-  it('sets the game as won if 4 cells connected horizontally', (done) => {
+  it('sets the game as won if 4 cells connected found after a play', (done) => {
     // define expected actions
     zip(
       actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
@@ -139,7 +173,7 @@ describe('GameService', () => {
     store.dispatch(new Game.SetFirstPlayer(players[0]));
     game.start();
 
-    // set grid
+    // set 4 connected cells in grid
     store.dispatch(new Grid.PlayCoin(players[0].color, 2));
     store.dispatch(new Grid.PlayCoin(players[0].color, 3));
     store.dispatch(new Grid.PlayCoin(players[0].color, 4));
@@ -148,96 +182,55 @@ describe('GameService', () => {
     game.play(5);
   });
 
-  it('sets the game as won if 4 cells connected vertically', (done) => {
-    // define expected actions
-    zip(
-      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
-      actions$.pipe(ofActionDispatched(Game.Won))
-    ).subscribe((dispatchedActions) => {
-      expect(dispatchedActions[0].cells.length).toBe(4);
-      expect(dispatchedActions[1].winner).toEqual(players[0]);
-      expect(dispatchedActions.length).toBe(2);
-      done();
-    });
+  it(
+    'can detect N cells connected horizontally',
+    testConnectedCells(3, [
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 0, col: 3 },
+      { playerIdx: 0, col: 4 },
+      { playerIdx: 0, col: 5 },
+    ])
+  );
 
-    // start game
-    store.dispatch(new Game.SetFirstPlayer(players[0]));
-    game.start();
+  it(
+    'can detect N cells connected vertically',
+    testConnectedCells(2, [
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 0, col: 2 },
+    ])
+  );
 
-    // set grid
-    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
+  it(
+    'can detect N cells connected in backward diagonal',
+    testConnectedCells(3, [
+      { playerIdx: 1, col: 2 },
+      { playerIdx: 1, col: 2 },
+      { playerIdx: 1, col: 2 },
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 1, col: 3 },
+      { playerIdx: 1, col: 3 },
+      { playerIdx: 0, col: 3 },
+      { playerIdx: 1, col: 4 },
+      { playerIdx: 0, col: 4 },
+      { playerIdx: 0, col: 5 },
+    ])
+  );
 
-    // play winning move
-    game.play(2);
-  });
-
-  it('sets the game as won if 4 cells connected in backward diagonal', (done) => {
-    // define expected actions
-    zip(
-      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
-      actions$.pipe(ofActionDispatched(Game.Won))
-    ).subscribe((dispatchedActions) => {
-      expect(dispatchedActions[0].cells.length).toBe(4);
-      expect(dispatchedActions[1].winner).toEqual(players[0]);
-      expect(dispatchedActions.length).toBe(2);
-      done();
-    });
-
-    // start game
-    store.dispatch(new Game.SetFirstPlayer(players[0]));
-    game.start();
-
-    // set grid
-    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 3));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 4));
-
-    store.dispatch(new Grid.PlayCoin(players[0].color, 5));
-
-    // play winning move
-    game.play(2);
-  });
-
-  it('sets the game as won if 4 cells connected in forward diagonal', (done) => {
-    // define expected actions
-    zip(
-      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
-      actions$.pipe(ofActionDispatched(Game.Won))
-    ).subscribe((dispatchedActions) => {
-      expect(dispatchedActions[0].cells.length).toBe(4);
-      expect(dispatchedActions[1].winner).toEqual(players[0]);
-      expect(dispatchedActions.length).toBe(2);
-      done();
-    });
-
-    // start game
-    store.dispatch(new Game.SetFirstPlayer(players[0]));
-    game.start();
-
-    // set grid
-    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 3));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 4));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
-
-    // play winning move
-    game.play(5);
-  });
+  it(
+    'can detect N cells connected in forward diagonal',
+    testConnectedCells(4, [
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 1, col: 3 },
+      { playerIdx: 0, col: 3 },
+      { playerIdx: 1, col: 4 },
+      { playerIdx: 1, col: 4 },
+      { playerIdx: 0, col: 4 },
+      { playerIdx: 1, col: 5 },
+      { playerIdx: 1, col: 5 },
+      { playerIdx: 1, col: 5 },
+      { playerIdx: 0, col: 5 },
+    ])
+  );
 });

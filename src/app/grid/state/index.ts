@@ -19,6 +19,14 @@ export interface GridStateModel {
 @Injectable()
 export class GridState {
   /**
+   * Returns the grid columns.
+   */
+  @Selector()
+  static gridCols(state: GridStateModel): string[][] {
+    return state.cols;
+  }
+
+  /**
    * Returns `true` if all cells are filled.
    */
   @Selector()
