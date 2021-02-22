@@ -8,7 +8,6 @@ import * as Grid from '../../grid/state/actions';
 import * as Game from '../state/actions';
 import { Player } from '../player';
 import { GRID_COLS, GRID_ROWS } from '../../grid/config';
-import { GridCoord } from 'src/app/grid/grid-coords';
 
 describe('GameService', () => {
   let game: GameService;
