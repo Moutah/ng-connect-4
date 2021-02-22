@@ -10,11 +10,6 @@ describe('GridState', () => {
   let store: Store;
   let players: Player[];
 
-  /**
-   * Get the grid columms from the grid state.
-   */
-  const getGridCols = () => store.selectSnapshot((state) => state.grid.cols);
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([GridState])],
@@ -26,20 +21,20 @@ describe('GridState', () => {
   });
 
   it('can reset the grid', () => {
-    let cols: number[][];
+    let cols: string[][];
 
     // fill the grid
     store.dispatch(new Grid.PlayCoin(players[0].color, 1));
     store.dispatch(new Grid.PlayCoin(players[1].color, 2));
     store.dispatch(new Grid.PlayCoin(players[0].color, 3));
-    cols = getGridCols();
+    cols = store.selectSnapshot((state) => state.grid.cols);
     expect(cols.every((col) => col.length === 0)).toBe(true);
 
     // reset the grid
     store.dispatch(new Grid.Reset());
 
     // all cols are empty
-    cols = getGridCols();
+    cols = store.selectSnapshot((state) => state.grid.cols);
     expect(cols.every((col) => col.length === 0)).toBe(true);
     expect(cols.length).toBe(GRID_COLS);
   });
@@ -52,7 +47,7 @@ describe('GridState', () => {
     store.dispatch(new Grid.PlayCoin(players[0].color, 2));
 
     // col 2 has exactly 1 coin of player 1
-    const cols = getGridCols();
+    const cols = store.selectSnapshot((state) => state.grid.cols);
     expect(cols[2]).toEqual([players[0].color]);
 
     // play coin for other player

@@ -54,6 +54,14 @@ export class CellComponent implements OnInit {
    * Play a coin in this cell's column
    */
   playCoin(): void {
+    // ignore if ai is playing
+    const isAiPlaying = this.store.selectSnapshot(
+      (state) => state.game.activePlayer.isAi
+    );
+    if (isAiPlaying) {
+      return;
+    }
+
     this.game.play(this.col);
   }
 }

@@ -6,8 +6,10 @@ import { Player } from 'src/app/game/player';
 import { GRID_ROWS } from '../config';
 import { GridState } from '../state';
 import * as Grid from '../state/actions';
+import * as Game from '../../game/state/actions';
 import { CellComponent } from './cell.component';
 import { CoinComponent } from '../coin/coin.component';
+import { GameState } from 'src/app/game/state';
 
 const gameServiceStub = {
   play: (col: number) => {},
@@ -21,7 +23,7 @@ describe('CellComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CellComponent, CoinComponent],
-      imports: [MaterialModule, NgxsModule.forRoot([GridState])],
+      imports: [MaterialModule, NgxsModule.forRoot([GridState, GameState])],
       providers: [{ provide: GameService, useValue: gameServiceStub }],
     }).compileComponents();
 
@@ -109,8 +111,36 @@ describe('CellComponent', () => {
   it('triggers play when clicked', () => {
     const gamePlaySpy = spyOn(gameServiceStub, 'play');
 
+    // setup game with player starting
+    const players = [
+      new Player('p1', 'Batman'),
+      new Player('p2', 'Superman', true),
+    ];
+    store.dispatch(new Game.SetPlayers(players[0], players[1]));
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    store.dispatch(new Game.Start());
+    fixture.detectChanges();
+
     fixture.nativeElement.querySelector('.cell').click();
 
     expect(gamePlaySpy).toHaveBeenCalled();
+  });
+
+  it('does not trigger play when clicked and AI is playing', () => {
+    const gamePlaySpy = spyOn(gameServiceStub, 'play');
+
+    // setup game with AI starting
+    const players = [
+      new Player('p1', 'Batman'),
+      new Player('p2', 'Superman', true),
+    ];
+    store.dispatch(new Game.SetPlayers(players[0], players[1]));
+    store.dispatch(new Game.SetFirstPlayer(players[1]));
+    store.dispatch(new Game.Start());
+    fixture.detectChanges();
+
+    fixture.nativeElement.querySelector('.cell').click();
+
+    expect(gamePlaySpy).not.toHaveBeenCalled();
   });
 });
