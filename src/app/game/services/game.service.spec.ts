@@ -17,24 +17,31 @@ describe('GameService', () => {
   let actions$: Observable<any>;
 
   const testConnectedCells = (
-    length: number,
     pivot: GridCoord,
     columnsToPlayBeforeTest: { playerIdx: number; col: number }[]
   ) => () => {
+    let gridCols: string[][];
+
     // start game
     store.dispatch(new Game.SetFirstPlayer(players[0]));
     game.start();
+
+    const lastMove = columnsToPlayBeforeTest.pop();
 
     // set grid
     columnsToPlayBeforeTest.forEach((play) =>
       store.dispatch(new Grid.PlayCoin(players[play.playerIdx].color, play.col))
     );
 
-    // can't find length + 1 connected celles
-    expect(game.getConnectedCells(pivot, length + 1)).toBe(null);
+    // no winning cells found
+    gridCols = store.selectSnapshot((state) => state.grid.cols);
+    expect(game.getWinningCells(pivot, gridCols)).toBe(null);
 
-    // but we have length
-    expect(game.getConnectedCells(pivot, length)).toBeTruthy();
+    // play last move
+    store.dispatch(
+      new Grid.PlayCoin(players[lastMove.playerIdx].color, lastMove.col)
+    );
+    expect(game.getWinningCells(pivot, gridCols)).toBeTruthy();
   };
 
   beforeEach(() => {
@@ -172,7 +179,7 @@ describe('GameService', () => {
 
   it(
     'can detect N cells connected horizontally',
-    testConnectedCells(4, { row: 0, col: 3 }, [
+    testConnectedCells({ row: 0, col: 3 }, [
       { playerIdx: 0, col: 2 },
       { playerIdx: 0, col: 3 },
       { playerIdx: 0, col: 4 },
@@ -182,7 +189,7 @@ describe('GameService', () => {
 
   it(
     'can detect N cells connected vertically',
-    testConnectedCells(4, { row: 3, col: 2 }, [
+    testConnectedCells({ row: 3, col: 2 }, [
       { playerIdx: 0, col: 2 },
       { playerIdx: 0, col: 2 },
       { playerIdx: 0, col: 2 },
@@ -192,7 +199,7 @@ describe('GameService', () => {
 
   it(
     'can detect N cells connected in backward diagonal',
-    testConnectedCells(4, { row: 2, col: 3 }, [
+    testConnectedCells({ row: 2, col: 3 }, [
       { playerIdx: 1, col: 2 },
       { playerIdx: 1, col: 2 },
       { playerIdx: 1, col: 2 },
@@ -208,7 +215,7 @@ describe('GameService', () => {
 
   it(
     'can detect N cells connected in forward diagonal',
-    testConnectedCells(4, { row: 2, col: 4 }, [
+    testConnectedCells({ row: 2, col: 4 }, [
       { playerIdx: 0, col: 2 },
       { playerIdx: 1, col: 3 },
       { playerIdx: 0, col: 3 },

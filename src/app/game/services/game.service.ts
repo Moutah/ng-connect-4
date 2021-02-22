@@ -66,7 +66,7 @@ export class GameService {
     const row = gridCols[col].length - 1;
 
     // get connected cells
-    const cells = this.getConnectedCells({ col, row }, 4);
+    const cells = this.getWinningCells({ col, row }, gridCols);
 
     // check if game is won
     if (cells) {
@@ -91,14 +91,9 @@ export class GameService {
    * as given `value`. Returns the cells coordinates if 4 connected ones are
    * found, `null` otherwise.
    */
-  getConnectedCells(
-    pivot: GridCoord,
-    connectionLength: number
-  ): GridCoord[] | null {
-    const gridCols: string[][] = this.store.selectSnapshot(
-      (state) => state.grid.cols
-    );
+  getWinningCells(pivot: GridCoord, gridCols: string[][]): GridCoord[] | null {
     const pivotValue = gridCols[pivot.col][pivot.row];
+    const connectionLength = 4;
 
     // define utils
     const coefs = [-3, -2, -1, 0, 1, 2, 3];

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { GRID_ROWS } from 'src/app/grid/config';
+import { GridState } from 'src/app/grid/state';
 import { Player } from '../player';
 import { GameState } from '../state';
 import { GameService } from './game.service';
