@@ -16,9 +16,14 @@ describe('GameService', () => {
   let players: Player[];
   let actions$: Observable<any>;
 
+  /**
+   * Test factory that will set the grid according to given `moves` and test
+   * that there are no winning cells detected with given `pivotCol` before
+   * playing last move but cells are detected _after_ playing the last move.
+   */
   const testConnectedCells = (
-    pivot: GridCoord,
-    columnsToPlayBeforeTest: { playerIdx: number; col: number }[]
+    pivotCol: number,
+    moves: { playerIdx: number; col: number }[]
   ) => () => {
     let gridCols: string[][];
 
@@ -26,22 +31,23 @@ describe('GameService', () => {
     store.dispatch(new Game.SetFirstPlayer(players[0]));
     game.start();
 
-    const lastMove = columnsToPlayBeforeTest.pop();
+    // save last move for later
+    const lastMove = moves.pop();
 
     // set grid
-    columnsToPlayBeforeTest.forEach((play) =>
+    moves.forEach((play) =>
       store.dispatch(new Grid.PlayCoin(players[play.playerIdx].color, play.col))
     );
 
     // no winning cells found
     gridCols = store.selectSnapshot((state) => state.grid.cols);
-    expect(game.getWinningCells(pivot, gridCols)).toBe(null);
+    expect(game.getWinningCells(pivotCol, gridCols)).toBe(null);
 
     // play last move
     store.dispatch(
       new Grid.PlayCoin(players[lastMove.playerIdx].color, lastMove.col)
     );
-    expect(game.getWinningCells(pivot, gridCols)).toBeTruthy();
+    expect(game.getWinningCells(pivotCol, gridCols)).toBeTruthy();
   };
 
   beforeEach(() => {
@@ -179,7 +185,7 @@ describe('GameService', () => {
 
   it(
     'can detect N cells connected horizontally',
-    testConnectedCells({ row: 0, col: 3 }, [
+    testConnectedCells(3, [
       { playerIdx: 0, col: 2 },
       { playerIdx: 0, col: 3 },
       { playerIdx: 0, col: 4 },
@@ -189,7 +195,7 @@ describe('GameService', () => {
 
   it(
     'can detect N cells connected vertically',
-    testConnectedCells({ row: 3, col: 2 }, [
+    testConnectedCells(2, [
       { playerIdx: 0, col: 2 },
       { playerIdx: 0, col: 2 },
       { playerIdx: 0, col: 2 },
@@ -199,7 +205,7 @@ describe('GameService', () => {
 
   it(
     'can detect N cells connected in backward diagonal',
-    testConnectedCells({ row: 2, col: 3 }, [
+    testConnectedCells(3, [
       { playerIdx: 1, col: 2 },
       { playerIdx: 1, col: 2 },
       { playerIdx: 1, col: 2 },
@@ -215,7 +221,7 @@ describe('GameService', () => {
 
   it(
     'can detect N cells connected in forward diagonal',
-    testConnectedCells({ row: 2, col: 4 }, [
+    testConnectedCells(4, [
       { playerIdx: 0, col: 2 },
       { playerIdx: 1, col: 3 },
       { playerIdx: 0, col: 3 },

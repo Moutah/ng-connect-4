@@ -62,11 +62,8 @@ export class GameService {
     const activePlayer = this.store.selectSnapshot(GameState.activePlayer);
     this.store.dispatch(new Grid.PlayCoin(activePlayer.color, col));
 
-    // get played row
-    const row = gridCols[col].length - 1;
-
     // get connected cells
-    const cells = this.getWinningCells({ col, row }, gridCols);
+    const cells = this.getWinningCells(col, gridCols);
 
     // check if game is won
     if (cells) {
@@ -91,9 +88,12 @@ export class GameService {
    * as given `value`. Returns the cells coordinates if 4 connected ones are
    * found, `null` otherwise.
    */
-  getWinningCells(pivot: GridCoord, gridCols: string[][]): GridCoord[] | null {
-    const pivotValue = gridCols[pivot.col][pivot.row];
+  getWinningCells(pivotCol: number, gridCols: string[][]): GridCoord[] | null {
     const connectionLength = 4;
+
+    // get pivot
+    const pivotRow = gridCols[pivotCol].length - 1;
+    const pivotValue = gridCols[pivotCol][pivotRow];
 
     // define utils
     const coefs = [-3, -2, -1, 0, 1, 2, 3];
@@ -120,8 +120,8 @@ export class GameService {
       // try to extract 4 consecutive cells with this base
       connectedCells = [];
       for (const coef of coefs) {
-        col = base.v * coef + pivot.col;
-        row = base.h * coef + pivot.row;
+        col = base.v * coef + pivotCol;
+        row = base.h * coef + pivotRow;
 
         // skip if out of bounds
         if (0 > col || col >= GRID_COLS || 0 > row || row >= GRID_ROWS) {

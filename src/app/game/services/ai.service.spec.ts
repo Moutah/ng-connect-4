@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { GridState } from 'src/app/grid/state';
 import { Player } from '../player';
 import { GameState } from '../state';
+import * as Grid from '../../grid/state/actions';
 import * as Game from '../state/actions';
 import { AiService } from './ai.service';
 import { GameService } from './game.service';
@@ -14,6 +15,20 @@ describe('AiService', () => {
   let store: Store;
   let players: Player[];
   let actions$: Observable<any>;
+
+  /**
+   * Set the grid by playing the given `moves`
+   */
+  const setGrid = (moves: { playerIdx: number; col: number }[]) => {
+    // start game
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    game.start();
+
+    // play moves
+    moves.forEach((play) =>
+      store.dispatch(new Grid.PlayCoin(players[play.playerIdx].color, play.col))
+    );
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -101,4 +116,64 @@ describe('AiService', () => {
 
     expect(aiPlaySpy).not.toHaveBeenCalled();
   }));
+
+  it('can detect a valid random move', () => {
+    // set grid with first column filled
+    setGrid([
+      { playerIdx: 0, col: 0 },
+      { playerIdx: 0, col: 0 },
+      { playerIdx: 0, col: 0 },
+      { playerIdx: 0, col: 0 },
+      { playerIdx: 0, col: 0 },
+      { playerIdx: 0, col: 0 },
+    ]);
+
+    expect(ai.getRandomMove()).not.toBe(0);
+  });
+
+  it('can detect a winning move', () => {
+    // set grid with a winning move for ai
+    setGrid([
+      { playerIdx: 0, col: 6 },
+      { playerIdx: 0, col: 6 },
+      { playerIdx: 0, col: 6 },
+    ]);
+
+    expect(ai.getSmartMove()).toBe(6);
+  });
+
+  it('can detect a defensive move', () => {
+    // set grid with a winning move for opponent
+    setGrid([
+      { playerIdx: 1, col: 0 },
+      { playerIdx: 1, col: 0 },
+      { playerIdx: 1, col: 0 },
+    ]);
+
+    expect(ai.getSmartMove()).toBe(0);
+  });
+
+  it('plays winning move regardless of other possibilites', () => {
+    // set grid with a winning move for ai
+    setGrid([
+      { playerIdx: 0, col: 1 },
+      { playerIdx: 0, col: 1 },
+      { playerIdx: 0, col: 1 },
+      { playerIdx: 1, col: 2 },
+      { playerIdx: 1, col: 2 },
+      { playerIdx: 1, col: 2 },
+    ]);
+
+    expect(ai.getSmartMove()).toBe(1);
+  });
+
+  it('plays randomly if no smart move available', () => {
+    const playRandomSpy = spyOn(ai, 'getRandomMove');
+
+    // set grid with a winning move for ai
+    setGrid([{ playerIdx: 0, col: 1 }]);
+
+    ai.getSmartMove();
+    expect(playRandomSpy).toHaveBeenCalled();
+  });
 });
