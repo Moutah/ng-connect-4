@@ -8,12 +8,34 @@ import * as Grid from '../../grid/state/actions';
 import * as Game from '../state/actions';
 import { Player } from '../player';
 import { GRID_COLS, GRID_ROWS } from '../../grid/config';
+import { GridCoord } from 'src/app/grid/grid-coords';
 
 describe('GameService', () => {
   let game: GameService;
   let store: Store;
   let players: Player[];
   let actions$: Observable<any>;
+
+  const testConnectedCells = (
+    length: number,
+    pivot: GridCoord,
+    columnsToPlayBeforeTest: { playerIdx: number; col: number }[]
+  ) => () => {
+    // start game
+    store.dispatch(new Game.SetFirstPlayer(players[0]));
+    game.start();
+
+    // set grid
+    columnsToPlayBeforeTest.forEach((play) =>
+      store.dispatch(new Grid.PlayCoin(players[play.playerIdx].color, play.col))
+    );
+
+    // can't find length + 1 connected celles
+    expect(game.getConnectedCells(pivot, length + 1)).toBe(null);
+
+    // but we have length
+    expect(game.getConnectedCells(pivot, length)).toBeTruthy();
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -123,7 +145,7 @@ describe('GameService', () => {
     game.play(0);
   });
 
-  it('sets the game as won if 4 cells connected horizontally', (done) => {
+  it('sets the game as won if 4 cells connected found after a play', (done) => {
     // define expected actions
     zip(
       actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
@@ -139,7 +161,7 @@ describe('GameService', () => {
     store.dispatch(new Game.SetFirstPlayer(players[0]));
     game.start();
 
-    // set grid
+    // set 4 connected cells in grid
     store.dispatch(new Grid.PlayCoin(players[0].color, 2));
     store.dispatch(new Grid.PlayCoin(players[0].color, 3));
     store.dispatch(new Grid.PlayCoin(players[0].color, 4));
@@ -148,96 +170,55 @@ describe('GameService', () => {
     game.play(5);
   });
 
-  it('sets the game as won if 4 cells connected vertically', (done) => {
-    // define expected actions
-    zip(
-      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
-      actions$.pipe(ofActionDispatched(Game.Won))
-    ).subscribe((dispatchedActions) => {
-      expect(dispatchedActions[0].cells.length).toBe(4);
-      expect(dispatchedActions[1].winner).toEqual(players[0]);
-      expect(dispatchedActions.length).toBe(2);
-      done();
-    });
+  it(
+    'can detect N cells connected horizontally',
+    testConnectedCells(4, { row: 0, col: 3 }, [
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 0, col: 3 },
+      { playerIdx: 0, col: 4 },
+      { playerIdx: 0, col: 5 },
+    ])
+  );
 
-    // start game
-    store.dispatch(new Game.SetFirstPlayer(players[0]));
-    game.start();
+  it(
+    'can detect N cells connected vertically',
+    testConnectedCells(4, { row: 3, col: 2 }, [
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 0, col: 2 },
+    ])
+  );
 
-    // set grid
-    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
+  it(
+    'can detect N cells connected in backward diagonal',
+    testConnectedCells(4, { row: 2, col: 3 }, [
+      { playerIdx: 1, col: 2 },
+      { playerIdx: 1, col: 2 },
+      { playerIdx: 1, col: 2 },
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 1, col: 3 },
+      { playerIdx: 1, col: 3 },
+      { playerIdx: 0, col: 3 },
+      { playerIdx: 1, col: 4 },
+      { playerIdx: 0, col: 4 },
+      { playerIdx: 0, col: 5 },
+    ])
+  );
 
-    // play winning move
-    game.play(2);
-  });
-
-  it('sets the game as won if 4 cells connected in backward diagonal', (done) => {
-    // define expected actions
-    zip(
-      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
-      actions$.pipe(ofActionDispatched(Game.Won))
-    ).subscribe((dispatchedActions) => {
-      expect(dispatchedActions[0].cells.length).toBe(4);
-      expect(dispatchedActions[1].winner).toEqual(players[0]);
-      expect(dispatchedActions.length).toBe(2);
-      done();
-    });
-
-    // start game
-    store.dispatch(new Game.SetFirstPlayer(players[0]));
-    game.start();
-
-    // set grid
-    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 2));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 3));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 4));
-
-    store.dispatch(new Grid.PlayCoin(players[0].color, 5));
-
-    // play winning move
-    game.play(2);
-  });
-
-  it('sets the game as won if 4 cells connected in forward diagonal', (done) => {
-    // define expected actions
-    zip(
-      actions$.pipe(ofActionDispatched(Grid.HighlightCells)),
-      actions$.pipe(ofActionDispatched(Game.Won))
-    ).subscribe((dispatchedActions) => {
-      expect(dispatchedActions[0].cells.length).toBe(4);
-      expect(dispatchedActions[1].winner).toEqual(players[0]);
-      expect(dispatchedActions.length).toBe(2);
-      done();
-    });
-
-    // start game
-    store.dispatch(new Game.SetFirstPlayer(players[0]));
-    game.start();
-
-    // set grid
-    store.dispatch(new Grid.PlayCoin(players[0].color, 2));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 3));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 3));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 4));
-    store.dispatch(new Grid.PlayCoin(players[0].color, 4));
-
-    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
-    store.dispatch(new Grid.PlayCoin(players[1].color, 5));
-
-    // play winning move
-    game.play(5);
-  });
+  it(
+    'can detect N cells connected in forward diagonal',
+    testConnectedCells(4, { row: 2, col: 4 }, [
+      { playerIdx: 0, col: 2 },
+      { playerIdx: 1, col: 3 },
+      { playerIdx: 0, col: 3 },
+      { playerIdx: 1, col: 4 },
+      { playerIdx: 1, col: 4 },
+      { playerIdx: 0, col: 4 },
+      { playerIdx: 1, col: 5 },
+      { playerIdx: 1, col: 5 },
+      { playerIdx: 1, col: 5 },
+      { playerIdx: 0, col: 5 },
+    ])
+  );
 });

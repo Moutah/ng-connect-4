@@ -62,12 +62,11 @@ export class GameService {
     const activePlayer = this.store.selectSnapshot(GameState.activePlayer);
     this.store.dispatch(new Grid.PlayCoin(activePlayer.color, col));
 
-    // get play values
+    // get played row
     const row = gridCols[col].length - 1;
-    const value = gridCols[col][row];
 
     // get connected cells
-    const cells = this.getConnectedCells({ col, row }, value);
+    const cells = this.getConnectedCells({ col, row }, 4);
 
     // check if game is won
     if (cells) {
@@ -92,13 +91,14 @@ export class GameService {
    * as given `value`. Returns the cells coordinates if 4 connected ones are
    * found, `null` otherwise.
    */
-  private getConnectedCells(
+  getConnectedCells(
     pivot: GridCoord,
-    value: string
+    connectionLength: number
   ): GridCoord[] | null {
     const gridCols: string[][] = this.store.selectSnapshot(
       (state) => state.grid.cols
     );
+    const pivotValue = gridCols[pivot.col][pivot.row];
 
     // define utils
     const coefs = [-3, -2, -1, 0, 1, 2, 3];
@@ -117,13 +117,13 @@ export class GameService {
     ];
 
     // check every base
-    let winningCells: GridCoord[];
+    let connectedCells: GridCoord[];
     let col: number;
     let row: number;
     let cellValue: string;
     for (const base of bases) {
-      // try to extract 4 consecutive cells
-      winningCells = [];
+      // try to extract 4 consecutive cells with this base
+      connectedCells = [];
       for (const coef of coefs) {
         col = base.v * coef + pivot.col;
         row = base.h * coef + pivot.row;
@@ -133,20 +133,20 @@ export class GameService {
           continue;
         }
 
-        // add cell if matching played value
+        // add cell if matching pivot value
         cellValue = gridCols[col][row] || '';
-        if (cellValue === value) {
-          winningCells.push({ col, row });
+        if (cellValue === pivotValue) {
+          connectedCells.push({ col, row });
 
-          // we have 4 cells !
-          if (winningCells.length === 4) {
-            return winningCells;
+          // we have the connection length we were looking for
+          if (connectedCells.length === connectionLength) {
+            return connectedCells;
           }
         }
 
         // reset winning cells list
         else {
-          winningCells = [];
+          connectedCells = [];
         }
       }
     }
